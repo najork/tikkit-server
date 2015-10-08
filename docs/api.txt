@@ -1,0 +1,65 @@
+Version 0.0.1
+
+API Endpoints
+=============
+
+Usage: /api/(call)
+
+
+getGameList(School)
+    return list<Game>
+
+getTicketList(Game)
+    return list<Ticket>
+
+getTicketCount(Game)
+    return int
+
+getPriceList(Game) --or-- getPricingInfo(Game) -- return min/med/max (?)
+    - If we get the entire price list, we have a bit more flexibility on how we display pricing info in-app (e.g. we can later decide we want to include a graph showing distribution of prices), at the cost of increased network usage
+
+getInfo(UserID)
+    return User
+
+postTicket(Ticket)
+    return boolean
+
+setSold(Ticket)
+    return boolean
+
+getUserEmail(UserID)
+    return string
+
+buyTicket(Ticket)   // Replaces setSold and contactUser when in-app tx support added
+    return boolean
+
+
+Objects
+=======
+
+Note: API endpoints expect objects serialized as JSON data
+
+
+School:
+- Name (string)
+
+Game:
+- Home Team (string)
+- Away Team (string)
+- Date + Time
+- # Tickets Available (?)
+- Price Range (?)
+
+Ticket:
+- Game ID
+- Seller ID
+- Buyer ID
+- Section
+- Row
+- Seat
+- Price
+
+User:
+- ID
+- Email
+- Password
