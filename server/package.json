@@ -1,0 +1,8 @@
+{
+  "name": "myne-app-server",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.13.3",
+    "sqlite3": "^3.1.0"
+  }
+}
