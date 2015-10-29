@@ -41,9 +41,15 @@ router.get('/', function(req, res) {
     res.json({ message: 'Welcome to our API!' });
 });
 
+router.get('/school/:id', function(req, res) {
+    deserializeSchool(req.params.id, function(row) {
+        res.json(row);
+    });
+});
+
 // TODO: think about what the endpoint should be called
 router.post('/school/list', function(req, res) {
-    getSchools(function(rows) {
+    getRows('SELECT * FROM Schools', function(rows) {
         var schools = [];
         rows.forEach(function(row) {
             schools.push(row.name);
@@ -51,6 +57,63 @@ router.post('/school/list', function(req, res) {
         res.json(schools);
     });
 });
+
+router.get('/game/:id', function(req, res) {
+    deserializeGame(req.params.id, function(row) {
+        res.json(row);
+    });
+});
+
+// TODO: return the ID, make a separate API call to get the school from the ID
+// TODO: fix this callback hell
+// TODO: think about what the endpoint should be called
+router.post('/game/list', function(req, res) {
+    getSchool(req.query.school, function(row) {
+        getGames(row.school_id, function(rows) {
+            var games = [];
+            rows.forEach(function(row) {
+                var game_id_val, home_team_name, away_team_name, date_val;
+                game_id_val = row.game_id;
+                date_val = row.date;
+
+                var away_team_id = row.away_team_id;
+
+                deserializeSchool(row.home_team_id, function(row) {
+                    // console.log("Home Team: " + row.name);
+                    home_team_name = row.name;
+
+                    deserializeSchool(away_team_id, function(row) {
+                        // console.log("Away Team: " + row.name);
+                        away_team_name = row.name;
+
+                        var game_info = { game_id: game_id_val, home_team: home_team_name, away_team: away_team_name, date: date_val };
+                        games.push(game_info);
+                        res.json(games);
+                    });
+                });
+            });
+        });
+    });
+});
+
+function getSchool(school_name, callback) {
+    // console.log(school_name);
+    db.get('SELECT name, school_id FROM Schools WHERE name = ?', school_name, function(err, row) {
+        if (!row) return callback(null, false);
+        return callback(row);
+    });
+}
+
+function serializeSchool(school, done) {
+    return done(null, school.school_id);
+}
+
+function deserializeSchool(id, callback) {
+    db.get('SELECT school_id, name FROM Schools WHERE school_id = ?', id, function(err, row) {
+        if (!row) return callback(null, false);
+        return callback(row);
+    });
+}
 
 // GET method route
 app.get('/', function(req, res) {
@@ -110,9 +173,20 @@ function getSchools(callback) {
     });
 }
 
-// passport.serializeUser(function(user, done) {
-//   return done(null, user.id);
-// });
+function getGames(school_id, callback) {
+    // TODO: add error handling
+    db.all('SELECT * FROM Games WHERE home_team_id = ? OR away_team_id = ?', school_id, school_id, function(err, rows) {
+        if(!rows.length) return callback(null, false);
+        return callback(rows);
+    });
+}
+
+function getRows(query, callback) {
+    db.all(query, function(err, rows) {
+        if(!rows.length) return callback(null, false);
+        return callback(rows);
+    });
+}
 
 passport.use(new LocalStrategy(function(username, password, done) {
     db.get('SELECT salt FROM Users WHERE username = ?', username, function(err, row) {
@@ -136,9 +210,7 @@ passport.deserializeUser(function(id, done) {
     });
 });
 
-
 // TODO: Clean up shutdown stuff
-
 var shuttingDown = false;
 
 app.use(function(req, resp, next) {
