@@ -64,56 +64,25 @@ router.get('/game/:id', function(req, res) {
     });
 });
 
-// TODO: return the ID, make a separate API call to get the school from the ID
-// TODO: fix this callback hell
 // TODO: think about what the endpoint should be called
 router.post('/game/list', function(req, res) {
-    getSchool(req.query.school, function(row) {
-        getGames(row.school_id, function(rows) {
-            var games = [];
-            rows.forEach(function(row) {
-                var game_id_val, home_team_name, away_team_name, date_val;
-                game_id_val = row.game_id;
-                date_val = row.date;
-
-                var away_team_id = row.away_team_id;
-
-                deserializeSchool(row.home_team_id, function(row) {
-                    // console.log("Home Team: " + row.name);
-                    home_team_name = row.name;
-
-                    deserializeSchool(away_team_id, function(row) {
-                        // console.log("Away Team: " + row.name);
-                        away_team_name = row.name;
-
-                        var game_info = { game_id: game_id_val, home_team: home_team_name, away_team: away_team_name, date: date_val };
-                        games.push(game_info);
-                        res.json(games);
-                    });
-                });
-            });
+    getGames(req.query.school_id, function(rows) {
+        var games = [];
+        rows.forEach(function(row) {
+            var game = { game_id: row.game_id, home_team: row.home_team_id, away_team: row.away_team_id, date: row.date };
+            games.push(game);
+            res.json(games);
         });
     });
 });
 
-function getSchool(school_name, callback) {
-    // console.log(school_name);
-    db.get('SELECT name, school_id FROM Schools WHERE name = ?', school_name, function(err, row) {
-        if (!row) return callback(null, false);
-        return callback(row);
+router.get('/ticket/:id', function(req, res) {
+    deserializeTicket(req.params.id, function(row) {
+        res.json(row);
     });
-}
+});
 
-function serializeSchool(school, done) {
-    return done(null, school.school_id);
-}
 
-function deserializeSchool(id, callback) {
-    db.get('SELECT school_id, name FROM Schools WHERE school_id = ?', id, function(err, row) {
-        if (!row) return callback(null, false);
-        return callback(row);
-    });
-}
 
 // GET method route
 app.get('/', function(req, res) {
@@ -157,6 +126,47 @@ function createUser(username, password) {
     var salt = crypto.randomBytes(salt_bytes);
     db.run('INSERT INTO Users(username, password, salt) VALUES (?, ?, ?)', username, hashPassword(password, salt), salt);
     // TODO: add error handling
+}
+
+function getSchool(school_name, callback) {
+    // console.log(school_name);
+    db.get('SELECT name, school_id FROM Schools WHERE name = ?', school_name, function(err, row) {
+        if (!row) return callback(null, false);
+        return callback(row);
+    });
+}
+
+function serializeSchool(school, done) {
+    return done(null, school.school_id);
+}
+
+function deserializeSchool(id, callback) {
+    db.get('SELECT school_id, name FROM Schools WHERE school_id = ?', id, function(err, row) {
+        if (!row) return callback(null, false);
+        return callback(row);
+    });
+}
+
+function serializeGame(game, done) {
+    return done(null, game.game_id);
+}
+
+function deserializeGame(id, callback) {
+    db.get('SELECT game_id, home_team_id, away_team_id, date FROM Games WHERE game_id = ?', id, function(err, row) {
+        if (!row) return callback(null, false);
+        return callback(row);
+    });
+}
+
+function serializeTicket(ticket, done) {
+    return done(null, ticket.ticket_id);
+}
+
+function deserializeTicket(id, callback) {
+    db.get('SELECT ticket_id, game_id, seller_id, section, row, seat, price, sold FROM Tickets WHERE ticket_id = ?', id, function(err, row) {
+        if (!row) return callback(null, false);
+        return callback(row);
+    });
 }
 
 function getSchools(callback) {
