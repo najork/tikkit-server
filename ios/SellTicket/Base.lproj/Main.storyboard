@@ -7,7 +7,7 @@
         <!--Wolverine Tickets-->
         <scene sceneID="qb0-cq-Wg3">
             <objects>
-                <viewController id="DQ6-VL-zIF" sceneMemberID="viewController">
+                <viewController id="DQ6-VL-zIF" customClass="postTicketViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hyy-T8-6ZU"/>
                         <viewControllerLayoutGuide type="bottom" id="B68-qq-fy1"/>
@@ -15,13 +15,138 @@
                     <view key="view" contentMode="scaleToFill" id="ZyK-74-wep">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="je1-kR-zOk">
+                                <rect key="frame" x="139" y="530" width="97" height="35"/>
+                                <color key="backgroundColor" red="0.98458763600585897" green="1" blue="0.13635295644906986" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Post">
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3IO-gK-MpE">
+                                <rect key="frame" x="139" y="467" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Your Price:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8V7-em-eAc">
+                                <rect key="frame" x="68" y="438" width="83" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ivN-c6-kvJ">
+                                <rect key="frame" x="37" y="301" width="300" height="106"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="TICKETS INFO FOR YOUR REFERENCE:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RZ9-gN-wnd">
+                                        <rect key="frame" x="31" y="8" width="221" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="max-price" translatesAutoresizingMaskIntoConstraints="NO" id="rnD-0A-D4S">
+                                        <rect key="frame" x="91" y="47" width="32" height="32"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="low-price" translatesAutoresizingMaskIntoConstraints="NO" id="qi2-iZ-bgi">
+                                        <rect key="frame" x="90" y="66" width="32" height="32"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Lowest:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SHD-HQ-nZ1">
+                                        <rect key="frame" x="120" y="71" width="56" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" red="0.55294117647058827" green="0.63921568627450975" blue="0.75686274509803919" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Highest:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K1U-gB-UGE">
+                                        <rect key="frame" x="120" y="52" width="56" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" red="0.81176470588235294" green="0.79607843137254897" blue="0.24313725490196078" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tickets:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bzd-xF-kGT">
+                                        <rect key="frame" x="120" y="32" width="56" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jZq-cS-8nG">
+                                        <rect key="frame" x="184" y="32" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aor-JT-FbD">
+                                        <rect key="frame" x="184" y="52" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" red="0.81176470590000005" green="0.79607843140000001" blue="0.24313725489999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fHL-8j-8j3">
+                                        <rect key="frame" x="184" y="71" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" red="0.55294117649999996" green="0.63921568630000003" blue="0.75686274509999996" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Choose the game you have tickets to" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jji-jp-Ipd">
+                                <rect key="frame" x="37" y="95" width="300" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Row:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Luh-dP-y21">
+                                <rect key="frame" x="68" y="202" width="40" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Section:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ET8-ff-7E5">
+                                <rect key="frame" x="68" y="156" width="53" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Seat:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xfo-es-zbX">
+                                <rect key="frame" x="68" y="250" width="34" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EBq-j8-5zc">
+                                <rect key="frame" x="173" y="152" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kOL-9I-1Xu">
+                                <rect key="frame" x="173" y="198" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gbN-Is-PHY">
+                                <rect key="frame" x="173" y="244" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
+                            </textField>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Wolverine Tickets" id="PGW-6S-EPx"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="gameField" destination="jji-jp-Ipd" id="ALc-X2-TrY"/>
+                        <outlet property="highestPrice" destination="Aor-JT-FbD" id="aTt-tm-b82"/>
+                        <outlet property="lowestPrice" destination="fHL-8j-8j3" id="Wt0-Cu-nlk"/>
+                        <outlet property="numberOfTickets" destination="jZq-cS-8nG" id="18D-4K-eIN"/>
+                        <outlet property="postTicket" destination="je1-kR-zOk" id="RMo-lf-0eI"/>
+                        <outlet property="priceField" destination="3IO-gK-MpE" id="LdV-LT-D0R"/>
+                        <outlet property="row" destination="kOL-9I-1Xu" id="9Rh-ZQ-fxS"/>
+                        <outlet property="seat" destination="gbN-Is-PHY" id="Cqt-w2-I3h"/>
+                        <outlet property="section" destination="EBq-j8-5zc" id="Yuo-kI-oHj"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oVO-sm-L0A" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="624" y="581"/>
+            <point key="canvasLocation" x="623.5" y="580.5"/>
         </scene>
         <!--Tab Bar View Controller-->
         <scene sceneID="eBY-2f-AdY">
@@ -35,12 +160,12 @@
                     </tabBar>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="selectedIndex">
-                            <integer key="value" value="1"/>
+                            <integer key="value" value="0"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                     <connections>
-                        <segue destination="PoF-Cg-Ssb" kind="relationship" relationship="viewControllers" id="B7B-cs-LMt"/>
                         <segue destination="Emt-QT-hRt" kind="relationship" relationship="viewControllers" id="Etl-i0-yBl"/>
+                        <segue destination="PoF-Cg-Ssb" kind="relationship" relationship="viewControllers" id="B7B-cs-LMt"/>
                         <segue destination="Cfb-D4-xGS" kind="relationship" relationship="viewControllers" id="0L6-RA-TUr"/>
                     </connections>
                 </tabBarController>
@@ -48,11 +173,11 @@
             </objects>
             <point key="canvasLocation" x="-1008" y="911"/>
         </scene>
-        <!--Buy-->
+        <!--Sell-->
         <scene sceneID="Mhy-o8-G7X">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PoF-Cg-Ssb" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Buy" image="buy-tickets" id="0Ue-SX-vrp"/>
+                    <tabBarItem key="tabBarItem" title="Sell" image="Sell-tickets" id="0Ue-SX-vrp"/>
                     <toolbarItems/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="uu6-tp-coH">
@@ -99,11 +224,11 @@
             </objects>
             <point key="canvasLocation" x="-647" y="2913"/>
         </scene>
-        <!--Sell-->
+        <!--Home-->
         <scene sceneID="4hR-rw-MGb">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Emt-QT-hRt" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Sell" image="Sell-tickets" id="yes-xb-6EM"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="buy-tickets" id="yes-xb-6EM"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="0lx-JE-GDN">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -121,7 +246,7 @@
         <!--Wolverine Tickets-->
         <scene sceneID="FGt-MA-oZw">
             <objects>
-                <tableViewController id="Oed-Jc-RRG" customClass="sellingViewController" sceneMemberID="viewController">
+                <tableViewController id="Oed-Jc-RRG" customClass="buyingViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Ovm-Xz-mFL">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -190,6 +315,8 @@
         <image name="Sell-tickets" width="60" height="60"/>
         <image name="buy-tickets" width="60" height="60"/>
         <image name="coming-soon-icon" width="125" height="125"/>
+        <image name="low-price" width="125" height="125"/>
+        <image name="max-price" width="125" height="125"/>
         <image name="user-profile-tab-icon" width="40" height="40"/>
     </resources>
 </document>

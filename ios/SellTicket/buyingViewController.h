@@ -1,5 +1,5 @@
 //
-//  sellingViewController.h
+//  buyingViewController.h
 //  SellTicket
 //
 //  Created by Eric Yu on 10/11/15.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface sellingViewController : UITableViewController
+@interface buyingViewController : UITableViewController
 
 @property (nonatomic, strong) NSMutableArray *games;
 

@@ -15,8 +15,10 @@
 		0746E79F1BC4562B00AE281B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0746E79D1BC4562B00AE281B /* LaunchScreen.xib */; };
 		0746E7AB1BC4562C00AE281B /* SellTicketTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0746E7AA1BC4562C00AE281B /* SellTicketTests.m */; };
 		07AEB7B21BCA160E00B46122 /* tabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07AEB7B11BCA160E00B46122 /* tabBarViewController.m */; };
-		07AEB7B81BCA197F00B46122 /* sellingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07AEB7B71BCA197F00B46122 /* sellingViewController.m */; };
+		07AEB7B81BCA197F00B46122 /* buyingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07AEB7B71BCA197F00B46122 /* buyingViewController.m */; };
 		07AEB7BB1BCA1B5900B46122 /* gameClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 07AEB7BA1BCA1B5900B46122 /* gameClass.m */; };
+		07E3F2111BE53D7C001320D4 /* postTicketViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E3F2101BE53D7C001320D4 /* postTicketViewController.m */; };
+		07E3F2141BE5421E001320D4 /* textFieldKeyboardShift.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E3F2131BE5421E001320D4 /* textFieldKeyboardShift.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,10 +47,14 @@
 		0746E7AA1BC4562C00AE281B /* SellTicketTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SellTicketTests.m; sourceTree = "<group>"; };
 		07AEB7B01BCA160E00B46122 /* tabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tabBarViewController.h; sourceTree = "<group>"; };
 		07AEB7B11BCA160E00B46122 /* tabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tabBarViewController.m; sourceTree = "<group>"; };
-		07AEB7B61BCA197F00B46122 /* sellingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sellingViewController.h; sourceTree = "<group>"; };
-		07AEB7B71BCA197F00B46122 /* sellingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = sellingViewController.m; sourceTree = "<group>"; };
+		07AEB7B61BCA197F00B46122 /* buyingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = buyingViewController.h; sourceTree = "<group>"; };
+		07AEB7B71BCA197F00B46122 /* buyingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = buyingViewController.m; sourceTree = "<group>"; };
 		07AEB7B91BCA1B5900B46122 /* gameClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gameClass.h; sourceTree = "<group>"; };
 		07AEB7BA1BCA1B5900B46122 /* gameClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = gameClass.m; sourceTree = "<group>"; };
+		07E3F20F1BE53D7C001320D4 /* postTicketViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = postTicketViewController.h; sourceTree = "<group>"; };
+		07E3F2101BE53D7C001320D4 /* postTicketViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = postTicketViewController.m; sourceTree = "<group>"; };
+		07E3F2121BE5421E001320D4 /* textFieldKeyboardShift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = textFieldKeyboardShift.h; sourceTree = "<group>"; };
+		07E3F2131BE5421E001320D4 /* textFieldKeyboardShift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = textFieldKeyboardShift.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,10 +148,14 @@
 		07AEB7BD1BCA1B6800B46122 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				07AEB7B61BCA197F00B46122 /* sellingViewController.h */,
-				07AEB7B71BCA197F00B46122 /* sellingViewController.m */,
+				07E3F20F1BE53D7C001320D4 /* postTicketViewController.h */,
+				07E3F2101BE53D7C001320D4 /* postTicketViewController.m */,
+				07AEB7B61BCA197F00B46122 /* buyingViewController.h */,
+				07AEB7B71BCA197F00B46122 /* buyingViewController.m */,
 				07AEB7B01BCA160E00B46122 /* tabBarViewController.h */,
 				07AEB7B11BCA160E00B46122 /* tabBarViewController.m */,
+				07E3F2121BE5421E001320D4 /* textFieldKeyboardShift.h */,
+				07E3F2131BE5421E001320D4 /* textFieldKeyboardShift.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -253,9 +263,11 @@
 				07AEB7B21BCA160E00B46122 /* tabBarViewController.m in Sources */,
 				0746E7971BC4562B00AE281B /* ViewController.m in Sources */,
 				07AEB7BB1BCA1B5900B46122 /* gameClass.m in Sources */,
+				07E3F2141BE5421E001320D4 /* textFieldKeyboardShift.m in Sources */,
+				07E3F2111BE53D7C001320D4 /* postTicketViewController.m in Sources */,
 				0746E7941BC4562B00AE281B /* AppDelegate.m in Sources */,
 				0746E7911BC4562B00AE281B /* main.m in Sources */,
-				07AEB7B81BCA197F00B46122 /* sellingViewController.m in Sources */,
+				07AEB7B81BCA197F00B46122 /* buyingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
