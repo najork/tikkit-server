@@ -24,74 +24,76 @@ app.get('env');
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Create user endpoint
-app.post('/create', function(req, res) {
-    createUser(req.query.username, req.query.password);
-    res.json({ message: 'Successfully created user!' });
-});
-
-// Login endpoint
+// Login
 app.post('/login', passport.authenticate('local', {
     successRedirect: '/good-login',
     failureRedirect: '/bad-login'
 }));
 
-// Test route (accessed at GET http://localhost:8080/api)
-router.get('/', function(req, res) {
-    res.json({ message: 'Welcome to our API!' });
+// Create user
+router.post('/users/create', function(req, res) {
+    createUser(req.query.username, req.query.password);
+    res.json({ message: 'Successfully created user!' });
 });
 
-router.get('/school/:id', function(req, res) {
+// Get school from id
+router.get('/schools/:id', function(req, res) {
     deserializeSchool(req.params.id, function(row) {
         res.json(row);
     });
 });
 
-// TODO: think about what the endpoint should be called
-router.post('/school/list', function(req, res) {
+// List all schools
+router.post('/lists/schools', function(req, res) {
     getRows('SELECT * FROM Schools', function(rows) {
         var schools = [];
         rows.forEach(function(row) {
-            schools.push(row.name);
+            var school = { school_id: row.school_id, name: row.name };
+            schools.push(school);
         });
         res.json(schools);
     });
 });
 
-router.get('/game/:id', function(req, res) {
+// Get game from id
+router.get('/games/:id', function(req, res) {
     deserializeGame(req.params.id, function(row) {
         res.json(row);
     });
 });
 
-// TODO: think about what the endpoint should be called
-router.post('/game/list', function(req, res) {
+// List all games
+router.post('/lists/games', function(req, res) {
     getGames(req.query.school_id, function(rows) {
         var games = [];
         rows.forEach(function(row) {
             var game = { game_id: row.game_id, home_team: row.home_team_id, away_team: row.away_team_id, date: row.date };
             games.push(game);
-            res.json(games);
         });
+        res.json(games);
     });
 });
 
-router.get('/ticket/:id', function(req, res) {
+// Get ticket from id
+router.get('/tickets/:id', function(req, res) {
     deserializeTicket(req.params.id, function(row) {
         res.json(row);
     });
 });
 
-
-
-// GET method route
-app.get('/', function(req, res) {
-  res.send('GET request to the homepage');
+// List all tickets
+router.post('/lists/tickets', function(req, res) {
+    res.json({ message: 'List tickets for ' + req.query.game });
 });
 
-// POST method route
-app.post('/', function(req, res) {
-  res.send('POST request to the homepage');
+// Create a new ticket
+router.post('/tickets/create', function(req, res) {
+    res.json({ message: 'Post ticket' });
+});
+
+// Toggle ticket sold status
+router.post('/tickets/sold', function(req, res) {
+    res.json({ message: 'Set ticket sold' });
 });
 
 // All routes prefixed with /api
@@ -99,21 +101,6 @@ app.use('/api', router);
 
 var server = app.listen(port);
 console.log('Server running on port ' + port);
-
-// // sqlite testing
-// db.serialize(function() {
-//   db.run("CREATE TABLE Tickets(section INTEGER, row INTEGER, seat INTEGER, price REAL, seller_id TEXT, ticket_id INTEGER PRIMARY KEY)");
-
-//   var stmt = db.prepare("INSERT INTO Tickets VALUES (?, ?, ?, ?, ?, ?)");
-//   for (var i = 0; i < 10; i++) {
-//       stmt.run(32, 36, i, 25.00, i);
-//   }
-//   stmt.finalize();
-
-//   db.each("SELECT ticket_id AS id, section, row, seat, price, seller_id FROM Tickets", function(err, row) {
-//       console.log(row.id + ": " + row.section + "," + row.row + "," + row.seat + "," + row.price + "," + row.seller_id);
-//   });
-// });
 
 function hashPassword(password, salt) {
     var hash = crypto.createHash('sha256');
