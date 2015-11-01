@@ -1,65 +1,61 @@
-Version 0.0.1
-
 API Endpoints
 =============
 
-Usage: /api/(call)
+Version 0.0.1
+
+// TODO: Document errors
 
 
-getGameList(School)
-    return list<Game>
+// Login
+POST /login
+    Query Parameters: username (string), password (string)
+    // TODO: Response Parameters
 
-getTicketList(Game)
-    return list<Ticket>
+// Create user
+POST /api/users/create
+    Query Parameters: username (string), password (string)
+    Response Parameters: user_id (integer)
 
-getTicketCount(Game)
-    return int
+// Get school from school id
+GET /api/schools/:id
+    Request Parameters: id (integer)
+    Response Parameters: school_id (integer), name (string)
 
-getPriceList(Game) --or-- getPricingInfo(Game) -- return min/med/max (?)
-    - If we get the entire price list, we have a bit more flexibility on how we display pricing info in-app (e.g. we can later decide we want to include a graph showing distribution of prices), at the cost of increased network usage
+// List all schools
+GET /api/lists/schools
+    Response Parameters: schools (array of school objects)
 
-getInfo(UserID)
-    return User
+// Get game from game id
+GET /api/games/:id
+    Request Parameters: id (integer)
+    Response Parameters: game_id (integer), home_team_id (integer), away_team_id (integer), date (string)
 
-postTicket(Ticket)
-    return boolean
+// Get all games for school from school id
+GET /api/lists/schools/:id/games
+    Request Parameters: id (integer)
+    Response Parameters: games (array of game objects)
 
-setSold(Ticket)
-    return boolean
+// Get ticket from ticket id
+GET /api/tickets/:id
+    Request Parameters: id (integer)
+    Response Parameters: ticket_id (integer), game_id (integer), seller_id (integer), section (integer), row (integer), seat (integer), price (integer), sold (boolean)
 
-getUserEmail(UserID)
-    return string
+// Get all tickets for game from game id
+GET /api/lists/games/:id/tickets
+    Request Parameters: id (integer)
+    Response Parameters: tickets (array of ticket objects)
 
-buyTicket(Ticket)   // Replaces setSold and contactUser when in-app tx support added
-    return boolean
+// Create a new ticket
+POST /api/tickets/create
+    Query Parameters: game_id (integer), seller_id (integer), section (integer), row (integer), seat (integer), price (integer)
+    Response Parameters: ticket_id (integer)
 
+// Get sold status for ticket from ticket id
+GET /api/tickets/:id/sold
+    Request Parameters: id (integer)
+    Response Parameters: sold (boolean)
 
-Objects
-=======
-
-Note: API endpoints expect objects serialized as JSON data
-
-
-School:
-- Name (string)
-
-Game:
-- Home Team (string)
-- Away Team (string)
-- Date + Time
-- # Tickets Available (?)
-- Price Range (?)
-
-Ticket:
-- Game ID
-- Seller ID
-- Buyer ID
-- Section
-- Row
-- Seat
-- Price
-
-User:
-- ID
-- Email
-- Password
+// Toggle sold status for ticket from ticket id
+POST /api/tickets/:id/sold
+    Request Parameters: id (integer)
+    Query Parameters: sold (boolean)
