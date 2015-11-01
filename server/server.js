@@ -15,14 +15,28 @@ var port = process.env.PORT || 8080;
 // Length in bytes of password salt
 var salt_bytes = 16;
 
+// Server shutdown state
+var shutting_down = false;
+
 // Get instance of express Router
 var router = express.Router();
+
+// Server shutdown on signal interrupt or termination
+process.on('SIGINT', shutdown);
+process.on('SIGTERM', shutdown);
 
 // Configure express
 app.get('env');
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Send connection close header if server is shutting down
+app.use(function(req, res, next) {
+    if(!shutting_down) return next();
+    res.setHeader('Connection', 'close');
+    res.send(503, { message: 'Server is restarting'});
+});
 
 // Login
 app.post('/login', passport.authenticate('local', {
@@ -224,33 +238,21 @@ passport.deserializeUser(function(id, done) {
     });
 });
 
-// TODO: Clean up shutdown stuff
-var shuttingDown = false;
+// Server shutdown
+function shutdown() {
+    console.log('Initiating shutdown');
+    shutting_down = true;
 
-app.use(function(req, resp, next) {
-    if(!shuttingDown)
-        return next();
-
-    resp.setHeader('Connection', "close");
-    resp.send(503, "Server is in the process of restarting");
-    // Change the response to something your client is expecting:
-    //   html, text, json, etc.
-});
-
-function cleanup() {
-    shuttingDown = true;
+    // Close db connections, other chores, etc
     server.close(function() {
-        console.log("Closed out remaining connections.");
-        // Close db connections, other chores, etc.
         db.close();
+        console.log('Closed out remaining connections');
         process.exit();
     });
 
+    var timeout_millis = 30 * 1000;
     setTimeout(function() {
-        console.error("Could not close connections in time, forcing shut down");
+        console.error('Could not close connections in time, forcing shutdown');
         process.exit(1);
-    }, 30*1000);
+    }, timeout_millis);
 }
-
-process.on('SIGINT', cleanup);
-process.on('SIGTERM', cleanup);
