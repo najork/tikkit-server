@@ -4,6 +4,7 @@ API Endpoints
 Version 0.0.2
 
 // TODO: Document errors
+// TODO: API auth
 
 
 // Login
