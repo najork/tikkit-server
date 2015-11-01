@@ -33,10 +33,14 @@ app.post('/login', passport.authenticate('local', {
 // Create user
 router.post('/users/create', function(req, res) {
     createUser(req.query.username, req.query.password);
-    res.json({ message: 'Successfully created user!' });
+    res.json({ message: 'Successfully created user ' + req.query.username });
 });
 
-// Get school from id
+// TODO: Add API auth
+
+// TODO: Create school endpoint
+
+// Get school from school id
 router.get('/schools/:id', function(req, res) {
     deserializeSchool(req.params.id, function(row) {
         res.json(row);
@@ -44,7 +48,7 @@ router.get('/schools/:id', function(req, res) {
 });
 
 // List all schools
-router.post('/lists/schools', function(req, res) {
+router.get('/lists/schools', function(req, res) {
     getRows('SELECT * FROM Schools', function(rows) {
         var schools = [];
         rows.forEach(function(row) {
@@ -55,16 +59,18 @@ router.post('/lists/schools', function(req, res) {
     });
 });
 
-// Get game from id
+// TODO: Create game endpoint
+
+// Get game from game id
 router.get('/games/:id', function(req, res) {
     deserializeGame(req.params.id, function(row) {
         res.json(row);
     });
 });
 
-// List all games
-router.post('/lists/games', function(req, res) {
-    getGames(req.query.school_id, function(rows) {
+// Get all games for school from school id
+router.get('/lists/schools/:id/games', function(req, res) {
+    getGames(req.params.id, function(rows) {
         var games = [];
         rows.forEach(function(row) {
             var game = { game_id: row.game_id, home_team: row.home_team_id, away_team: row.away_team_id, date: row.date };
@@ -74,26 +80,35 @@ router.post('/lists/games', function(req, res) {
     });
 });
 
-// Get ticket from id
+// Get ticket from ticket id
 router.get('/tickets/:id', function(req, res) {
     deserializeTicket(req.params.id, function(row) {
         res.json(row);
     });
 });
 
-// List all tickets
-router.post('/lists/tickets', function(req, res) {
-    res.json({ message: 'List tickets for ' + req.query.game });
+// TODO
+// Get all tickets for game from game id
+router.get('/lists/games/:id/tickets', function(req, res) {
+    res.json({ message: 'List tickets for ' + req.params.id });
 });
 
+// TODO
 // Create a new ticket
 router.post('/tickets/create', function(req, res) {
     res.json({ message: 'Post ticket' });
 });
 
-// Toggle ticket sold status
-router.post('/tickets/sold', function(req, res) {
-    res.json({ message: 'Set ticket sold' });
+// TODO
+// Get sold status for ticket from ticket id
+router.get('/tickets/:id/sold', function(req, res) {
+    res.json({ message: 'Get ticket sold status ' + req.params.id });
+});
+
+// TODO
+// Toggle sold status for ticket from ticket id
+router.post('/tickets/:id/sold', function(req, res) {
+    res.json({ message: 'Set ticket sold for ' + req.params.id });
 });
 
 // All routes prefixed with /api
@@ -111,13 +126,17 @@ function hashPassword(password, salt) {
 
 function createUser(username, password) {
     var salt = crypto.randomBytes(salt_bytes);
-    db.run('INSERT INTO Users(username, password, salt) VALUES (?, ?, ?)', username, hashPassword(password, salt), salt);
+    db.run('INSERT INTO Users(username, password, salt) VALUES (?, ?, ?)', username, hashPassword(password, salt), salt, function(err, row) {
+        if (err) return callback(err);
+    });
     // TODO: add error handling
 }
 
+// TODO: Create general functions to perform database actions
+
 function getSchool(school_name, callback) {
-    // console.log(school_name);
     db.get('SELECT name, school_id FROM Schools WHERE name = ?', school_name, function(err, row) {
+        if (err) return callback(err);
         if (!row) return callback(null, false);
         return callback(row);
     });
@@ -129,6 +148,7 @@ function serializeSchool(school, done) {
 
 function deserializeSchool(id, callback) {
     db.get('SELECT school_id, name FROM Schools WHERE school_id = ?', id, function(err, row) {
+        if (err) return callback(err);
         if (!row) return callback(null, false);
         return callback(row);
     });
@@ -140,6 +160,7 @@ function serializeGame(game, done) {
 
 function deserializeGame(id, callback) {
     db.get('SELECT game_id, home_team_id, away_team_id, date FROM Games WHERE game_id = ?', id, function(err, row) {
+        if (err) return callback(err);
         if (!row) return callback(null, false);
         return callback(row);
     });
@@ -151,6 +172,7 @@ function serializeTicket(ticket, done) {
 
 function deserializeTicket(id, callback) {
     db.get('SELECT ticket_id, game_id, seller_id, section, row, seat, price, sold FROM Tickets WHERE ticket_id = ?', id, function(err, row) {
+        if (err) return callback(err);
         if (!row) return callback(null, false);
         return callback(row);
     });
@@ -158,29 +180,24 @@ function deserializeTicket(id, callback) {
 
 function getSchools(callback) {
     db.all('SELECT * FROM Schools', function(err, rows) {
-        // if (err) {
-        //     // call your callback with the error
-        //     callback(err);
-        //     console.log("Error");
-        //     return;
-        // }
-        // // call your callback with the data
-        // callback(null, rows);
-        callback(rows);
-    });
-}
-
-function getGames(school_id, callback) {
-    // TODO: add error handling
-    db.all('SELECT * FROM Games WHERE home_team_id = ? OR away_team_id = ?', school_id, school_id, function(err, rows) {
-        if(!rows.length) return callback(null, false);
+        if (err) return callback(err);
+        if (!rows.length) return callback(null, false);
         return callback(rows);
     });
 }
 
+function getGames(school_id, callback) {
+    db.all('SELECT * FROM Games WHERE home_team_id = ? OR away_team_id = ?', school_id, school_id, function(err, rows) {
+        if (err) return callback(err);
+        if (!rows.length) return callback(null, false);
+        return callback(rows);
+    });
+}
+
+// TODO: what should the callback look like (what parameters)? How do we do error handling?
 function getRows(query, callback) {
     db.all(query, function(err, rows) {
-        if(!rows.length) return callback(null, false);
+        if (!rows.length) return callback(null, false);
         return callback(rows);
     });
 }
