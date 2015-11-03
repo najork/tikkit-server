@@ -46,8 +46,9 @@ app.post('/login', passport.authenticate('local', {
 
 // Create user
 router.post('/users/create', function(req, res) {
-    createUser(req.query.username, req.query.password);
-    res.json({ message: 'Successfully created user ' + req.query.username });
+    createUser(req.query.username, req.query.password, function(user_id) {
+        res.json({ user_id: user_id });
+    });
 });
 
 // TODO: Add API auth
@@ -85,12 +86,7 @@ router.get('/games/:id', function(req, res) {
 // Get all games for school from school id
 router.get('/lists/schools/:id/games', function(req, res) {
     getGames(req.params.id, function(rows) {
-        var games = [];
-        rows.forEach(function(row) {
-            var game = { game_id: row.game_id, home_team: row.home_team_id, away_team: row.away_team_id, date: row.date };
-            games.push(game);
-        });
-        res.json(games);
+        res.json(rows);
     });
 });
 
@@ -101,28 +97,27 @@ router.get('/tickets/:id', function(req, res) {
     });
 });
 
-// TODO
 // Get all tickets for game from game id
 router.get('/lists/games/:id/tickets', function(req, res) {
-    res.json({ message: 'List tickets for ' + req.params.id });
+    getTickets(req.params.id, function(rows) {
+        res.json(rows);
+    });
 });
 
-// TODO
 // Create a new ticket
 router.post('/tickets/create', function(req, res) {
-    res.json({ message: 'Post ticket' });
+    var sold = false;
+    // Ticket price expected in cents
+    createTicket(req.query.game_id, req.query.seller_id, req.query.section, req.query.row, req.query.seat, req.query.price, sold, function(ticket_id) {
+        res.json({ ticket_id: ticket_id });
+    });
 });
 
-// TODO
-// Get sold status for ticket from ticket id
-router.get('/tickets/:id/sold', function(req, res) {
-    res.json({ message: 'Get ticket sold status ' + req.params.id });
-});
-
-// TODO
 // Toggle sold status for ticket from ticket id
 router.post('/tickets/:id/sold', function(req, res) {
-    res.json({ message: 'Set ticket sold for ' + req.params.id });
+    setSold(req.params.id, req.query.sold, function(changes) {
+        res.sendStatus(204);  // 204 No Content
+    });
 });
 
 // All routes prefixed with /api
@@ -138,10 +133,11 @@ function hashPassword(password, salt) {
     return hash.digest('hex');
 }
 
-function createUser(username, password) {
+function createUser(username, password, callback) {
     var salt = crypto.randomBytes(salt_bytes);
     db.run('INSERT INTO Users(username, password, salt) VALUES (?, ?, ?)', username, hashPassword(password, salt), salt, function(err, row) {
         if (err) return callback(err);
+        return callback(this.lastID);
     });
     // TODO: add error handling
 }
@@ -205,6 +201,28 @@ function getGames(school_id, callback) {
         if (err) return callback(err);
         if (!rows.length) return callback(null, false);
         return callback(rows);
+    });
+}
+
+function getTickets(game_id, callback) {
+    db.all('SELECT * FROM Tickets WHERE game_id = ?', game_id, function(err, rows) {
+        if (err) return callback(err);
+        if (!rows.length) return callback(null, false);
+        return callback(rows);
+    });
+}
+
+function createTicket(game_id, seller_id, section, row, seat, price, sold, callback) {
+    db.run('INSERT INTO Tickets(game_id, seller_id, section, row, seat, price, sold) VALUES (?, ?, ?, ?, ?, ?, ?)', game_id, seller_id, section, row, seat, price, sold, function(err, row) {
+        if (err) return callback(err);
+        return callback(this.lastID);
+    });
+}
+
+function setSold(ticket_id, sold, callback) {
+    db.run('UPDATE Tickets SET sold = ? WHERE ticket_id = ?', sold, ticket_id, function(err, row) {
+        if (err) return callback(err);
+        return callback(this.changes);
     });
 }
 
