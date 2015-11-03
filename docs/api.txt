@@ -1,7 +1,7 @@
 API Endpoints
 =============
 
-Version 0.0.2
+Version 0.0.3
 
 // TODO: Document errors
 // TODO: API auth
@@ -18,8 +18,8 @@ POST /api/users/create
     Response Parameters: user_id (integer)
 
 // Get school from school id
-GET /api/schools/:id
-    Request Parameters: id (integer)
+GET /api/schools/:school_id
+    Request Parameters: school_id (integer)
     Response Parameters: school_id (integer), name (string)
 
 // List all schools
@@ -27,31 +27,32 @@ GET /api/lists/schools
     Response Parameters: schools (array of school objects)
 
 // Get game from game id
-GET /api/games/:id
-    Request Parameters: id (integer)
+GET /api/games/:game_id
+    Request Parameters: game_id (integer)
     Response Parameters: game_id (integer), home_team_id (integer), away_team_id (integer), date (string)
 
 // Get all games for school from school id
-GET /api/lists/schools/:id/games
-    Request Parameters: id (integer)
+GET /api/lists/schools/:school_id/games
+    Request Parameters: school_id (integer)
     Response Parameters: games (array of game objects)
 
 // Get ticket from ticket id
-GET /api/tickets/:id
-    Request Parameters: id (integer)
+GET /api/tickets/:ticket_id
+    Request Parameters: ticket_id (integer)
     Response Parameters: ticket_id (integer), game_id (integer), seller_id (integer), section (integer), row (integer), seat (integer), price (integer), sold (boolean)
 
 // Get all tickets for game from game id
-GET /api/lists/games/:id/tickets
-    Request Parameters: id (integer)
+GET /api/lists/games/:game_id/tickets
+    Request Parameters: game_id (integer)
     Response Parameters: tickets (array of ticket objects)
 
 // Create a new ticket
-POST /api/tickets/create
-    Query Parameters: game_id (integer), seller_id (integer), section (integer), row (integer), seat (integer), price (integer)
+POST /api/games/:game_id/tickets/create
+    Request Parameters: game_id (integer)
+    Query Parameters: seller_id (integer), section (integer), row (integer), seat (integer), price (integer)
     Response Parameters: ticket_id (integer)
 
 // Toggle sold status for ticket from ticket id
-POST /api/tickets/:id/sold
-    Request Parameters: id (integer)
+POST /api/tickets/:ticket_id/sold
+    Request Parameters: ticket_id (integer)
     Query Parameters: sold (boolean)

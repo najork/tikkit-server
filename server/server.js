@@ -56,8 +56,8 @@ router.post('/users/create', function(req, res) {
 // TODO: Create school endpoint
 
 // Get school from school id
-router.get('/schools/:id', function(req, res) {
-    deserializeSchool(req.params.id, function(row) {
+router.get('/schools/:school_id', function(req, res) {
+    deserializeSchool(req.params.school_id, function(row) {
         res.json(row);
     });
 });
@@ -77,45 +77,45 @@ router.get('/lists/schools', function(req, res) {
 // TODO: Create game endpoint
 
 // Get game from game id
-router.get('/games/:id', function(req, res) {
-    deserializeGame(req.params.id, function(row) {
+router.get('/games/:game_id', function(req, res) {
+    deserializeGame(req.params.game_id, function(row) {
         res.json(row);
     });
 });
 
 // Get all games for school from school id
-router.get('/lists/schools/:id/games', function(req, res) {
-    getGames(req.params.id, function(rows) {
+router.get('/lists/schools/:school_id/games', function(req, res) {
+    getGames(req.params.school_id, function(rows) {
         res.json(rows);
     });
 });
 
 // Get ticket from ticket id
-router.get('/tickets/:id', function(req, res) {
-    deserializeTicket(req.params.id, function(row) {
+router.get('/tickets/:ticket_id', function(req, res) {
+    deserializeTicket(req.params.ticket_id, function(row) {
         res.json(row);
     });
 });
 
 // Get all tickets for game from game id
-router.get('/lists/games/:id/tickets', function(req, res) {
-    getTickets(req.params.id, function(rows) {
+router.get('/lists/games/:game_id/tickets', function(req, res) {
+    getTickets(req.params.game_id, function(rows) {
         res.json(rows);
     });
 });
 
 // Create a new ticket
-router.post('/tickets/create', function(req, res) {
+router.post('/games/:game_id/tickets/create', function(req, res) {
     var sold = false;
     // Ticket price expected in cents
-    createTicket(req.query.game_id, req.query.seller_id, req.query.section, req.query.row, req.query.seat, req.query.price, sold, function(ticket_id) {
+    createTicket(req.params.game_id, req.query.seller_id, req.query.section, req.query.row, req.query.seat, req.query.price, sold, function(ticket_id) {
         res.json({ ticket_id: ticket_id });
     });
 });
 
 // Toggle sold status for ticket from ticket id
-router.post('/tickets/:id/sold', function(req, res) {
-    setSold(req.params.id, req.query.sold, function(changes) {
+router.post('/tickets/:ticket_id/sold', function(req, res) {
+    setSold(req.params.ticket_id, req.query.sold, function(changes) {
         res.sendStatus(204);  // 204 No Content
     });
 });
