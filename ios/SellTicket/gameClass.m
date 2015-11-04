@@ -10,4 +10,8 @@
 
 @implementation gameClass
 
+-(id) init {
+    return self;
+}
+
 @end

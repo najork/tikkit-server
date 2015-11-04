@@ -10,6 +10,10 @@
 
 @interface gameClass : NSObject
 
+@property (nonatomic, strong) NSString *gameTitle;
+@property (nonatomic, strong) NSString *lowPrice;
+@property (nonatomic, strong) NSString *highPrice;
+@property (nonatomic, strong) NSString *numTickets;
 
 
 @end

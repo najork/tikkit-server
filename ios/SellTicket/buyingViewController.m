@@ -7,6 +7,9 @@
 //
 
 #import "buyingViewController.h"
+#import "TicketTableCell.h"
+#import "gameClass.h"
+
 
 @implementation buyingViewController
 
@@ -15,7 +18,33 @@
 }
 
 -(void) setup {
+    [self setupGames];
+}
 
+-(void)setupGames {
+    gameClass *game1 = [[gameClass alloc]init];
+    game1.gameTitle = @"Michigan vs. Rutgers";
+    game1.lowPrice = @"$40";
+    game1.highPrice = @"$150";
+    game1.numTickets = @"126 listed";
+    
+    gameClass *game2 = [[gameClass alloc]init];
+    game2.gameTitle = @"Michigan vs. Ohio State";
+    game2.lowPrice = @"$40";
+    game2.highPrice = @"$150";
+    game2.numTickets = @"90 listed";
+    
+    gameClass *game3 = [[gameClass alloc]init];
+    game3.gameTitle = @"Michigan vs. Minnesota";
+    game3.lowPrice = @"$40";
+    game3.highPrice = @"$150";
+    game3.numTickets = @"26 listed";
+    
+    NSLog(@"%@", game1);
+    self.games = [[NSMutableArray alloc]init];
+    [self.games addObject:game1];
+    [self.games addObject:game2];
+    [self.games addObject:game3];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -35,17 +64,47 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *cellString = @"cel";
+    static NSString *simpleTableIdentifier = @"SimpleTableCell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellString];
+    TicketTableCell *cell = (TicketTableCell *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
     
     if (cell == nil)
     {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellString];
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"TicketTableCell" owner:self options:nil];
+        cell = [nib objectAtIndex:0];
+    }
+    NSLog(@"%li", (long)[indexPath row]);
+    
+    gameClass *game = [self.games objectAtIndex:[indexPath row]];
+    cell.highPrice.image = [UIImage imageNamed:@"max-price"];
+    cell.lowPrice.image = [UIImage imageNamed:@"low-price"];
+    cell.numTickets.image = [UIImage imageNamed:@"buy-tickets"];
+    cell.gameTitle.text = game.gameTitle;
+    cell.highPriceLabel.text = game.highPrice;
+    cell.lowPriceLabel.text = game.lowPrice;
+    cell.numTicketsLabel.text = game.numTickets;
+    
+    if([indexPath row] % 3 == 0) {
+        cell.backgroundColor = [UIColor colorWithRed:0.97 green:0.95 blue:0.15 alpha:1.0];
+    } else if ([indexPath row] % 3 == 1) {
+        cell.backgroundColor = [UIColor colorWithRed:0.26 green:0.28 blue:0.29 alpha:1.0];
+        cell.gameTitle.textColor = [UIColor whiteColor];
+        cell.highPriceLabel.textColor = [UIColor whiteColor];
+        cell.lowPriceLabel.textColor = [UIColor whiteColor];
+        cell.numTicketsLabel.textColor = [UIColor whiteColor];
+
+    } else {
+        cell.backgroundColor = [UIColor whiteColor]; 
     }
     
-    // Here we use the provided setImageWithURL: method to load the web image
-    // Ensure you use a placeholder image otherwise cells will be initialized with no image
+    NSLog(@"%@", cell.gameTitle.text);
     return cell;
+    
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 180;
+}
+
 @end
