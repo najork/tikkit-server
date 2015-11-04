@@ -10,4 +10,8 @@
 
 @implementation ticketClass
 
+-(id) init {
+    return self; 
+}
+
 @end

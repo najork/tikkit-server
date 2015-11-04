@@ -21,6 +21,8 @@
 		07D313771BEA63FC007ADF56 /* TicketTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D313761BEA63FC007ADF56 /* TicketTableCell.m */; };
 		07D3137A1BEA7809007ADF56 /* ticketListingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D313791BEA7809007ADF56 /* ticketListingsViewController.m */; };
 		07D3137D1BEA9E85007ADF56 /* ticketClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D3137C1BEA9E85007ADF56 /* ticketClass.m */; };
+		07D3137F1BEAA24A007ADF56 /* ListingsTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07D3137E1BEAA24A007ADF56 /* ListingsTableCell.xib */; };
+		07D313821BEAA297007ADF56 /* ListingsTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D313811BEAA297007ADF56 /* ListingsTableCell.m */; };
 		07E3F2111BE53D7C001320D4 /* postTicketViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E3F2101BE53D7C001320D4 /* postTicketViewController.m */; };
 		07E3F2141BE5421E001320D4 /* textFieldKeyboardShift.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E3F2131BE5421E001320D4 /* textFieldKeyboardShift.m */; };
 /* End PBXBuildFile section */
@@ -62,6 +64,9 @@
 		07D313791BEA7809007ADF56 /* ticketListingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ticketListingsViewController.m; sourceTree = "<group>"; };
 		07D3137B1BEA9E85007ADF56 /* ticketClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ticketClass.h; sourceTree = "<group>"; };
 		07D3137C1BEA9E85007ADF56 /* ticketClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ticketClass.m; sourceTree = "<group>"; };
+		07D3137E1BEAA24A007ADF56 /* ListingsTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListingsTableCell.xib; sourceTree = "<group>"; };
+		07D313801BEAA297007ADF56 /* ListingsTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListingsTableCell.h; sourceTree = "<group>"; };
+		07D313811BEAA297007ADF56 /* ListingsTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingsTableCell.m; sourceTree = "<group>"; };
 		07E3F20F1BE53D7C001320D4 /* postTicketViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = postTicketViewController.h; sourceTree = "<group>"; };
 		07E3F2101BE53D7C001320D4 /* postTicketViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = postTicketViewController.m; sourceTree = "<group>"; };
 		07E3F2121BE5421E001320D4 /* textFieldKeyboardShift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = textFieldKeyboardShift.h; sourceTree = "<group>"; };
@@ -107,9 +112,7 @@
 		0746E78D1BC4562B00AE281B /* SellTicket */ = {
 			isa = PBXGroup;
 			children = (
-				07D313731BEA621C007ADF56 /* TicketTableCell.xib */,
-				07D313751BEA63FC007ADF56 /* TicketTableCell.h */,
-				07D313761BEA63FC007ADF56 /* TicketTableCell.m */,
+				07D313831BEAA2A2007ADF56 /* Custom Table View Cells */,
 				0746E7921BC4562B00AE281B /* AppDelegate.h */,
 				0746E7931BC4562B00AE281B /* AppDelegate.m */,
 				0746E7951BC4562B00AE281B /* ViewController.h */,
@@ -175,6 +178,19 @@
 				07AEB7B11BCA160E00B46122 /* tabBarViewController.m */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		07D313831BEAA2A2007ADF56 /* Custom Table View Cells */ = {
+			isa = PBXGroup;
+			children = (
+				07D3137E1BEAA24A007ADF56 /* ListingsTableCell.xib */,
+				07D313801BEAA297007ADF56 /* ListingsTableCell.h */,
+				07D313811BEAA297007ADF56 /* ListingsTableCell.m */,
+				07D313731BEA621C007ADF56 /* TicketTableCell.xib */,
+				07D313751BEA63FC007ADF56 /* TicketTableCell.h */,
+				07D313761BEA63FC007ADF56 /* TicketTableCell.m */,
+			);
+			name = "Custom Table View Cells";
 			sourceTree = "<group>";
 		};
 		07E3F2151BE54E84001320D4 /* Additional Methods */ = {
@@ -266,6 +282,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07D3137F1BEAA24A007ADF56 /* ListingsTableCell.xib in Resources */,
 				07D313741BEA621C007ADF56 /* TicketTableCell.xib in Resources */,
 				0746E79A1BC4562B00AE281B /* Main.storyboard in Resources */,
 				0746E79F1BC4562B00AE281B /* LaunchScreen.xib in Resources */,
@@ -290,6 +307,7 @@
 				07AEB7B21BCA160E00B46122 /* tabBarViewController.m in Sources */,
 				07D313771BEA63FC007ADF56 /* TicketTableCell.m in Sources */,
 				0746E7971BC4562B00AE281B /* ViewController.m in Sources */,
+				07D313821BEAA297007ADF56 /* ListingsTableCell.m in Sources */,
 				07AEB7BB1BCA1B5900B46122 /* gameClass.m in Sources */,
 				07E3F2141BE5421E001320D4 /* textFieldKeyboardShift.m in Sources */,
 				07E3F2111BE53D7C001320D4 /* postTicketViewController.m in Sources */,

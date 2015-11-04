@@ -74,7 +74,6 @@
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"TicketTableCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
-    NSLog(@"%li", (long)[indexPath row]);
     
     gameClass *game = [self.games objectAtIndex:[indexPath row]];
     cell.highPrice.image = [UIImage imageNamed:@"max-price"];
@@ -98,7 +97,8 @@
         cell.backgroundColor = [UIColor whiteColor]; 
     }
     
-    NSLog(@"%@", cell.gameTitle.text);
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     return cell;
 }
 

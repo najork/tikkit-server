@@ -8,6 +8,7 @@
 
 #import "ticketListingsViewController.h"
 #import "ticketClass.h"
+#import "ListingsTableCell.h"
 
 @interface ticketListingsViewController ()
 
@@ -28,17 +29,36 @@
 
 -(void) setup {
     _tickets = [[NSMutableArray alloc]init];
-    _ticketTable = [[UITableView alloc]init];
+    [self setupTickets];
+  
     _ticketTable.delegate = self;
     _ticketTable.dataSource = self;
     self.gameTitle.text = self.gameString;
     self.location.text = self.locationString;
-    
-    [self setupTickets];
 }
 
 -(void)setupTickets {
+    ticketClass *ticket1 = [[ticketClass alloc]init];
+    ticketClass *ticket2 = [[ticketClass alloc]init];
+    ticketClass *ticket3 = [[ticketClass alloc]init];
+    ticketClass *ticket4 = [[ticketClass alloc]init];
+    ticketClass *ticket5 = [[ticketClass alloc]init];
     
+    
+    
+    [self.tickets addObject:ticket1];
+    [self.tickets addObject:ticket2];
+    [self.tickets addObject:ticket3];
+    [self.tickets addObject:ticket4];
+    [self.tickets addObject:ticket5];
+    
+    for(ticketClass *ticket in self.tickets) {
+        ticket.price = @"$35";
+        ticket.row = @"50";
+        ticket.seat = @"12";
+        ticket.section = @"27";
+    }
+
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -58,20 +78,36 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellIdentifier = @"cell";
+    NSLog(@"Got here");
+    static NSString *cellIdentifier = @"ListingsTableCell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    
+    ListingsTableCell *cell = (ListingsTableCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if(cell == nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"ListingsTableCell" owner:self options:nil];
+        cell = [nib objectAtIndex:0];
     }
+
     
-    cell.textLabel.text = @"Ticket1";
+    
+    ticketClass *ticket = [self.tickets objectAtIndex:[indexPath row]];
+    NSLog(@"%@", ticket.price);
+    //Set the cell variables
+    cell.price.text = ticket.price;
+    cell.sectionNumber.text = ticket.section;
+    cell.rowNumber.text = ticket.row;
+    cell.seatNumber.text = ticket.seat;
+    cell.rowLabel.text = @"Row";
+    cell.sectionLabel.text = @"Section";
+    cell.seatLabel.text = @"Seat";
+ 
     return cell;
-    
 }
 
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 72;
+}
 
 /*
 #pragma mark - Navigation
