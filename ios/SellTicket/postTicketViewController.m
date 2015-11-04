@@ -19,7 +19,7 @@
 }
 
 -(void) setup {
-    [self.postTicket.layer setCornerRadius:7.0f];
+    [self.postTicket.layer setCornerRadius:5.0f];
     self.postTicket.clipsToBounds = YES;
     
     //Set tags on all the textfields so we know which one to use
@@ -54,8 +54,30 @@
     [self setupPicker];
 }
 
-//Add games into the games array
+-(IBAction)postTicket:(id)sender {
+    //Do some code in here to post the data we have into the database
+    
+}
+
+//Add games into the games array. Might pull available
+//games from database??
 -(void)populateGames {
+    /*NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL
+                                         URLWithString:http://localhost:8080/api/school/:id]
+                                         cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                                         timeoutInterval:10
+                                         ];
+     
+    [request setHTTPMethod: @"GET"];
+    NSError *requestError = nil;
+    NSURLResponse *urlResponse = nil;
+    
+    
+    NSData *response1 =
+    [NSURLConnection sendSynchronousRequest:request
+                          returningResponse:&urlResponse error:&requestError];
+     */
+    
     games = [[NSMutableArray alloc]init];
     [games addObject:@"Michigan vs. Rutgers 11/7"];
     [games addObject:@"Michigan vs. Ohio State 11/28"];
