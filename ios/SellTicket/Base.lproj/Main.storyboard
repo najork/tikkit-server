@@ -272,30 +272,60 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Wolverine Tickets" id="iOR-bN-jCN"/>
                     <connections>
-                        <segue destination="pGg-mI-rmu" kind="show" id="Pbe-a0-18u"/>
+                        <segue destination="pGg-mI-rmu" kind="show" identifier="ticketSegue" id="Pbe-a0-18u"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4RV-vY-KsD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="862" y="1651"/>
         </scene>
-        <!--View Controller-->
+        <!--Ticket Listings View Controller-->
         <scene sceneID="Wdc-Yd-4ej">
             <objects>
-                <viewController id="pGg-mI-rmu" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="pGg-mI-rmu" customClass="ticketListingsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="UMm-H4-RUx"/>
                         <viewControllerLayoutGuide type="bottom" id="9vO-O0-ymL"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="C1P-oI-yhb">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tGJ-MA-Acq">
+                                <rect key="frame" x="0.0" y="189" width="375" height="478"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kKW-Vp-DBv">
+                                <rect key="frame" x="20" y="80" width="335" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aky-Nu-CXB">
+                                <rect key="frame" x="20" y="112" width="335" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pNW-4j-zQD">
+                                <rect key="frame" x="20" y="141" width="335" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="dateTime" destination="Aky-Nu-CXB" id="0QS-mf-9em"/>
+                        <outlet property="gameTitle" destination="kKW-Vp-DBv" id="A6D-HG-CCU"/>
+                        <outlet property="location" destination="pNW-4j-zQD" id="Rjk-Wq-L9K"/>
+                        <outlet property="ticketTable" destination="tGJ-MA-Acq" id="ZHx-Gb-rha"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wcz-1E-C0g" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1608" y="1671"/>
+            <point key="canvasLocation" x="1607.5" y="1670.5"/>
         </scene>
         <!--Profile-->
         <scene sceneID="Zam-tk-q2L">

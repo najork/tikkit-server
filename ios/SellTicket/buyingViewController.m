@@ -9,6 +9,7 @@
 #import "buyingViewController.h"
 #import "TicketTableCell.h"
 #import "gameClass.h"
+#import "ticketListingsViewController.h"
 
 
 @implementation buyingViewController
@@ -99,12 +100,28 @@
     
     NSLog(@"%@", cell.gameTitle.text);
     return cell;
-    
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.selectedIndex = indexPath;
+    [self performSegueWithIdentifier:@"ticketSegue" sender:self];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 180;
 }
+
+//Segue from vc to vc, triggered by selecting a cell
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if([[segue identifier] isEqualToString:@"ticketSegue"]){
+        ticketListingsViewController *vc = [segue destinationViewController];
+        NSInteger selectedRow = self.selectedIndex.row;
+        gameClass *game = [self.games objectAtIndex:selectedRow];
+        vc.gameString = game.gameTitle;
+        vc.locationString = @"Michigan Stadium"; 
+    }
+}
+
 
 @end

@@ -11,6 +11,7 @@
 @interface buyingViewController : UITableViewController
 
 @property (nonatomic, strong) NSMutableArray *games;
+@property (nonatomic) NSIndexPath *selectedIndex;
 
 
 @end
