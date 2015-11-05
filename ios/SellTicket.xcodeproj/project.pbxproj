@@ -23,6 +23,7 @@
 		07D3137D1BEA9E85007ADF56 /* ticketClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D3137C1BEA9E85007ADF56 /* ticketClass.m */; };
 		07D3137F1BEAA24A007ADF56 /* ListingsTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07D3137E1BEAA24A007ADF56 /* ListingsTableCell.xib */; };
 		07D313821BEAA297007ADF56 /* ListingsTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D313811BEAA297007ADF56 /* ListingsTableCell.m */; };
+		07D313861BEAFA90007ADF56 /* singleTicketViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D313851BEAFA90007ADF56 /* singleTicketViewController.m */; };
 		07E3F2111BE53D7C001320D4 /* postTicketViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E3F2101BE53D7C001320D4 /* postTicketViewController.m */; };
 		07E3F2141BE5421E001320D4 /* textFieldKeyboardShift.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E3F2131BE5421E001320D4 /* textFieldKeyboardShift.m */; };
 /* End PBXBuildFile section */
@@ -67,6 +68,8 @@
 		07D3137E1BEAA24A007ADF56 /* ListingsTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListingsTableCell.xib; sourceTree = "<group>"; };
 		07D313801BEAA297007ADF56 /* ListingsTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListingsTableCell.h; sourceTree = "<group>"; };
 		07D313811BEAA297007ADF56 /* ListingsTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingsTableCell.m; sourceTree = "<group>"; };
+		07D313841BEAFA90007ADF56 /* singleTicketViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = singleTicketViewController.h; sourceTree = "<group>"; };
+		07D313851BEAFA90007ADF56 /* singleTicketViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = singleTicketViewController.m; sourceTree = "<group>"; };
 		07E3F20F1BE53D7C001320D4 /* postTicketViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = postTicketViewController.h; sourceTree = "<group>"; };
 		07E3F2101BE53D7C001320D4 /* postTicketViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = postTicketViewController.m; sourceTree = "<group>"; };
 		07E3F2121BE5421E001320D4 /* textFieldKeyboardShift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = textFieldKeyboardShift.h; sourceTree = "<group>"; };
@@ -112,14 +115,14 @@
 		0746E78D1BC4562B00AE281B /* SellTicket */ = {
 			isa = PBXGroup;
 			children = (
-				07D313831BEAA2A2007ADF56 /* Custom Table View Cells */,
 				0746E7921BC4562B00AE281B /* AppDelegate.h */,
 				0746E7931BC4562B00AE281B /* AppDelegate.m */,
 				0746E7951BC4562B00AE281B /* ViewController.h */,
 				0746E7961BC4562B00AE281B /* ViewController.m */,
 				0746E7981BC4562B00AE281B /* Main.storyboard */,
-				07AEB7BD1BCA1B6800B46122 /* Controllers */,
 				07E3F2151BE54E84001320D4 /* Additional Methods */,
+				07D313831BEAA2A2007ADF56 /* Custom Table View Cells */,
+				07AEB7BD1BCA1B6800B46122 /* Controllers */,
 				07AEB7BC1BCA1B5D00B46122 /* Model */,
 				0746E79B1BC4562B00AE281B /* Images.xcassets */,
 				0746E79D1BC4562B00AE281B /* LaunchScreen.xib */,
@@ -174,6 +177,8 @@
 				07D313791BEA7809007ADF56 /* ticketListingsViewController.m */,
 				07E3F20F1BE53D7C001320D4 /* postTicketViewController.h */,
 				07E3F2101BE53D7C001320D4 /* postTicketViewController.m */,
+				07D313841BEAFA90007ADF56 /* singleTicketViewController.h */,
+				07D313851BEAFA90007ADF56 /* singleTicketViewController.m */,
 				07AEB7B01BCA160E00B46122 /* tabBarViewController.h */,
 				07AEB7B11BCA160E00B46122 /* tabBarViewController.m */,
 			);
@@ -311,6 +316,7 @@
 				07AEB7BB1BCA1B5900B46122 /* gameClass.m in Sources */,
 				07E3F2141BE5421E001320D4 /* textFieldKeyboardShift.m in Sources */,
 				07E3F2111BE53D7C001320D4 /* postTicketViewController.m in Sources */,
+				07D313861BEAFA90007ADF56 /* singleTicketViewController.m in Sources */,
 				0746E7941BC4562B00AE281B /* AppDelegate.m in Sources */,
 				07D3137D1BEA9E85007ADF56 /* ticketClass.m in Sources */,
 				07D3137A1BEA7809007ADF56 /* ticketListingsViewController.m in Sources */,

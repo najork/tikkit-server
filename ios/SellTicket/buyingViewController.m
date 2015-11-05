@@ -28,18 +28,21 @@
     game1.lowPrice = @"$40";
     game1.highPrice = @"$150";
     game1.numTickets = @"126 listed";
+    game1.gameDate = @"Nov. 2nd";
     
     gameClass *game2 = [[gameClass alloc]init];
     game2.gameTitle = @"Michigan vs. Ohio State";
     game2.lowPrice = @"$40";
     game2.highPrice = @"$150";
     game2.numTickets = @"90 listed";
+    game2.gameDate = @"Nov. 16th";
     
     gameClass *game3 = [[gameClass alloc]init];
     game3.gameTitle = @"Michigan vs. Minnesota";
     game3.lowPrice = @"$40";
     game3.highPrice = @"$150";
     game3.numTickets = @"26 listed";
+    game3.gameDate = @"Nov. 23rd";
     
     NSLog(@"%@", game1);
     self.games = [[NSMutableArray alloc]init];
@@ -119,6 +122,7 @@
         NSInteger selectedRow = self.selectedIndex.row;
         gameClass *game = [self.games objectAtIndex:selectedRow];
         vc.gameString = game.gameTitle;
+        vc.dateString = game.gameDate;
         vc.locationString = @"Michigan Stadium"; 
     }
 }

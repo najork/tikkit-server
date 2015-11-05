@@ -13,9 +13,11 @@
 @property (nonatomic, strong) IBOutlet UILabel *gameTitle;
 @property (nonatomic, strong) IBOutlet UILabel *dateTime;
 @property (nonatomic, strong) IBOutlet UILabel *location;
-@property (nonatomic, strong) NSMutableArray *tickets;
 
-@property (nonatomic, strong) IBOutlet UITableView *ticketTable; 
+
+@property (nonatomic, strong) IBOutlet UITableView *ticketTable;
+@property (nonatomic, strong) NSMutableArray *tickets;
+@property (nonatomic, strong) NSIndexPath *selectedIndex; 
 
 @property (nonatomic) NSString *gameString;
 @property (nonatomic) NSString *dateString;

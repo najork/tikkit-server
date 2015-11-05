@@ -9,6 +9,7 @@
 #import "ticketListingsViewController.h"
 #import "ticketClass.h"
 #import "ListingsTableCell.h"
+#import "singleTicketViewController.h"
 
 @interface ticketListingsViewController ()
 
@@ -29,12 +30,14 @@
 
 -(void) setup {
     _tickets = [[NSMutableArray alloc]init];
+    self.view.backgroundColor = [UIColor yellowColor];
     [self setupTickets];
   
     _ticketTable.delegate = self;
     _ticketTable.dataSource = self;
     self.gameTitle.text = self.gameString;
     self.location.text = self.locationString;
+    self.dateTime.text = self.dateString; 
 }
 
 -(void)setupTickets {
@@ -99,6 +102,7 @@
     cell.rowLabel.text = @"Row";
     cell.sectionLabel.text = @"Section";
     cell.seatLabel.text = @"Seat";
+    cell.ticketImage.image = [UIImage imageNamed:@"buy-tickets"];
  
     return cell;
 }
@@ -107,6 +111,25 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 72;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.selectedIndex = indexPath;
+    [self performSegueWithIdentifier:@"singleTicketSegue" sender:self];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    singleTicketViewController *destinationVC = [segue destinationViewController];
+    destinationVC.gameString = self.gameString;
+    destinationVC.dateString = self.dateString;
+    destinationVC.locationString = self.locationString;
+    
+    ticketClass *ticket = [self.tickets objectAtIndex:[self.selectedIndex row]];
+    
+    destinationVC.sectionString = ticket.section;
+    destinationVC.rowString = ticket.row;
+    destinationVC.seatString = ticket.seat;
+    destinationVC.priceString = ticket.price; 
 }
 
 /*
