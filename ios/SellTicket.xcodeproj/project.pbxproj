@@ -26,6 +26,7 @@
 		07D313861BEAFA90007ADF56 /* singleTicketViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D313851BEAFA90007ADF56 /* singleTicketViewController.m */; };
 		07E3F2111BE53D7C001320D4 /* postTicketViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E3F2101BE53D7C001320D4 /* postTicketViewController.m */; };
 		07E3F2141BE5421E001320D4 /* textFieldKeyboardShift.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E3F2131BE5421E001320D4 /* textFieldKeyboardShift.m */; };
+		07F9005E1BF3BBB90068C92E /* global.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F9005D1BF3BBB90068C92E /* global.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,8 @@
 		07E3F2101BE53D7C001320D4 /* postTicketViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = postTicketViewController.m; sourceTree = "<group>"; };
 		07E3F2121BE5421E001320D4 /* textFieldKeyboardShift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = textFieldKeyboardShift.h; sourceTree = "<group>"; };
 		07E3F2131BE5421E001320D4 /* textFieldKeyboardShift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = textFieldKeyboardShift.m; sourceTree = "<group>"; };
+		07F9005C1BF3B0920068C92E /* global.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = global.h; sourceTree = "<group>"; };
+		07F9005D1BF3BBB90068C92E /* global.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = global.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +118,8 @@
 		0746E78D1BC4562B00AE281B /* SellTicket */ = {
 			isa = PBXGroup;
 			children = (
+				07F9005C1BF3B0920068C92E /* global.h */,
+				07F9005D1BF3BBB90068C92E /* global.m */,
 				0746E7921BC4562B00AE281B /* AppDelegate.h */,
 				0746E7931BC4562B00AE281B /* AppDelegate.m */,
 				0746E7951BC4562B00AE281B /* ViewController.h */,
@@ -315,6 +320,7 @@
 				07D313821BEAA297007ADF56 /* ListingsTableCell.m in Sources */,
 				07AEB7BB1BCA1B5900B46122 /* gameClass.m in Sources */,
 				07E3F2141BE5421E001320D4 /* textFieldKeyboardShift.m in Sources */,
+				07F9005E1BF3BBB90068C92E /* global.m in Sources */,
 				07E3F2111BE53D7C001320D4 /* postTicketViewController.m in Sources */,
 				07D313861BEAFA90007ADF56 /* singleTicketViewController.m in Sources */,
 				0746E7941BC4562B00AE281B /* AppDelegate.m in Sources */,

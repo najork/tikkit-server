@@ -10,6 +10,7 @@
 #import "ticketClass.h"
 #import "ListingsTableCell.h"
 #import "singleTicketViewController.h"
+#import "global.h"
 
 @interface ticketListingsViewController ()
 
@@ -41,27 +42,7 @@
 }
 
 -(void)setupTickets {
-    ticketClass *ticket1 = [[ticketClass alloc]init];
-    ticketClass *ticket2 = [[ticketClass alloc]init];
-    ticketClass *ticket3 = [[ticketClass alloc]init];
-    ticketClass *ticket4 = [[ticketClass alloc]init];
-    ticketClass *ticket5 = [[ticketClass alloc]init];
-    
-    
-    
-    [self.tickets addObject:ticket1];
-    [self.tickets addObject:ticket2];
-    [self.tickets addObject:ticket3];
-    [self.tickets addObject:ticket4];
-    [self.tickets addObject:ticket5];
-    
-    for(ticketClass *ticket in self.tickets) {
-        ticket.price = @"$35";
-        ticket.row = @"50";
-        ticket.seat = @"12";
-        ticket.section = @"27";
-    }
-
+    self.tickets = [ticketDictionary objectForKey:self.gameString]; 
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -95,7 +76,7 @@
     ticketClass *ticket = [self.tickets objectAtIndex:[indexPath row]];
     NSLog(@"%@", ticket.price);
     //Set the cell variables
-    cell.price.text = ticket.price;
+    cell.price.text = [NSString stringWithFormat:@"$%@", ticket.price];
     cell.sectionNumber.text = ticket.section;
     cell.rowNumber.text = ticket.row;
     cell.seatNumber.text = ticket.seat;

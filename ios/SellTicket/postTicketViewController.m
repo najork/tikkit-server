@@ -8,6 +8,8 @@
 
 #import "postTicketViewController.h"
 #import "textFieldKeyboardShift.h"
+#import "global.h"
+#import "ticketClass.h"
 
 @implementation postTicketViewController {
     UIPickerView *picker;
@@ -41,6 +43,7 @@
     [picker setDelegate:self];
     picker.showsSelectionIndicator = YES;
     self.gameField.inputView = picker;
+    [picker selectRow:0 inComponent:0 animated:NO];
     
     //Add a tap gesture to close the keyboard
     //when we tap outside of the keyboard view
@@ -56,7 +59,26 @@
 
 -(IBAction)postTicket:(id)sender {
     //Do some code in here to post the data we have into the database
+    ticketClass *newTicket = [[ticketClass alloc]init];
+    newTicket.section = self.section.text;
+    newTicket.row = self.row.text;
+    newTicket.seat = self.seat.text;
+    newTicket.price = self.priceField.text;
+    NSLog(@"%@", self.gameField.text);
+    if([ticketDictionary objectForKey:self.gameField.text]) {
+        NSMutableArray *array = [ticketDictionary objectForKey:self.gameField.text];
+        [array addObject:newTicket]; 
+    } else {
+        NSMutableArray *newArray = [[NSMutableArray alloc]init];
+        [newArray addObject:newTicket];
+        [ticketDictionary setObject:newArray forKey:self.gameField.text]; 
+    }
     
+    self.section.text = @"";
+    self.row.text = @"";
+    self.seat.text = @"";
+    self.priceField.text = @"";
+    [self updateData];
 }
 
 //Add games into the games array. Might pull available
@@ -79,8 +101,9 @@
      */
     
     games = [[NSMutableArray alloc]init];
-    [games addObject:@"Michigan vs. Rutgers 11/7"];
-    [games addObject:@"Michigan vs. Ohio State 11/28"];
+    [games addObject:@"Michigan vs. Rutgers"];
+    [games addObject:@"Michigan vs. Ohio State"];
+    [games addObject:@"Michigan vs. Minnesota"];
 }
 
 
@@ -142,8 +165,33 @@
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     self.gameField.text = [games objectAtIndex:row];
+    [self updateData];
 }
 
+-(void)updateData {
+    if([ticketDictionary objectForKey:self.gameField.text]) {
+        NSMutableArray *tickets = [ticketDictionary objectForKey:self.gameField.text];
+        self.numberOfTickets.text = [NSString stringWithFormat: @"%lu",(unsigned long)[tickets count]];
+        
+        //Make function for this
+        int highestValue = -1;
+        long int lowestValue = LONG_MAX;
+        for(ticketClass *ticket in tickets) {
+            if([ticket.price intValue] > highestValue) {
+                highestValue = [ticket.price intValue];
+            }
+            if([ticket.price intValue] < lowestValue) {
+                lowestValue = [ticket.price intValue];
+            }
+        }
+        self.lowestPrice.text = [NSString stringWithFormat: @"$%li", lowestValue];
+        self.highestPrice.text = [NSString stringWithFormat: @"$%i", highestValue];
+    } else {
+        self.numberOfTickets.text = @"0";
+        self.lowestPrice.text = @"N/A";
+        self.highestPrice.text = @"N/A";
+    }
+}
 
 
 @end
