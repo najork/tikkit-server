@@ -1,22 +1,29 @@
 // server.js
 
+var FileStreamRotator = require('file-stream-rotator')
+
 var express = require('express');
+var fs = require('fs');
 var crypto = require('crypto');
+var morgan = require('morgan');
 var passport = require('passport');
 var sqlite3 = require('sqlite3').verbose();
 
+var logDir = __dirname + '/log'
+var dbDir = __dirname + '/db/app-data.db'
+
 var app = express();
-var db = new sqlite3.Database('db/app-data.db');
+var db = new sqlite3.Database(dbDir);
 var LocalStrategy = require('passport-local').Strategy;
 
 // Set port
 var port = process.env.PORT || 8080;
 
 // Length in bytes of password salt
-var salt_bytes = 16;
+var saltBytes = 16;
 
 // Server shutdown state
-var shutting_down = false;
+var shuttingDown = false;
 
 // Get instance of express Router
 var router = express.Router();
@@ -28,12 +35,26 @@ process.on('SIGTERM', shutdown);
 // Configure express
 app.get('env');
 
+// Set up passport
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Ensure log directory exists
+fs.existsSync(logDir) || fs.mkdirSync(logDir)
+
+// Create rotating log stream
+var accessLogStream = FileStreamRotator.getStream({
+  filename: logDir + '/access-%DATE%.log',
+  frequency: 'daily',
+  verbose: false
+})
+
+// Set up morgan
+app.use(morgan('combined', {stream: accessLogStream}))
+
 // Send connection close header if server is shutting down
 app.use(function(req, res, next) {
-    if(!shutting_down) return next();
+    if(!shuttingDown) return next();
     res.setHeader('Connection', 'close');
     res.send(503, { message: 'Server is restarting'});
 });
@@ -46,8 +67,8 @@ app.post('/login', passport.authenticate('local', {
 
 // Create user
 router.post('/users/create', function(req, res) {
-    createUser(req.query.username, req.query.password, function(user_id) {
-        res.json({ user_id: user_id });
+    createUser(req.query.username, req.query.password, function(userId) {
+        res.json({ user_id: userId });
     });
 });
 
@@ -56,8 +77,8 @@ router.post('/users/create', function(req, res) {
 // TODO: Create school endpoint
 
 // Get school from school id
-router.get('/schools/:school_id', function(req, res) {
-    deserializeSchool(req.params.school_id, function(row) {
+router.get('/schools/:schoolId', function(req, res) {
+    deserializeSchool(req.params.schoolId, function(row) {
         res.json(row);
     });
 });
@@ -67,7 +88,7 @@ router.get('/lists/schools', function(req, res) {
     getRows('SELECT * FROM Schools', function(rows) {
         var schools = [];
         rows.forEach(function(row) {
-            var school = { school_id: row.school_id, name: row.name };
+            var school = { school_id: row.schoolId, name: row.name };
             schools.push(school);
         });
         res.json(schools);
@@ -77,45 +98,45 @@ router.get('/lists/schools', function(req, res) {
 // TODO: Create game endpoint
 
 // Get game from game id
-router.get('/games/:game_id', function(req, res) {
-    deserializeGame(req.params.game_id, function(row) {
+router.get('/games/:gameId', function(req, res) {
+    deserializeGame(req.params.gameId, function(row) {
         res.json(row);
     });
 });
 
 // Get all games for school from school id
-router.get('/lists/schools/:school_id/games', function(req, res) {
-    getGames(req.params.school_id, function(rows) {
+router.get('/lists/schools/:schoolId/games', function(req, res) {
+    getGames(req.params.schoolId, function(rows) {
         res.json(rows);
     });
 });
 
 // Get ticket from ticket id
-router.get('/tickets/:ticket_id', function(req, res) {
-    deserializeTicket(req.params.ticket_id, function(row) {
+router.get('/tickets/:ticketId', function(req, res) {
+    deserializeTicket(req.params.ticketId, function(row) {
         res.json(row);
     });
 });
 
 // Get all tickets for game from game id
-router.get('/lists/games/:game_id/tickets', function(req, res) {
-    getTickets(req.params.game_id, function(rows) {
+router.get('/lists/games/:gameId/tickets', function(req, res) {
+    getTickets(req.params.gameId, function(rows) {
         res.json(rows);
     });
 });
 
 // Create a new ticket
-router.post('/games/:game_id/tickets/create', function(req, res) {
+router.post('/games/:gameId/tickets/create', function(req, res) {
     var sold = false;
     // Ticket price expected in cents
-    createTicket(req.params.game_id, req.query.seller_id, req.query.section, req.query.row, req.query.seat, req.query.price, sold, function(ticket_id) {
-        res.json({ ticket_id: ticket_id });
+    createTicket(req.params.gameId, req.query.seller_id, req.query.section, req.query.row, req.query.seat, req.query.price, sold, function(ticketId) {
+        res.json({ ticket_id: ticketId });
     });
 });
 
 // Toggle sold status for ticket from ticket id
-router.post('/tickets/:ticket_id/sold', function(req, res) {
-    setSold(req.params.ticket_id, req.query.sold, function(changes) {
+router.post('/tickets/:ticketId/sold', function(req, res) {
+    setSold(req.params.ticketId, req.query.sold, function(changes) {
         res.sendStatus(204);  // 204 No Content
     });
 });
@@ -134,7 +155,7 @@ function hashPassword(password, salt) {
 }
 
 function createUser(username, password, callback) {
-    var salt = crypto.randomBytes(salt_bytes);
+    var salt = crypto.randomBytes(saltBytes);
     db.run('INSERT INTO Users(username, password, salt) VALUES (?, ?, ?)', username, hashPassword(password, salt), salt, function(err, row) {
         if (err) return callback(err);
         return callback(this.lastID);
@@ -144,8 +165,8 @@ function createUser(username, password, callback) {
 
 // TODO: Create general functions to perform database actions
 
-function getSchool(school_name, callback) {
-    db.get('SELECT name, school_id FROM Schools WHERE name = ?', school_name, function(err, row) {
+function getSchool(schoolName, callback) {
+    db.get('SELECT name, school_id FROM Schools WHERE name = ?', schoolName, function(err, row) {
         if (err) return callback(err);
         if (!row) return callback(null, false);
         return callback(row);
@@ -196,31 +217,31 @@ function getSchools(callback) {
     });
 }
 
-function getGames(school_id, callback) {
-    db.all('SELECT * FROM Games WHERE home_team_id = ? OR away_team_id = ?', school_id, school_id, function(err, rows) {
+function getGames(schoolId, callback) {
+    db.all('SELECT * FROM Games WHERE home_team_id = ? OR away_team_id = ?', schoolId, schoolId, function(err, rows) {
         if (err) return callback(err);
         if (!rows.length) return callback(null, false);
         return callback(rows);
     });
 }
 
-function getTickets(game_id, callback) {
-    db.all('SELECT * FROM Tickets WHERE game_id = ?', game_id, function(err, rows) {
+function getTickets(gameId, callback) {
+    db.all('SELECT * FROM Tickets WHERE game_id = ?', gameId, function(err, rows) {
         if (err) return callback(err);
         if (!rows.length) return callback(null, false);
         return callback(rows);
     });
 }
 
-function createTicket(game_id, seller_id, section, row, seat, price, sold, callback) {
-    db.run('INSERT INTO Tickets(game_id, seller_id, section, row, seat, price, sold) VALUES (?, ?, ?, ?, ?, ?, ?)', game_id, seller_id, section, row, seat, price, sold, function(err, row) {
+function createTicket(gameId, sellerId, section, row, seat, price, sold, callback) {
+    db.run('INSERT INTO Tickets(game_id, seller_id, section, row, seat, price, sold) VALUES (?, ?, ?, ?, ?, ?, ?)', gameId, sellerId, section, row, seat, price, sold, function(err, row) {
         if (err) return callback(err);
         return callback(this.lastID);
     });
 }
 
-function setSold(ticket_id, sold, callback) {
-    db.run('UPDATE Tickets SET sold = ? WHERE ticket_id = ?', sold, ticket_id, function(err, row) {
+function setSold(ticketId, sold, callback) {
+    db.run('UPDATE Tickets SET sold = ? WHERE ticket_id = ?', sold, ticketId, function(err, row) {
         if (err) return callback(err);
         return callback(this.changes);
     });
@@ -259,7 +280,7 @@ passport.deserializeUser(function(id, done) {
 // Server shutdown
 function shutdown() {
     console.log('Initiating shutdown');
-    shutting_down = true;
+    shuttingDown = true;
 
     // Close db connections, other chores, etc
     server.close(function() {
@@ -268,9 +289,9 @@ function shutdown() {
         process.exit();
     });
 
-    var timeout_millis = 30 * 1000;
+    var timeoutMillis = 30 * 1000;
     setTimeout(function() {
         console.error('Could not close connections in time, forcing shutdown');
         process.exit(1);
-    }, timeout_millis);
+    }, timeoutMillis);
 }
