@@ -3,11 +3,14 @@
 var FileStreamRotator = require('file-stream-rotator')
 
 var express = require('express');
+var bodyParser = require('body-parser');
+var expressValidator = require('express-validator');
 var fs = require('fs');
 var crypto = require('crypto');
 var morgan = require('morgan');
 var passport = require('passport');
 var sqlite3 = require('sqlite3').verbose();
+var util = require('util');
 
 var logDir = __dirname + '/log'
 var dbDir = __dirname + '/db/app-data.db'
@@ -35,6 +38,10 @@ process.on('SIGTERM', shutdown);
 // Configure express
 app.get('env');
 
+// Set up query validation
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(expressValidator());
+
 // Set up passport
 app.use(passport.initialize());
 app.use(passport.session());
@@ -48,6 +55,10 @@ var accessLogStream = FileStreamRotator.getStream({
   frequency: 'daily',
   verbose: false
 })
+
+// Enable sqlite foreign key constraint enforcement
+// https://www.sqlite.org/foreignkeys.html#fk_enable
+db.run("PRAGMA foreign_keys = ON");
 
 // Set up morgan
 app.use(morgan('combined', {stream: accessLogStream}))
@@ -85,13 +96,8 @@ router.get('/schools/:schoolId', function(req, res) {
 
 // List all schools
 router.get('/lists/schools', function(req, res) {
-  getRows('SELECT * FROM Schools', function(rows) {
-    var schools = [];
-    rows.forEach(function(row) {
-      var school = { school_id: row.schoolId, name: row.name };
-      schools.push(school);
-    });
-    res.json(schools);
+  getSchools(function(rows) {
+    res.json(rows);
   });
 });
 
@@ -127,10 +133,21 @@ router.get('/lists/games/:gameId/tickets', function(req, res) {
 
 // Create a new ticket
 router.post('/games/:gameId/tickets/create', function(req, res) {
-  var sold = false;
+  // TODO: determine reasonable asserts
+  req.assert('section', 'Invalid section number').notEmpty().isInt({ min: 1 });
+  req.assert('row', 'Invalid row number').notEmpty().isInt({ min: 1 });
+  req.assert('seat', 'Invalid seat number').notEmpty().isInt({ min: 1 });
+  req.assert('price', 'Invalid price').notEmpty().isInt({ min: 0 });
 
-  // Checks: game exists, seller exists, section/row/seat are non-negative, price is non-negative
+  var errors = req.validationErrors();
+  if (errors) {
+    res.status(400).send('Error: ' + util.inspect(errors));
+    return;
+  }
+
+  // Checks: game exists, seller exists
   // Ticket price expected in cents
+  var sold = false;
   createTicket(req.params.gameId, req.query.seller_id, req.query.section, req.query.row, req.query.seat, req.query.price, sold, function(ticketId) {
     res.json({ ticket_id: ticketId });
   });
@@ -138,6 +155,14 @@ router.post('/games/:gameId/tickets/create', function(req, res) {
 
 // Toggle sold status for ticket from ticket id
 router.post('/tickets/:ticketId/sold', function(req, res) {
+  req.assert('sold', 'Invalid sold status').notEmpty().isBoolean();
+
+  var errors = req.validationErrors();
+  if (errors) {
+    res.status(400).send('Error: ' + util.inspect(errors));
+    return;
+  }
+
   setSold(req.params.ticketId, req.query.sold, function(changes) {
     res.sendStatus(204);  // 204 No Content
   });
@@ -236,7 +261,7 @@ function getTickets(gameId, callback) {
   });
 }
 
-// Checks: game exists, seller exists, section/row/seat are non-negative and exist, price is non-negative
+// Checks: game exists, seller exists
 function createTicket(gameId, sellerId, section, row, seat, price, sold, callback) {
   db.run('INSERT INTO Tickets(game_id, seller_id, section, row, seat, price, sold) VALUES (?, ?, ?, ?, ?, ?, ?)', gameId, sellerId, section, row, seat, price, sold, function(err, row) {
     if (err) return callback(err);
@@ -244,19 +269,13 @@ function createTicket(gameId, sellerId, section, row, seat, price, sold, callbac
   });
 }
 
-// Checks: sold is true/false, ticket id exists
+// Check: ticket id exists
 function setSold(ticketId, sold, callback) {
+  // Convert boolean to integer representation for sqlite
+  var soldInt = (sold == 'true' || sold == 1) ? 1 : 0;
   db.run('UPDATE Tickets SET sold = ? WHERE ticket_id = ?', sold, ticketId, function(err, row) {
     if (err) return callback(err);
     return callback(this.changes);
-  });
-}
-
-// TODO: what should the callback look like (what parameters)? How do we do error handling?
-function getRows(query, callback) {
-  db.all(query, function(err, rows) {
-    if (!rows.length) return callback(null, false);
-    return callback(rows);
   });
 }
 
