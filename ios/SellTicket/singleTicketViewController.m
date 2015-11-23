@@ -26,10 +26,10 @@
     self.gameLabel.text = self.gameString;
     self.dateLabel.text = self.dateString;
     self.locationLabel.text = self.locationString;
-    self.sectionNumber.text = self.sectionString;
-    self.rowNumber.text = self.rowString;
-    self.seatNumber.text = self.seatString;
-    self.price.text = self.priceString;
+    self.sectionNumber.text = [self.sectionString stringValue];
+    self.rowNumber.text = [self.rowString stringValue];
+    self.seatNumber.text = [self.seatString stringValue];
+    self.price.text = [self.priceString stringValue];
     self.ticketImage.image = [UIImage imageNamed:@"buy-tickets"];
 
 }

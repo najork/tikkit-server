@@ -16,12 +16,14 @@ NSMutableData *mutData;
 @implementation postTicketViewController {
     UIPickerView *picker;
     NSMutableArray *games;
-    NSString *game_id;
+    NSNumber *game_id;
+    NSMutableArray *game_ids;
     UIActivityIndicatorView *spinner;
 }
 
 -(void) viewDidLoad{
-    game_id = [[NSString alloc]init];
+    game_id = [[NSNumber alloc]init];
+    game_ids = [[NSMutableArray alloc]init];
     [self setup];
 }
 
@@ -106,6 +108,7 @@ NSMutableData *mutData;
     if(connection) {
         mutData = [NSMutableData data];
     }
+    
 };
 
 
@@ -143,15 +146,17 @@ NSMutableData *mutData;
 //games from database??
 -(void)populateGames {
     games = [[NSMutableArray alloc]init];
-    for(id game in gameDictionary) {
-        id game_object = [gameDictionary objectForKey:game];
-        
-        NSLog(@"%@", game_object);
-        NSString *away_team_id = [game_object objectForKey:@"away_team_id"];
+    
+    //Only need to account for Michigan for now.
+    NSNumber *home_id = @1;
+    NSMutableArray *gameOfArrays = [gameDictionary objectForKey:home_id];
+    NSString *home_team_name = [schoolDictionary objectForKey:home_id];
+    for(id game in gameOfArrays) {
+        NSString *away_team_id = [game objectForKey:@"away_team_id"];
         NSString *away_team_name = [schoolDictionary objectForKey:away_team_id];
-        NSLog(@"%@", away_team_name);
-        
-        [games addObject:[NSString stringWithFormat:@"Michigan vs. %@", away_team_name]];
+        NSNumber *temp_game_id = [game objectForKey:@"game_id"];
+        [games addObject:[NSString stringWithFormat:@"%@ vs. %@", home_team_name, away_team_name]];
+        [game_ids addObject:temp_game_id];
     }
 }
 
@@ -209,32 +214,33 @@ NSMutableData *mutData;
 
 //Return the title of every object from the games array
 - (NSString *)pickerView:(UIPickerView *)thePickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    
     return [games objectAtIndex:row];
 }
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-    game_id = [NSString stringWithFormat:@"%li", (long)row];
+    game_id = [game_ids objectAtIndex:row];
     self.gameField.text = [games objectAtIndex:row];
     [self updateData];
 }
 
 -(void)updateData {
-    if([ticketDictionary objectForKey:self.gameField.text]) {
-        NSMutableArray *tickets = [ticketDictionary objectForKey:self.gameField.text];
+    if([ticketDictionary objectForKey:game_id]) {
+        NSMutableArray *tickets = [ticketDictionary objectForKey:game_id];
         self.numberOfTickets.text = [NSString stringWithFormat: @"%lu",(unsigned long)[tickets count]];
         
-        //Make function for this
         int highestValue = -1;
         long int lowestValue = LONG_MAX;
         for(ticketClass *ticket in tickets) {
-            if([ticket.price intValue] > highestValue) {
-                highestValue = [ticket.price intValue];
-            }
-            if([ticket.price intValue] < lowestValue) {
-                lowestValue = [ticket.price intValue];
+            if((NSNumber *)[NSNull null] != ticket.price) {
+                if([ticket.price intValue] > highestValue) {
+                    highestValue = [ticket.price intValue];
+                }
+                if([ticket.price intValue] < lowestValue) {
+                    lowestValue = [ticket.price intValue];
+                }
             }
         }
+        
         self.lowestPrice.text = [NSString stringWithFormat: @"$%li", lowestValue];
         self.highestPrice.text = [NSString stringWithFormat: @"$%i", highestValue];
     } else {

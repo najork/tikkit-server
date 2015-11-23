@@ -16,5 +16,4 @@
 @property (nonatomic, strong) NSString *numTickets;
 @property (nonatomic, strong) NSString *gameDate; 
 
-
 @end

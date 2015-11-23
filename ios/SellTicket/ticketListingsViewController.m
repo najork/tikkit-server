@@ -42,7 +42,8 @@
 }
 
 -(void)setupTickets {
-    self.tickets = [ticketDictionary objectForKey:self.gameString]; 
+    //
+    self.tickets = [ticketDictionary objectForKey:self.game_id];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -62,7 +63,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Got here");
     static NSString *cellIdentifier = @"ListingsTableCell";
     
     ListingsTableCell *cell = (ListingsTableCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -71,15 +71,20 @@
         cell = [nib objectAtIndex:0];
     }
 
-    
-    
     ticketClass *ticket = [self.tickets objectAtIndex:[indexPath row]];
-    NSLog(@"%@", ticket.price);
     //Set the cell variables
     cell.price.text = [NSString stringWithFormat:@"$%@", ticket.price];
-    cell.sectionNumber.text = ticket.section;
-    cell.rowNumber.text = ticket.row;
-    cell.seatNumber.text = ticket.seat;
+    if((NSNumber *)[NSNull null] != ticket.section) {
+        cell.sectionNumber.text = [ticket.section stringValue];
+    }
+    
+    if((NSNumber *)[NSNull null] != ticket.row) {
+        cell.rowNumber.text = [ticket.row stringValue];
+    }
+    
+    if((NSNumber *)[NSNull null] != ticket.seat) {
+        cell.seatNumber.text = [ticket.seat stringValue];
+    }
     cell.rowLabel.text = @"Row";
     cell.sectionLabel.text = @"Section";
     cell.seatLabel.text = @"Seat";
@@ -106,11 +111,11 @@
     destinationVC.locationString = self.locationString;
     
     ticketClass *ticket = [self.tickets objectAtIndex:[self.selectedIndex row]];
-    
+
     destinationVC.sectionString = ticket.section;
     destinationVC.rowString = ticket.row;
     destinationVC.seatString = ticket.seat;
-    destinationVC.priceString = ticket.price; 
+    destinationVC.priceString = ticket.price;
 }
 
 /*

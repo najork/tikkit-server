@@ -17,7 +17,8 @@
 
 @property (nonatomic, strong) IBOutlet UITableView *ticketTable;
 @property (nonatomic, strong) NSMutableArray *tickets;
-@property (nonatomic, strong) NSIndexPath *selectedIndex; 
+@property (nonatomic, strong) NSIndexPath *selectedIndex;
+@property (nonatomic, strong) NSNumber *game_id; 
 
 @property (nonatomic) NSString *gameString;
 @property (nonatomic) NSString *dateString;

@@ -9,7 +9,18 @@
 #ifndef global_h
 #define global_h
 
+//Ticket Dictionary
+//Key: game_id
+//Value: NSMutableArray of Tickets
 extern NSMutableDictionary * ticketDictionary;
-extern NSMutableDictionary * schoolDictionary;
+
+//Game Dictionary
+//Key: school_id
+//Value: NSMutableArray of Games
 extern NSMutableDictionary * gameDictionary;
+
+//School Dictionary
+//Key: school_id
+//Value: school_name
+extern NSMutableDictionary * schoolDictionary;
 #endif /* global_h */

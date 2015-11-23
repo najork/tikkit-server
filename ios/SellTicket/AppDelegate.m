@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "global.h"
+#import "ticketClass.h"
 
 @interface AppDelegate ()
 
@@ -18,54 +19,70 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    //Initialize all the global dictionaries that I need access to
     ticketDictionary = [[NSMutableDictionary alloc]init];
     schoolDictionary = [[NSMutableDictionary alloc]init];
-    gameDictionary = [[NSMutableDictionary alloc]init]; 
-    NSString *serverAddress = @"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com:80/api/lists/schools";
-    NSMutableURLRequest *request =
-    [NSMutableURLRequest requestWithURL:[NSURL
-                                         URLWithString:serverAddress]
-                            cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
-                        timeoutInterval:10
-     ];
+    gameDictionary = [[NSMutableDictionary alloc]init];
+    
+    //Whenever the application loads, make a request to acquire a list of all the schools
+    //Get the object as a JSON Dictionary
+    NSString *serverAddress
+        = @"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com:80/api/lists/schools";
+    NSMutableURLRequest *request
+        =[NSMutableURLRequest requestWithURL:[NSURL URLWithString:serverAddress]
+                                 cachePolicy: NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                             timeoutInterval: 10];
     
     [request setHTTPMethod: @"GET"];
     
     NSError *requestError = nil;
     NSURLResponse *urlResponse = nil;
+    NSData *response1
+        = [NSURLConnection sendSynchronousRequest:request
+                                returningResponse:&urlResponse
+                                            error:&requestError];
     
-    NSData *response1 =
-    [NSURLConnection sendSynchronousRequest:request
-                          returningResponse:&urlResponse error:&requestError];
-    NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:response1 options:kNilOptions error:&requestError];
+    NSDictionary *schools
+        = [NSJSONSerialization JSONObjectWithData:response1
+                                          options:kNilOptions
+                                            error:&requestError];
 
-    for(NSDictionary *gameObject in jsonDictionary) {
-        NSString * school_id = [gameObject objectForKey:@"school_id"];
-        NSString * school_name = [gameObject objectForKey:@"name"];
+    
+    //Iterate through all of the school names and put them into
+    //the schoolDictionary global variable.
+    for(NSDictionary *school in schools) {
+        NSNumber * school_id = [school objectForKey:@"school_id"];
+        NSString * school_name = [school objectForKey:@"name"];
         [schoolDictionary setObject:school_name forKey:school_id];
         
-        serverAddress = [NSString stringWithFormat:@"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com/api/lists/schools/%@/games", school_id];
+        //For every school, we also want to load in a list of all the games
+        //that correspond to school
+        serverAddress
+            = [NSString stringWithFormat:@"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com/api/lists/schools/%@/games", school_id];
         
         request = [NSMutableURLRequest requestWithURL:[NSURL
                                                        URLWithString:serverAddress]
                                           cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
-                                      timeoutInterval:10
-                   ];
+                                      timeoutInterval:10];
         [request setHTTPMethod:@"GET"];
         requestError = nil;
         urlResponse = nil;
         
-        response1 =
-        [NSURLConnection sendSynchronousRequest:request
-                              returningResponse:&urlResponse error:&requestError];
-        id jsonDictionary2 = [[NSDictionary alloc]init];
-        jsonDictionary2 = [NSJSONSerialization JSONObjectWithData:response1 options:kNilOptions error:&requestError];
-        jsonDictionary2 = [jsonDictionary2 objectAtIndex:0];
-        NSString *game_id = [NSString stringWithFormat:@"%@", [jsonDictionary2 objectForKey:@"game_id"] ];
-        [gameDictionary setObject:jsonDictionary2 forKey:game_id];
+        response1
+            = [NSURLConnection sendSynchronousRequest:request
+                                    returningResponse:&urlResponse
+                                                error:&requestError];
+        
+        id jsonDictionary2 = [[NSMutableDictionary alloc]init];
+        jsonDictionary2
+            = [NSJSONSerialization JSONObjectWithData:response1
+                                              options:kNilOptions
+                                                error:&requestError];
+        
+        //Set a list of games for every school
+        [gameDictionary setObject:jsonDictionary2 forKey:school_id];
     }
-    
-    
+
     return YES;
 }
 

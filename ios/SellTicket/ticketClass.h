@@ -10,11 +10,12 @@
 
 @interface ticketClass : NSObject
 
-@property (nonatomic, strong) NSString *section;
-@property (nonatomic, strong) NSString *row;
-@property (nonatomic, strong) NSString *seat;
+@property (nonatomic, strong) NSNumber *section;
+@property (nonatomic, strong) NSNumber *row;
+@property (nonatomic, strong) NSNumber *seat;
 
 //See if you want to use NSNumbers for price instead
-@property (nonatomic, strong) NSString *price;
+@property (nonatomic, strong) NSNumber *price;
+@property (nonatomic, strong) NSNumber *ticket_id; 
 
 @end

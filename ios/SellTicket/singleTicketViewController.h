@@ -30,8 +30,8 @@
 
 @property (nonatomic, strong) IBOutlet UIImageView *ticketImage;
 
-@property (nonatomic, strong) NSString *priceString; 
-@property (nonatomic, strong) NSString *sectionString;
-@property (nonatomic, strong) NSString *rowString;
-@property (nonatomic, strong) NSString *seatString;
+@property (nonatomic, strong) NSNumber *priceString;
+@property (nonatomic, strong) NSNumber *sectionString;
+@property (nonatomic, strong) NSNumber *rowString;
+@property (nonatomic, strong) NSNumber *seatString;
 @end
