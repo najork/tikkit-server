@@ -10,5 +10,6 @@
 #define global_h
 
 extern NSMutableDictionary * ticketDictionary;
-
+extern NSMutableDictionary * schoolDictionary;
+extern NSMutableDictionary * gameDictionary;
 #endif /* global_h */

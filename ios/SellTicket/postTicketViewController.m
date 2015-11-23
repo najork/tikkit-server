@@ -11,12 +11,17 @@
 #import "global.h"
 #import "ticketClass.h"
 
+NSMutableData *mutData;
+
 @implementation postTicketViewController {
     UIPickerView *picker;
     NSMutableArray *games;
+    NSString *game_id;
+    UIActivityIndicatorView *spinner;
 }
 
 -(void) viewDidLoad{
+    game_id = [[NSString alloc]init];
     [self setup];
 }
 
@@ -58,52 +63,96 @@
 }
 
 -(IBAction)postTicket:(id)sender {
-    //Do some code in here to post the data we have into the database
-    ticketClass *newTicket = [[ticketClass alloc]init];
-    newTicket.section = self.section.text;
-    newTicket.row = self.row.text;
-    newTicket.seat = self.seat.text;
-    newTicket.price = self.priceField.text;
-    NSLog(@"%@", self.gameField.text);
-    if([ticketDictionary objectForKey:self.gameField.text]) {
-        NSMutableArray *array = [ticketDictionary objectForKey:self.gameField.text];
-        [array addObject:newTicket]; 
-    } else {
-        NSMutableArray *newArray = [[NSMutableArray alloc]init];
-        [newArray addObject:newTicket];
-        [ticketDictionary setObject:newArray forKey:self.gameField.text]; 
+    //Do error checking. Make sure there are values
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Invalid Parameter" message:@"Please make sure you enter a price, row, seat, and section!" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+    
+    //Make sure all the spots are filled in
+    if([self.section.text isEqualToString:@""]) {
+        [alert show];
+        return;
+    }
+    if([self.row.text isEqualToString:@""]) {
+        [alert show];
+        return;
+    }
+    if([self.seat.text isEqualToString:@""]) {
+        [alert show];
+        return;
+    }
+    if([self.priceField.text isEqualToString:@""]) {
+        [alert show];
+        return;
     }
     
+    //Do some code in here to post the data we have into the database
+    NSString *section = self.section.text;
+    NSString *row = self.row.text;
+    NSString *seat = self.seat.text;
+    NSString *price = self.priceField.text;
+    
+    NSString *post = [NSString stringWithFormat:@"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com/api/games/%@/tickets/create?section=%@&row=%@&seat=%@&price=%@", @"1", section, row, seat, price];
+    NSURL *postURL = [NSURL URLWithString:post];
+    NSMutableURLRequest *request =
+    [NSMutableURLRequest requestWithURL:postURL
+                            cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                        timeoutInterval:10];
+    
+    
+    [request setHTTPMethod: @"POST"];
+    
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    [connection start];
+    
+    if(connection) {
+        mutData = [NSMutableData data];
+    }
+};
+
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Success" message:@"Your ticket has been posted" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+    [alert show];
     self.section.text = @"";
     self.row.text = @"";
     self.seat.text = @"";
     self.priceField.text = @"";
-    [self updateData];
+    NSLog(@"Succeeded! Received %lu bytes of data",(unsigned long)[mutData length]);
+    NSString *str = [[NSString alloc] initWithData:mutData encoding:NSUTF8StringEncoding];
+    NSLog(@"%@", str);
+}
+
+-(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    NSLog(@"%@\n", error.description);
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    [mutData setLength:0];
+    NSLog(@"%@\n", response.description);
+    
+}
+
+-(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    [mutData appendData:data];
 }
 
 //Add games into the games array. Might pull available
 //games from database??
 -(void)populateGames {
-    /*NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL
-                                         URLWithString:http://localhost:8080/api/school/:id]
-                                         cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
-                                         timeoutInterval:10
-                                         ];
-     
-    [request setHTTPMethod: @"GET"];
-    NSError *requestError = nil;
-    NSURLResponse *urlResponse = nil;
-    
-    
-    NSData *response1 =
-    [NSURLConnection sendSynchronousRequest:request
-                          returningResponse:&urlResponse error:&requestError];
-     */
-    
     games = [[NSMutableArray alloc]init];
-    [games addObject:@"Michigan vs. Rutgers"];
-    [games addObject:@"Michigan vs. Ohio State"];
-    [games addObject:@"Michigan vs. Minnesota"];
+    for(id game in gameDictionary) {
+        id game_object = [gameDictionary objectForKey:game];
+        
+        NSLog(@"%@", game_object);
+        NSString *away_team_id = [game_object objectForKey:@"away_team_id"];
+        NSString *away_team_name = [schoolDictionary objectForKey:away_team_id];
+        NSLog(@"%@", away_team_name);
+        
+        [games addObject:[NSString stringWithFormat:@"Michigan vs. %@", away_team_name]];
+    }
 }
 
 
@@ -160,10 +209,12 @@
 
 //Return the title of every object from the games array
 - (NSString *)pickerView:(UIPickerView *)thePickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    
     return [games objectAtIndex:row];
 }
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
+    game_id = [NSString stringWithFormat:@"%li", (long)row];
     self.gameField.text = [games objectAtIndex:row];
     [self updateData];
 }

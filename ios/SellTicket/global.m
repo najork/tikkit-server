@@ -10,4 +10,5 @@
 #import "global.h"
 
 NSMutableDictionary * ticketDictionary;
-
+NSMutableDictionary * schoolDictionary;
+NSMutableDictionary * gameDictionary;

@@ -19,6 +19,53 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     ticketDictionary = [[NSMutableDictionary alloc]init];
+    schoolDictionary = [[NSMutableDictionary alloc]init];
+    gameDictionary = [[NSMutableDictionary alloc]init]; 
+    NSString *serverAddress = @"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com:80/api/lists/schools";
+    NSMutableURLRequest *request =
+    [NSMutableURLRequest requestWithURL:[NSURL
+                                         URLWithString:serverAddress]
+                            cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                        timeoutInterval:10
+     ];
+    
+    [request setHTTPMethod: @"GET"];
+    
+    NSError *requestError = nil;
+    NSURLResponse *urlResponse = nil;
+    
+    NSData *response1 =
+    [NSURLConnection sendSynchronousRequest:request
+                          returningResponse:&urlResponse error:&requestError];
+    NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:response1 options:kNilOptions error:&requestError];
+
+    for(NSDictionary *gameObject in jsonDictionary) {
+        NSString * school_id = [gameObject objectForKey:@"school_id"];
+        NSString * school_name = [gameObject objectForKey:@"name"];
+        [schoolDictionary setObject:school_name forKey:school_id];
+        
+        serverAddress = [NSString stringWithFormat:@"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com/api/lists/schools/%@/games", school_id];
+        
+        request = [NSMutableURLRequest requestWithURL:[NSURL
+                                                       URLWithString:serverAddress]
+                                          cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                                      timeoutInterval:10
+                   ];
+        [request setHTTPMethod:@"GET"];
+        requestError = nil;
+        urlResponse = nil;
+        
+        response1 =
+        [NSURLConnection sendSynchronousRequest:request
+                              returningResponse:&urlResponse error:&requestError];
+        id jsonDictionary2 = [[NSDictionary alloc]init];
+        jsonDictionary2 = [NSJSONSerialization JSONObjectWithData:response1 options:kNilOptions error:&requestError];
+        jsonDictionary2 = [jsonDictionary2 objectAtIndex:0];
+        NSString *game_id = [NSString stringWithFormat:@"%@", [jsonDictionary2 objectForKey:@"game_id"] ];
+        [gameDictionary setObject:jsonDictionary2 forKey:game_id];
+    }
+    
+    
     return YES;
 }
 
