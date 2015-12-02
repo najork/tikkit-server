@@ -16,14 +16,12 @@ var util = require('util');
 var utils = require('./utils');
 var auth = require('./auth');
 
-var logDir = './log'
-
 var app = express();
 var db = require('./db');
-var LocalStrategy = require('passport-local').Strategy;
 
-// Set port
-var port = process.env.PORT || 8080;
+var config = JSON.parse(fs.readFileSync('../config.json', 'utf8'));
+var logDir = config.server.logDir;
+var port = config.server.port;
 
 // Server shutdown state
 var shuttingDown = false;
@@ -65,8 +63,6 @@ app.use(function(req, res, next) {
   res.setHeader('Connection', 'close');
   res.status(503).send({ message: 'Server is restarting'});
 });
-
-var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 
 // Login
 app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), function(req, res) {

@@ -12,11 +12,10 @@ var utils = require('./utils');
 
 var db = require('./db');
 
-var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
+var config = JSON.parse(fs.readFileSync('../config.json', 'utf8'));
 
-// Set token time-to-live
-var accessTokenTtlDays = 31;
-var accessTokenTtl = moment.duration(accessTokenTtlDays, 'd');
+var serverSecret = config.auth.secret;
+var accessTokenTtl = moment.duration(config.auth.tokenTtl, config.auth.tokenTtlUnits);
 
 /**
  * LocalStrategy
@@ -88,7 +87,7 @@ exports.createAccessToken = function(userId) {
   var token = jwt.encode({
     iss: userId,
     exp: expires
-  }, config.auth.secret);
+  }, serverSecret);
 
   // Save token to db
   db.accesstokens.save(token, userId, function(err) {

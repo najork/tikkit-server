@@ -1,10 +1,13 @@
 // db/games.js
 
 var sqlite3 = require('sqlite3').verbose();
-var dbDir = './db/app-data.db';
+var fs = require('fs');
+
+var config = JSON.parse(fs.readFileSync('../config.json', 'utf8'));
+var dbFile = config.db.dbFile;
 
 exports.find = function(gameId, done) {
-  var db = new sqlite3.Database(dbDir);
+  var db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
 
   var query = 'SELECT * FROM Games WHERE game_id = ?';
@@ -17,7 +20,7 @@ exports.find = function(gameId, done) {
 }
 
 exports.findBySchool = function(schoolId, done) {
-  var db = new sqlite3.Database(dbDir);
+  var db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
 
   var query = 'SELECT * FROM Games WHERE home_team_id = ? OR away_team_id = ?';

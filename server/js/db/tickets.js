@@ -1,10 +1,13 @@
 // db/tickets.js
 
 var sqlite3 = require('sqlite3').verbose();
-var dbDir = './db/app-data.db';
+var fs = require('fs');
+
+var config = JSON.parse(fs.readFileSync('../config.json', 'utf8'));
+var dbFile = config.db.dbFile;
 
 exports.find = function(ticketId, done) {
-  var db = new sqlite3.Database(dbDir);
+  var db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
 
   var query = 'SELECT * FROM Tickets WHERE ticket_id = ?';
@@ -17,7 +20,7 @@ exports.find = function(ticketId, done) {
 }
 
 exports.findByGame = function(gameId, done) {
-  var db = new sqlite3.Database(dbDir);
+  var db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
 
   var query = 'SELECT * FROM Tickets WHERE game_id = ?';
@@ -30,7 +33,7 @@ exports.findByGame = function(gameId, done) {
 }
 
 exports.create = function(gameId, sellerId, section, row, seat, price, sold, done) {
-  var db = new sqlite3.Database(dbDir);
+  var db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
 
   var query = 'INSERT INTO Tickets(game_id, seller_id, section, row, seat, price, sold) VALUES (?, ?, ?, ?, ?, ?, ?)';
@@ -45,7 +48,7 @@ exports.create = function(gameId, sellerId, section, row, seat, price, sold, don
 }
 
 exports.setSold = function(ticketId, sold, done) {
-  var db = new sqlite3.Database(dbDir);
+  var db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
 
   var query = 'UPDATE Tickets SET sold = ? WHERE ticket_id = ?';

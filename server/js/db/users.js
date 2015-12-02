@@ -3,16 +3,16 @@
 // TODO: Cleanup
 
 var sqlite3 = require('sqlite3').verbose();
+var fs = require('fs');
 var utils = require('../utils');
 var crypto = require('crypto');
 
-var dbDir = './db/app-data.db';
-
-// Length in bytes of password salt
-var saltBytes = 16;
+var config = JSON.parse(fs.readFileSync('../config.json', 'utf8'));
+var dbFile = config.db.dbFile;
+var saltBytes = config.db.passwordSaltLength;
 
 exports.create = function(username, password, done) {
-  var db = new sqlite3.Database(dbDir);
+  var db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
 
   // https://crackstation.net/hashing-security.htm#salt
@@ -31,7 +31,7 @@ exports.create = function(username, password, done) {
 }
 
 exports.find = function(userId, done) {
-  var db = new sqlite3.Database(dbDir);
+  var db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
 
   var query = 'SELECT user_id, username FROM Users WHERE user_id = ?';
@@ -45,7 +45,7 @@ exports.find = function(userId, done) {
 };
 
 exports.findByUsername = function(username, done) {
-  var db = new sqlite3.Database(dbDir);
+  var db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
 
   var query = 'SELECT user_id, username FROM Users WHERE username = ?';
@@ -60,7 +60,7 @@ exports.findByUsername = function(username, done) {
 
 // TODO: Refactor/clean up (try to replace w/ commented-out code below)
 exports.findByUsernameAndPassword = function(username, password, done) {
-  var db = new sqlite3.Database(dbDir);
+  var db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
 
   var saltQuery = 'SELECT salt FROM Users WHERE username = ?';
@@ -81,7 +81,7 @@ exports.findByUsernameAndPassword = function(username, password, done) {
 
 /*
 exports.findSalt = function(userId, done) {
-  var db = new sqlite3.Database(dbDir);
+  var db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
 
   var query = 'SELECT salt FROM Users WHERE user_id = ?';
@@ -95,7 +95,7 @@ exports.findSalt = function(userId, done) {
 };
 
 exports.validPassword = function(username, password, salt, done) {
-  var db = new sqlite3.Database(dbDir);
+  var db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
 
   var hash = utils.hashPassword(password, salt);
