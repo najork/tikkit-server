@@ -3,6 +3,9 @@ CREATE TABLE Users(user_id INTEGER PRIMARY KEY AUTOINCREMENT,
                    password TEXT NOT NULL,
                    salt TEXT);
 
+CREATE TABLE AccessTokens(token TEXT NOT NULL PRIMARY KEY,
+                          user_id INTEGER NOT NULL REFERENCES Users(user_id));
+
 CREATE TABLE Schools(school_id INTEGER PRIMARY KEY AUTOINCREMENT,
                      name TEXT NOT NULL UNIQUE);
 
