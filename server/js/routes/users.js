@@ -13,15 +13,32 @@ exports.login = function(req, res) {
 
 // Create user
 exports.create = function(req, res) {
-  // Checks: username is unique, username ends with @umich.edu, password is at least 8 characters
+  const err = [];
+
+  // Validate username
+  const domain = req.query.username.split('@')[1];
+  if (domain != 'umich.edu') {
+    err.push({ param: 'username', msg: 'Username must be an @umich.edu email address' });
+  }
+
+  // Validate password length
+  if (req.query.password.length < 8) {
+    err.push({ param: 'password', msg: 'Password must be at least 8 characters' });
+  }
+
+  // Check if validation failed
+  if(err.length) {
+    res.status(400).send(err);
+    return;
+  }
+
   users.create(req.query.username, req.query.password, function(err, userId) {
     if (err) {
-      // TODO: What's the correct response code?
       res.status(400).send(err);
       return;
     }
 
-    // Return id of new user
+    // Send new user_id in response
     res.json({ user_id: userId });
   });
 }

@@ -27,11 +27,11 @@ exports.findByGame = function(req, res) {
 // Checks: game exists, seller exists
 // Create a new ticket
 exports.create = function(req, res) {
-  // TODO: determine reasonable asserts, consider splitting notEmpty and isX asserts to give more descriptive error messages
-  req.assert('section', 'Invalid section number').notEmpty().isInt({ min: 1 });
-  req.assert('row', 'Invalid row number').notEmpty().isInt({ min: 1 });
-  req.assert('seat', 'Invalid seat number').notEmpty().isInt({ min: 1 });
-  req.assert('price', 'Invalid price').notEmpty().isInt({ min: 0 });
+  // Validate query parameters
+  req.checkQuery('section', 'Section number must be positive').isInt({ min: 1 });
+  req.checkQuery('row', 'Row number must be positive').isInt({ min: 1 });
+  req.checkQuery('seat', 'Seat number must be positive').isInt({ min: 1 });
+  req.checkQuery('price', 'Price cannot be negative').isInt({ min: 0 });
 
   const errors = req.validationErrors();
   if (errors) {
@@ -56,7 +56,9 @@ exports.create = function(req, res) {
 // Check: ticket_id exists
 // Toggle sold status for ticket from ticket id
 exports.setSold = function(req, res) {
-  req.assert('sold', 'Invalid sold status').notEmpty().isBoolean();
+  // Validate query parameters
+  req.checkQuery('sold', 'Sold status required').notEmpty();
+  req.checkQuery('sold', 'Sold status must be boolean').isBoolean();
 
   const errors = req.validationErrors();
   if (errors) {
