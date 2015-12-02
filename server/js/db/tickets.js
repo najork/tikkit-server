@@ -53,16 +53,11 @@ exports.setSold = function(ticketId, sold, done) {
   db.run('PRAGMA foreign_keys = ON');
 
   const query = 'UPDATE Tickets SET sold = ? WHERE ticket_id = ?';
-  db.run(query, boolToInt(sold), ticketId, function(err) {
+  db.run(query, sold, ticketId, function(err) {
     if (err) return done(err);
     // No rows were changed if this.changes == 0 (ticket being updated does not exist)
     return done(null, this.changes);
   });
 
   db.close();
-}
-
-// Convert boolean to integer for sqlite
-function boolToInt(sold) {
-  return (sold == 'true' || sold == 1) ? 1 : 0;
 }

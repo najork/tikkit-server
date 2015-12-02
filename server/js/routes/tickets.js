@@ -2,7 +2,13 @@
 
 // TODO: Cleanup
 
+const util = require('util');
+
+const auth = require('../auth');
 const tickets = require('../db/tickets');
+
+// Default sold status of newly
+const soldDefault = 0;  // false
 
 // Get ticket from ticket id
 exports.find = function(req, res) {
@@ -33,11 +39,16 @@ exports.create = function(req, res) {
     return;
   }
 
+  // Get user_id of seller from token
+  const accessToken = req.header('Authorization').split(' ')[1];
+  const user_id = auth.decodeAccessToken(accessToken).iss;
+
+  // Mark ticket as unsold
+  const sold = 0;
+
   // Checks: game exists, seller exists, identical ticket doesn't exist
-  // TODO: Automatically get seller_id from logged-on user
   // Ticket price expected in cents
-  var sold = false;
-  tickets.create(req.params.gameId, req.query.seller_id, req.query.section, req.query.row, req.query.seat, req.query.price, sold, function(err, ticketId) {
+  tickets.create(req.params.gameId, user_id, req.query.section, req.query.row, req.query.seat, req.query.price, sold, function(err, ticketId) {
     res.json({ ticket_id: ticketId });
   });
 }
@@ -53,8 +64,13 @@ exports.setSold = function(req, res) {
     return;
   }
 
-  tickets.setSold(req.params.ticketId, req.query.sold, function(err, changes) {
+  tickets.setSold(req.params.ticketId, boolToInt(req.query.sold), function(err, changes) {
     // TODO: Check value of changes (if 0, then no rows updated)
     res.sendStatus(204);  // 204 No Content
   });
+}
+
+// Convert boolean to integer for sqlite
+function boolToInt(sold) {
+  return (sold == 'true' || sold == 1) ? 1 : 0;
 }

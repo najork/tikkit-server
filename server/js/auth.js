@@ -95,3 +95,7 @@ exports.createAccessToken = function(userId) {
 
   return { user_id: userId, token: token, expires: expires };
 }
+
+exports.decodeAccessToken = function(token) {
+  return jwt.decode(token, serverSecret);
+}
