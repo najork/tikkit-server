@@ -12,6 +12,7 @@ exports.find = function(schoolId, done) {
   const query = 'SELECT * FROM Schools WHERE school_id = ?';
   db.get(query, schoolId, function(err, row) {
     if (err) return done(err);
+    if (!row) return done(null, false);
     return done(null, row);
   });
 
@@ -25,6 +26,7 @@ exports.all = function(done) {
   const query = 'SELECT * FROM Schools';
   db.all(query, function(err, rows) {
     if (err) return done(err);
+    if (!row) return done(null, false);
     return done(null, rows);
   });
 

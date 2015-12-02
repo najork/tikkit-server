@@ -12,6 +12,7 @@ exports.find = function(token, done) {
   const query = 'SELECT * FROM AccessTokens WHERE token = ?';
   db.get(query, token, function(err, row) {
     if (err) return done(err);
+    if (!row) return done(null, false);
     return done(null, row);
   });
 
@@ -25,6 +26,7 @@ exports.save = function(token, userId, done) {
   const query = 'INSERT INTO AccessTokens(token, user_id) VALUES (?, ?)';
   db.run(query, token, userId, function(err) {
     if (err) return done(err);
+    if (!row) return done(null, false);
     return done(null);
   });
 

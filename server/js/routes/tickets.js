@@ -67,8 +67,19 @@ exports.setSold = function(req, res) {
   }
 
   tickets.setSold(req.params.ticketId, boolToInt(req.query.sold), function(err, changes) {
-    // TODO: Check value of changes (if 0, then no rows updated)
-    res.sendStatus(204);  // 204 No Content
+    if (err) {
+      res.status(400).send(err);
+      return;
+    }
+
+    // Verify that a row was actually changed
+    if (!changes) {
+      res.status(400).send({ param: 'ticket_id', msg: 'Ticket does not exist' });
+      return;
+    }
+
+    // 204 No Content
+    res.sendStatus(204);
   });
 }
 

@@ -36,7 +36,7 @@ exports.find = function(userId, done) {
   const query = 'SELECT user_id, username FROM Users WHERE user_id = ?';
   db.get(query, userId, function(err, row) {
     if (err) return done(err);
-    if (!row) return done(null, false);   // TODO
+    if (!row) return done(null, false);
     return done(null, row);
   });
 
@@ -50,7 +50,7 @@ exports.findByUsername = function(username, done) {
   const query = 'SELECT user_id, username FROM Users WHERE username = ?';
   db.get(query, username, function(err, row) {
     if (err) return done(err);
-    if (!row) return done(null, false);   // TODO
+    if (!row) return done(null, false);
     return done(null, row);
   });
 
@@ -65,12 +65,12 @@ exports.findByUsernameAndPassword = function(username, password, done) {
   const saltQuery = 'SELECT salt FROM Users WHERE username = ?';
   db.get(saltQuery, username, function(err, row) {
     if (err) return done (err);
-    if (!row) return done(null, false);   // TODO
+    if (!row) return done(null, false);
     const hash = utils.hashPassword(password, row.salt);
     const query = 'SELECT user_id, username FROM Users WHERE username = ? AND password = ?';
     db.get(query, username, hash, function(err, row) {
       if (err) return done(err);
-      if (!row) return done(null, false);   // TODO
+      if (!row) return done(null, false);
       return done(null, row);
     });
   });
@@ -86,7 +86,7 @@ exports.findSalt = function(userId, done) {
   const query = 'SELECT salt FROM Users WHERE user_id = ?';
   db.get(query, userId, function(err, row) {
     if (err) return done(err);
-    if (!row) return done(null, false);   // TODO
+    if (!row) return done(null, false);
     return done(null, row);
   });
 
@@ -102,7 +102,7 @@ exports.validPassword = function(username, password, salt, done) {
   const query = 'SELECT user_id FROM Users WHERE username = ? AND password = ?';
   db.get(query, username, hash, function(err, row) {
     if (err) return done(err);
-    if (!row) return done(null, false);   // TODO
+    if (!row) return done(null, false);
     return done(null, true);
   });
 

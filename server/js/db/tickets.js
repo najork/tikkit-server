@@ -14,6 +14,7 @@ exports.find = function(ticketId, done) {
   const query = 'SELECT * FROM Tickets WHERE ticket_id = ?';
   db.get(query, ticketId, function(err, row) {
     if (err) return done(err);
+    if (!row) return done(null, false);
     return done(null, row);
   });
 
@@ -27,6 +28,7 @@ exports.findByGame = function(gameId, done) {
   const query = 'SELECT * FROM Tickets WHERE game_id = ?';
   db.all(query, gameId, function(err, rows) {
     if (err) return done(err);
+    if (!row) return done(null, false);
     return done(null, rows);
   });
 
