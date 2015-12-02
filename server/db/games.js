@@ -3,12 +3,12 @@
 var sqlite3 = require('sqlite3').verbose();
 var dbDir = './db/app-data.db';
 
-exports.find = function(id, done) {
+exports.find = function(gameId, done) {
   var db = new sqlite3.Database(dbDir);
   db.run('PRAGMA foreign_keys = ON');
 
   var query = 'SELECT * FROM Games WHERE game_id = ?';
-  db.get(query, id, function(err, row) {
+  db.get(query, gameId, function(err, row) {
     if (err) return done(err);
     return done(null, row);
   });

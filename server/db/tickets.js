@@ -3,12 +3,12 @@
 var sqlite3 = require('sqlite3').verbose();
 var dbDir = './db/app-data.db';
 
-exports.find = function(id, done) {
+exports.find = function(ticketId, done) {
   var db = new sqlite3.Database(dbDir);
   db.run('PRAGMA foreign_keys = ON');
 
   var query = 'SELECT * FROM Tickets WHERE ticket_id = ?';
-  db.get(query, id, function(err, row) {
+  db.get(query, ticketId, function(err, row) {
     if (err) return done(err);
     return done(null, row);
   });
@@ -29,7 +29,6 @@ exports.findByGame = function(gameId, done) {
   db.close();
 }
 
-// Checks: game exists, seller exists
 exports.create = function(gameId, sellerId, section, row, seat, price, sold, done) {
   var db = new sqlite3.Database(dbDir);
   db.run('PRAGMA foreign_keys = ON');
@@ -45,7 +44,6 @@ exports.create = function(gameId, sellerId, section, row, seat, price, sold, don
   db.close();
 }
 
-// Check: ticket id exists
 exports.setSold = function(ticketId, sold, done) {
   var db = new sqlite3.Database(dbDir);
   db.run('PRAGMA foreign_keys = ON');
