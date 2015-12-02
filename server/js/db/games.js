@@ -26,7 +26,7 @@ exports.findBySchool = function(schoolId, done) {
   const query = 'SELECT * FROM Games WHERE home_team_id = ? OR away_team_id = ?';
   db.all(query, schoolId, schoolId, function(err, rows) {
     if (err) return done(err);
-    if (!row) return done(null, false);
+    if (!rows.length) return done(null, false);
     return done(null, rows);
   });
 

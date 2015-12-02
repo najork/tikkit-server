@@ -26,7 +26,7 @@ exports.all = function(done) {
   const query = 'SELECT * FROM Schools';
   db.all(query, function(err, rows) {
     if (err) return done(err);
-    if (!row) return done(null, false);
+    if (!rows.length) return done(null, false);
     return done(null, rows);
   });
 

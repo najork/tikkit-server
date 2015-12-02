@@ -26,7 +26,6 @@ exports.save = function(token, userId, done) {
   const query = 'INSERT INTO AccessTokens(token, user_id) VALUES (?, ?)';
   db.run(query, token, userId, function(err) {
     if (err) return done(err);
-    if (!row) return done(null, false);
     return done(null);
   });
 

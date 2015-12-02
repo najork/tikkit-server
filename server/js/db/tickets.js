@@ -28,7 +28,7 @@ exports.findByGame = function(gameId, done) {
   const query = 'SELECT * FROM Tickets WHERE game_id = ?';
   db.all(query, gameId, function(err, rows) {
     if (err) return done(err);
-    if (!row) return done(null, false);
+    if (!rows.length) return done(null, false);
     return done(null, rows);
   });
 
@@ -50,12 +50,12 @@ exports.create = function(gameId, sellerId, section, row, seat, price, sold, don
   db.close();
 }
 
-exports.setSold = function(ticketId, sold, done) {
+exports.setSold = function(ticketId, sellerId, sold, done) {
   const db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
 
-  const query = 'UPDATE Tickets SET sold = ? WHERE ticket_id = ?';
-  db.run(query, sold, ticketId, function(err) {
+  const query = 'UPDATE Tickets SET sold = ? WHERE ticket_id = ? AND seller_id = ?';
+  db.run(query, sold, ticketId, sellerId, function(err) {
     if (err) return done(err);
     // No rows were changed if this.changes == 0 (ticket being updated does not exist)
     return done(null, this.changes);

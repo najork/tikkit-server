@@ -39,16 +39,15 @@ exports.create = function(req, res) {
     return;
   }
 
-  // Get user_id of seller from token
-  const accessToken = req.header('Authorization').split(' ')[1];
-  const user_id = auth.decodeAccessToken(accessToken).iss;
+  // Get user id from token
+  const userId = getUserId(req);
 
   // Mark ticket as unsold
   const sold = 0;
 
   // Checks: game exists, seller exists, identical ticket doesn't exist
   // Ticket price expected in cents
-  tickets.create(req.params.gameId, user_id, req.query.section, req.query.row, req.query.seat, req.query.price, sold, function(err, ticketId) {
+  tickets.create(req.params.gameId, userId, req.query.section, req.query.row, req.query.seat, req.query.price, sold, function(err, ticketId) {
     res.json({ ticket_id: ticketId });
   });
 }
@@ -66,7 +65,10 @@ exports.setSold = function(req, res) {
     return;
   }
 
-  tickets.setSold(req.params.ticketId, boolToInt(req.query.sold), function(err, changes) {
+  // Get user id from token
+  const userId = getUserId(req);
+
+  tickets.setSold(req.params.ticketId, userId, boolToInt(req.query.sold), function(err, changes) {
     if (err) {
       res.status(400).send(err);
       return;
@@ -74,13 +76,19 @@ exports.setSold = function(req, res) {
 
     // Verify that a row was actually changed
     if (!changes) {
-      res.status(400).send({ param: 'ticket_id', msg: 'Ticket does not exist' });
+      res.status(400).send({ msg: 'Ticket does not exist or is not for sale by this user' });
       return;
     }
 
     // 204 No Content
     res.sendStatus(204);
   });
+}
+
+// Get user id from authorization header in request
+function getUserId(req) {
+  const accessToken = req.header('Authorization').split(' ')[1];
+  return auth.decodeAccessToken(accessToken).iss;
 }
 
 // Convert boolean to integer for sqlite
