@@ -77,7 +77,7 @@ app.post('/login', passport.authenticate('local', { failureRedirect: '/login' })
 });
 
 // Create user
-router.post('/users/create', function(req, res) {
+app.post('/create', function(req, res) {
   // Checks: username is unique, username ends with @umich.edu, password is at least 8 characters
   db.users.create(req.query.username, req.query.password, function(err, userId) {
     if (err) {
@@ -93,10 +93,12 @@ router.post('/users/create', function(req, res) {
 
 // TODO: Create school endpoint
 // TODO: Determine return value and response status for query with non-existant id
-// TODO: Which API endpoints should be protected by token auth?
+
+// Use bearer auth to protect all /api calls
+router.use(passport.authenticate('bearer', { session: false }));
 
 // Get school from school id
-router.get('/schools/:schoolId', passport.authenticate('bearer', { session: false }), function(req, res) {
+router.get('/schools/:schoolId', function(req, res) {
   db.schools.find(req.params.schoolId, function(err, row) {
     res.json(row);
   });
