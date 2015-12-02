@@ -1,7 +1,7 @@
 API Endpoints
 =============
 
-Version 0.0.3
+Version 0.0.4
 
 // TODO: Document errors
 // TODO: API auth
@@ -13,7 +13,7 @@ POST /login
     // TODO: Response Parameters
 
 // Create user
-POST /api/users/create
+POST /create
     Query Parameters: username (string), password (string)
     Response Parameters: user_id (integer)
 
