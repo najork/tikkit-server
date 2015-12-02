@@ -2,20 +2,20 @@
 
 // TODO: Cleanup
 
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var BearerStrategy = require('passport-http-bearer').Strategy;
-var fs = require('fs');
-var jwt = require('jwt-simple');
-var moment = require('moment');
-var utils = require('./utils');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const BearerStrategy = require('passport-http-bearer').Strategy;
+const fs = require('fs');
+const jwt = require('jwt-simple');
+const moment = require('moment');
+const utils = require('./utils');
 
-var db = require('./db');
+const db = require('./db');
 
-var config = JSON.parse(fs.readFileSync('../config.json', 'utf8'));
+const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
 
-var serverSecret = config.auth.secret;
-var accessTokenTtl = moment.duration(config.auth.tokenTtl, config.auth.tokenTtlUnits);
+const serverSecret = config.auth.secret;
+const accessTokenTtl = moment.duration(config.auth.tokenTtl, config.auth.tokenTtlUnits);
 
 /**
  * LocalStrategy
@@ -63,7 +63,7 @@ passport.use(new BearerStrategy(
         if (!user) return done(null, false);
         // to keep this example simple, restricted scopes are not implemented,
         // and this is just for illustrative purposes
-        var info = { scope: '*' }
+        const info = { scope: '*' }
         done(null, user, info);
       });
     });
@@ -81,10 +81,10 @@ function validateCredentials(username, password) {
 
 exports.createAccessToken = function(userId) {
   // Calculate token expiration time
-  var expires = moment().add(accessTokenTtl).valueOf();
+  const expires = moment().add(accessTokenTtl).valueOf();
 
   // Generate new token
-  var token = jwt.encode({
+  const token = jwt.encode({
     iss: userId,
     exp: expires
   }, serverSecret);

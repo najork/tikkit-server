@@ -2,24 +2,24 @@
 
 // TODO: Cleanup
 
-var sqlite3 = require('sqlite3').verbose();
-var fs = require('fs');
-var utils = require('../utils');
-var crypto = require('crypto');
+const sqlite3 = require('sqlite3').verbose();
+const fs = require('fs');
+const utils = require('../utils');
+const crypto = require('crypto');
 
-var config = JSON.parse(fs.readFileSync('../config.json', 'utf8'));
-var dbFile = config.db.dbFile;
-var saltBytes = config.db.passwordSaltLength;
+const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
+const dbFile = config.db.dbFile;
+const saltBytes = config.db.passwordSaltLength;
 
 exports.create = function(username, password, done) {
-  var db = new sqlite3.Database(dbFile);
+  const db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
 
   // https://crackstation.net/hashing-security.htm#salt
-  var salt = crypto.randomBytes(saltBytes);
-  var hash = utils.hashPassword(password, salt);
+  const salt = crypto.randomBytes(saltBytes);
+  const hash = utils.hashPassword(password, salt);
 
-  var query = 'INSERT INTO Users(username, password, salt) VALUES (?, ?, ?)';
+  const query = 'INSERT INTO Users(username, password, salt) VALUES (?, ?, ?)';
   db.run(query, username, hash, salt, function(err) {
     if (err) return done(err);
     // TODO: Fix hacky solution
@@ -31,10 +31,10 @@ exports.create = function(username, password, done) {
 }
 
 exports.find = function(userId, done) {
-  var db = new sqlite3.Database(dbFile);
+  const db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
 
-  var query = 'SELECT user_id, username FROM Users WHERE user_id = ?';
+  const query = 'SELECT user_id, username FROM Users WHERE user_id = ?';
   db.get(query, userId, function(err, row) {
     if (err) return done(err);
     if (!row) return done(null, false);   // TODO
@@ -45,10 +45,10 @@ exports.find = function(userId, done) {
 };
 
 exports.findByUsername = function(username, done) {
-  var db = new sqlite3.Database(dbFile);
+  const db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
 
-  var query = 'SELECT user_id, username FROM Users WHERE username = ?';
+  const query = 'SELECT user_id, username FROM Users WHERE username = ?';
   db.get(query, username, function(err, row) {
     if (err) return done(err);
     if (!row) return done(null, false);   // TODO
@@ -60,15 +60,15 @@ exports.findByUsername = function(username, done) {
 
 // TODO: Refactor/clean up (try to replace w/ commented-out code below)
 exports.findByUsernameAndPassword = function(username, password, done) {
-  var db = new sqlite3.Database(dbFile);
+  const db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
 
-  var saltQuery = 'SELECT salt FROM Users WHERE username = ?';
+  const saltQuery = 'SELECT salt FROM Users WHERE username = ?';
   db.get(saltQuery, username, function(err, row) {
     if (err) return done (err);
     if (!row) return done(null, false);   // TODO
-    var hash = utils.hashPassword(password, row.salt);
-    var query = 'SELECT user_id, username FROM Users WHERE username = ? AND password = ?';
+    const hash = utils.hashPassword(password, row.salt);
+    const query = 'SELECT user_id, username FROM Users WHERE username = ? AND password = ?';
     db.get(query, username, hash, function(err, row) {
       if (err) return done(err);
       if (!row) return done(null, false);   // TODO
@@ -81,10 +81,10 @@ exports.findByUsernameAndPassword = function(username, password, done) {
 
 /*
 exports.findSalt = function(userId, done) {
-  var db = new sqlite3.Database(dbFile);
+  const db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
 
-  var query = 'SELECT salt FROM Users WHERE user_id = ?';
+  const query = 'SELECT salt FROM Users WHERE user_id = ?';
   db.get(query, userId, function(err, row) {
     if (err) return done(err);
     if (!row) return done(null, false);   // TODO
@@ -95,12 +95,12 @@ exports.findSalt = function(userId, done) {
 };
 
 exports.validPassword = function(username, password, salt, done) {
-  var db = new sqlite3.Database(dbFile);
+  const db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
 
-  var hash = utils.hashPassword(password, salt);
+  const hash = utils.hashPassword(password, salt);
 
-  var query = 'SELECT user_id FROM Users WHERE username = ? AND password = ?';
+  const query = 'SELECT user_id FROM Users WHERE username = ? AND password = ?';
   db.get(query, username, hash, function(err, row) {
     if (err) return done(err);
     if (!row) return done(null, false);   // TODO

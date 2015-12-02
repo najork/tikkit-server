@@ -1,16 +1,16 @@
 // db/tickets.js
 
-var sqlite3 = require('sqlite3').verbose();
-var fs = require('fs');
+const sqlite3 = require('sqlite3').verbose();
+const fs = require('fs');
 
-var config = JSON.parse(fs.readFileSync('../config.json', 'utf8'));
-var dbFile = config.db.dbFile;
+const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
+const dbFile = config.db.dbFile;
 
 exports.find = function(ticketId, done) {
-  var db = new sqlite3.Database(dbFile);
+  const db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
 
-  var query = 'SELECT * FROM Tickets WHERE ticket_id = ?';
+  const query = 'SELECT * FROM Tickets WHERE ticket_id = ?';
   db.get(query, ticketId, function(err, row) {
     if (err) return done(err);
     return done(null, row);
@@ -20,10 +20,10 @@ exports.find = function(ticketId, done) {
 }
 
 exports.findByGame = function(gameId, done) {
-  var db = new sqlite3.Database(dbFile);
+  const db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
 
-  var query = 'SELECT * FROM Tickets WHERE game_id = ?';
+  const query = 'SELECT * FROM Tickets WHERE game_id = ?';
   db.all(query, gameId, function(err, rows) {
     if (err) return done(err);
     return done(null, rows);
@@ -33,10 +33,10 @@ exports.findByGame = function(gameId, done) {
 }
 
 exports.create = function(gameId, sellerId, section, row, seat, price, sold, done) {
-  var db = new sqlite3.Database(dbFile);
+  const db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
 
-  var query = 'INSERT INTO Tickets(game_id, seller_id, section, row, seat, price, sold) VALUES (?, ?, ?, ?, ?, ?, ?)';
+  const query = 'INSERT INTO Tickets(game_id, seller_id, section, row, seat, price, sold) VALUES (?, ?, ?, ?, ?, ?, ?)';
   db.run(query, gameId, sellerId, section, row, seat, price, sold, function(err) {
     if (err) return done(err);
     // TODO: Fix hacky solution
@@ -48,10 +48,10 @@ exports.create = function(gameId, sellerId, section, row, seat, price, sold, don
 }
 
 exports.setSold = function(ticketId, sold, done) {
-  var db = new sqlite3.Database(dbFile);
+  const db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
 
-  var query = 'UPDATE Tickets SET sold = ? WHERE ticket_id = ?';
+  const query = 'UPDATE Tickets SET sold = ? WHERE ticket_id = ?';
   db.run(query, boolToInt(sold), ticketId, function(err) {
     if (err) return done(err);
     // No rows were changed if this.changes == 0 (ticket being updated does not exist)
