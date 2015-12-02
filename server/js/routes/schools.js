@@ -1,4 +1,6 @@
-// routes/schools.js
+/**
+ * @author Max Najork
+ */
 
 const schools = require('../db/schools');
 

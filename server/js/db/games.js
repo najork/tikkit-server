@@ -1,4 +1,6 @@
-// db/games.js
+/**
+ * @author Max Najork
+ */
 
 const sqlite3 = require('sqlite3').verbose();
 const prefs = require('../prefs');

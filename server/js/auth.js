@@ -1,4 +1,6 @@
-// auth.js
+/**
+ * @author Max Najork
+ */
 
 // TODO: Cleanup
 

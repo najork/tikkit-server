@@ -1,4 +1,6 @@
-// routes/users.js
+/**
+ * @author Max Najork
+ */
 
 const auth = require('../auth');
 const users = require('../db/users');

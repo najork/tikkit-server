@@ -1,4 +1,6 @@
-// db/index.js
+/**
+ * @author Max Najork
+ */
 
 exports.users = require('./users');
 exports.accesstokens = require('./accesstokens');

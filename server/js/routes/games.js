@@ -1,4 +1,6 @@
-// routes/games.js
+/**
+ * @author Max Najork
+ */
 
 const games = require('../db/games');
 

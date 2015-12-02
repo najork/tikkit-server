@@ -1,4 +1,6 @@
-// routes.js
+/**
+ * @author Max Najork
+ */
 
 const express = require('express');
 const passport = require('passport');

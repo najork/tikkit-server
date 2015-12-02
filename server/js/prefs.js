@@ -1,4 +1,6 @@
-// prefs.js
+/**
+ * @author Max Najork
+ */
 
 const fs = require('fs');
 

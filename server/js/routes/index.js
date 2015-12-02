@@ -1,4 +1,6 @@
-// routes/index.js
+/**
+ * @author Max Najork
+ */
 
 exports.users = require('./users');
 exports.games = require('./games');

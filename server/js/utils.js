@@ -1,4 +1,6 @@
-// utils.js
+/**
+ * @author Max Najork
+ */
 
 const crypto = require('crypto');
 
