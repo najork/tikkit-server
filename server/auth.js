@@ -1,13 +1,22 @@
 // auth.js
 
+// TODO: Cleanup
+
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var BasicStrategy = require('passport-http').BasicStrategy;
-var ClientPasswordStrategy = require('passport-oauth2-client-password').Strategy;
-var BearerStrategy = require('passport-http-bearer').Strategy
+var BearerStrategy = require('passport-http-bearer').Strategy;
+var fs = require('fs');
+var jwt = require('jwt-simple');
+var moment = require('moment');
 var utils = require('./utils');
 
 var db = require('./db');
+
+var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
+
+// Set token time-to-live
+var accessTokenTtlDays = 31;
+var accessTokenTtl = moment.duration(accessTokenTtlDays, 'd');
 
 /**
  * LocalStrategy
@@ -37,48 +46,6 @@ passport.deserializeUser(function(id, done) {
 });
 
 /**
- * BasicStrategy & ClientPasswordStrategy
- *
- * These strategies are used to authenticate registered OAuth clients.  They are
- * employed to protect the `token` endpoint, which consumers use to obtain
- * access tokens.  The OAuth 2.0 specification suggests that clients use the
- * HTTP Basic scheme to authenticate.  Use of the client password strategy
- * allows clients to send the same credentials in the request body (as opposed
- * to the `Authorization` header).  While this approach is not recommended by
- * the specification, in practice it is quite common.
- */
-passport.use(new BasicStrategy(
-  function(username, password, done) {
-    db.users.findByUsernameAndPassword(username, password, function(err, user) {
-      if (err) return done(err);
-      if (!user) return done(null, false);
-      return done(null, user);
-    });
-  }
-));
-// passport.use(new BasicStrategy(
-//   function(username, password, done) {
-//     db.clients.findByClientId(username, function(err, client) {
-//       if (err) { return done(err); }
-//       if (!client) { return done(null, false); }
-//       if (client.clientSecret != password) { return done(null, false); }
-//       return done(null, client);
-//     });
-//   }
-// ));
-
-// TODO: REMOVE
-passport.use(new ClientPasswordStrategy(
-  function(username, password, done) {
-    db.users.findByUsernameAndPassword(username, password, function(err, user) {
-      if (err) return done(err);
-      if (!user) return done(null, false);
-      return done(null, user);
-    });
-  }
-));
-
-/**
  * BearerStrategy
  *
  * This strategy is used to authenticate users based on an access token (aka a
@@ -86,20 +53,47 @@ passport.use(new ClientPasswordStrategy(
  * application, which is issued an access token to make requests on behalf of
  * the authorizing user.
  */
-// passport.use(new BearerStrategy(
-//   function(accessToken, done) {
-//     db.accessTokens.find(accessToken, function(err, token) {
-//       if (err) { return done(err); }
-//       if (!token) { return done(null, false); }
+passport.use(new BearerStrategy(
+  function(accessToken, done) {
+    db.accesstokens.find(accessToken, function(err, token) {
+      if (err) return done(err);
+      if (!token) return done(null, false);
 
-//       db.users.find(token.userID, function(err, user) {
-//         if (err) { return done(err); }
-//         if (!user) { return done(null, false); }
-//         // to keep this example simple, restricted scopes are not implemented,
-//         // and this is just for illustrative purposes
-//         var info = { scope: '*' }
-//         done(null, user, info);
-//       });
-//     });
-//   }
-// ));
+      db.users.find(token.user_id, function(err, user) {
+        if (err) return done(err);
+        if (!user) return done(null, false);
+        // to keep this example simple, restricted scopes are not implemented,
+        // and this is just for illustrative purposes
+        var info = { scope: '*' }
+        done(null, user, info);
+      });
+    });
+  }
+));
+
+/*
+function validateCredentials(username, password) {
+  db.users.findByUsername(username, function(err, row) {
+    db.users.findSalt(
+      db.users.validPassword()));
+  }
+}
+*/
+
+exports.createAccessToken = function(userId) {
+  // Calculate token expiration time
+  var expires = moment().add(accessTokenTtl).valueOf();
+
+  // Generate new token
+  var token = jwt.encode({
+    iss: userId,
+    exp: expires
+  }, config.auth.secret);
+
+  // Save token to db
+  db.accesstokens.save(token, userId, function(err) {
+    // if (err) return [WHAT?]
+  });
+
+  return { user_id: userId, token: token, expires: expires };
+}

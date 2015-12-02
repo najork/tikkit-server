@@ -6,8 +6,11 @@
     "express": "^4.13.3",
     "express-validator": "^2.18.0",
     "file-stream-rotator": "0.0.6",
+    "jwt-simple": "^0.4.0",
+    "moment": "^2.10.6",
     "morgan": "^1.6.1",
     "passport": "^0.3.0",
+    "passport-http-bearer": "^1.0.1",
     "passport-local": "^1.0.0",
     "sqlite3": "^3.1.0"
   }
