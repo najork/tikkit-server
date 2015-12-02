@@ -3,44 +3,27 @@
 var sqlite3 = require('sqlite3').verbose();
 var dbDir = './db/app-data.db';
 
-exports.getSchool = function(schoolName, callback) {
+exports.find = function(id, done) {
   var db = new sqlite3.Database(dbDir);
-  db.run("PRAGMA foreign_keys = ON");
+  db.run('PRAGMA foreign_keys = ON');
 
-  db.get('SELECT name, school_id FROM Schools WHERE name = ?', schoolName, function(err, row) {
-    if (err) return callback(err);
-    if (!row) return callback(null, false);
-    return callback(row);
+  var query = 'SELECT * FROM Schools WHERE school_id = ?';
+  db.get(query, id, function(err, row) {
+    if (err) return done(err);
+    return done(null, row);
   });
 
   db.close();
 }
 
-exports.serializeSchool = function(school, done) {
-  return done(null, school.school_id);
-}
-
-exports.deserializeSchool = function(id, callback) {
+exports.all = function(done) {
   var db = new sqlite3.Database(dbDir);
-  db.run("PRAGMA foreign_keys = ON");
+  db.run('PRAGMA foreign_keys = ON');
 
-  db.get('SELECT school_id, name FROM Schools WHERE school_id = ?', id, function(err, row) {
-    if (err) return callback(err);
-    if (!row) return callback(null, false);
-    return callback(row);
-  });
-
-  db.close();
-}
-
-exports.getSchools = function(callback) {
-  var db = new sqlite3.Database(dbDir);
-  db.run("PRAGMA foreign_keys = ON");
-
-  db.all('SELECT * FROM Schools', function(err, rows) {
-    if (err) return callback(err);
-    if (!rows.length) return callback(null, false);
-    return callback(rows);
+  var query = 'SELECT * FROM Schools';
+  db.all(query, function(err, rows) {
+    if (err) return done(err);
+    return done(null, rows);
   });
 
   db.close();
