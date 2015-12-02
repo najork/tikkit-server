@@ -8,14 +8,13 @@ const BearerStrategy = require('passport-http-bearer').Strategy;
 const fs = require('fs');
 const jwt = require('jwt-simple');
 const moment = require('moment');
-const utils = require('./utils');
 
 const db = require('./db');
+const prefs = require('./prefs');
+const utils = require('./utils');
 
-const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
-
-const serverSecret = config.auth.secret;
-const accessTokenTtl = moment.duration(config.auth.tokenTtl, config.auth.tokenTtlUnits);
+const serverSecret = prefs.secret;
+const accessTokenTtl = moment.duration(prefs.tokenTtl, prefs.tokenTtlUnits);
 
 /**
  * LocalStrategy

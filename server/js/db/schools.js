@@ -1,10 +1,9 @@
 // db/schools.js
 
 const sqlite3 = require('sqlite3').verbose();
-const fs = require('fs');
+const prefs = require('../prefs');
 
-const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
-const dbFile = config.db.dbFile;
+const dbFile = prefs.dbFile;
 
 exports.find = function(schoolId, done) {
   const db = new sqlite3.Database(dbFile);

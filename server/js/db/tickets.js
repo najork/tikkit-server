@@ -1,10 +1,11 @@
 // db/tickets.js
 
-const sqlite3 = require('sqlite3').verbose();
-const fs = require('fs');
+// TODO: Cleanup
 
-const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
-const dbFile = config.db.dbFile;
+const sqlite3 = require('sqlite3').verbose();
+const prefs = require('../prefs');
+
+const dbFile = prefs.dbFile;
 
 exports.find = function(ticketId, done) {
   const db = new sqlite3.Database(dbFile);

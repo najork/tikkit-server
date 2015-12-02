@@ -3,13 +3,12 @@
 // TODO: Cleanup
 
 const sqlite3 = require('sqlite3').verbose();
-const fs = require('fs');
-const utils = require('../utils');
 const crypto = require('crypto');
+const prefs = require('../prefs');
+const utils = require('../utils');
 
-const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
-const dbFile = config.db.dbFile;
-const saltBytes = config.db.passwordSaltLength;
+const dbFile = prefs.dbFile;
+const saltBytes = prefs.passwordSaltLength;
 
 exports.create = function(username, password, done) {
   const db = new sqlite3.Database(dbFile);

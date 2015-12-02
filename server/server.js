@@ -13,16 +13,16 @@ const morgan = require('morgan');
 const passport = require('passport');
 const sqlite3 = require('sqlite3').verbose();
 const util = require('util');
-const utils = require('./js/utils');
+
 const auth = require('./js/auth');
+const db = require('./js/db');
+const prefs = require('./js/prefs');
+const utils = require('./js/utils');
 
 const app = express();
-const db = require('./js/db');
 
-const configPath = __dirname + '/config.json';
-const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-const logDir = config.server.logDir;
-const port = config.server.port;
+const logDir = prefs.logDir;
+const port = prefs.port;
 
 // Server shutdown state
 var shuttingDown = false;
