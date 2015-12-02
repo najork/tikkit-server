@@ -1,0 +1,33 @@
+SETUP
+#####
+
+1. Install Git
+    yum install git -y
+2. Install node and npm
+    yum install nodejs npm --enablerepo=epel -y
+3. Configure port-forwarding (must be super-user)
+    sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to 8080
+4. Clone the repo
+    git clone https://github.com/najork/myne.git
+5. Go to the server directory (make sure you're on the right branch!)
+    cd myne/server/
+6. Install required modules
+    npm install
+7. Initialize database
+    sqlite3 db/app-data.db < db/scripts/create_tables.sql
+8. Launch server (do NOT do this as a super-user)
+    node server.js
+
+
+SAMPLE SQLITE COMMANDS
+######################
+
+1. Go to the db directory
+    cd $(myne_dir)/server/db/
+2. Launch SQLite with the app db
+    sqlite3 app-data.db
+
+sqlite> insert into schools(name) values ("Michigan");
+sqlite> insert into schools(name) values ("Ohio State");
+sqlite> insert into games(home_team_id, away_team_id, date) values (1,2,'2015-11-28 12:00:00.000');
+sqlite> .exit

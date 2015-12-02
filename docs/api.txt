@@ -1,10 +1,9 @@
 API Endpoints
 =============
 
-Version 0.0.3
+Version 0.0.5
 
 // TODO: Document errors
-// TODO: API auth
 
 
 // Login
@@ -13,7 +12,7 @@ POST /login
     // TODO: Response Parameters
 
 // Create user
-POST /api/users/create
+POST /create
     Query Parameters: username (string), password (string)
     Response Parameters: user_id (integer)
 
@@ -46,10 +45,10 @@ GET /api/lists/games/:game_id/tickets
     Request Parameters: game_id (integer)
     Response Parameters: tickets (array of ticket objects)
 
-// Create a new ticket
+// Create a new ticket (note: price in cents)
 POST /api/games/:game_id/tickets/create
     Request Parameters: game_id (integer)
-    Query Parameters: seller_id (integer), section (integer), row (integer), seat (integer), price (integer)
+    Query Parameters: section (integer), row (integer), seat (integer), price (integer)
     Response Parameters: ticket_id (integer)
 
 // Toggle sold status for ticket from ticket id
