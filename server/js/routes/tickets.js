@@ -54,6 +54,27 @@ exports.create = function(req, res) {
   });
 }
 
+exports.remove = function(req, res) {
+  // Get user id from token
+  const userId = getUserId(req);
+
+  tickets.remove(req.params.ticketId, userId, function(err, changes) {
+    if (err) {
+      res.status(400).send(err);
+      return;
+    }
+
+    // Verify that a row was actually changed
+    if (!changes) {
+      res.status(400).send({ msg: 'Ticket does not exist or is not for sale by this user' });
+      return;
+    }
+
+    // 204 No Content
+    res.sendStatus(204);
+  });
+}
+
 // Check: ticket_id exists
 // Toggle sold status for ticket from ticket id
 exports.setSold = function(req, res) {

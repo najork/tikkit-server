@@ -52,6 +52,20 @@ exports.create = function(gameId, sellerId, section, row, seat, price, sold, don
   db.close();
 }
 
+exports.remove = function(ticketId, sellerId, done) {
+  const db = new sqlite3.Database(dbFile);
+  db.run('PRAGMA foreign_keys = ON');
+
+  const query = 'DELETE FROM Tickets WHERE ticket_id = ? AND seller_id = ?';
+  db.run(query, ticketId, sellerId, function(err) {
+    if (err) return done(err);
+    // No rows were changed if this.changes == 0 (ticket being removed does not exist)
+    return done(null, this.changes);
+  });
+
+  db.close();
+}
+
 exports.setSold = function(ticketId, sellerId, sold, done) {
   const db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
