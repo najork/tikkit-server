@@ -60,6 +60,16 @@ passport.use(new BearerStrategy(
   }
 ));
 
+passport.serializeUser(function(user, done) {
+  return done(null, user.user_id);
+});
+
+passport.deserializeUser(function(id, done) {
+  db.users.find(id, function (err, user) {
+    done(err, user);
+  });
+});
+
 /*
 function validateCredentials(username, password) {
   db.users.findByUsername(username, function(err, row) {
