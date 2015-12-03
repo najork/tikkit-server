@@ -42,17 +42,18 @@ module.exports = function(app) {
   // Get all games for school from school id
   router.get('/lists/schools/:schoolId/games', routes.games.findBySchool);
 
-  // Get ticket from ticket id
-  router.get('/tickets/:ticketId', routes.tickets.find);
-
   // Get all tickets for game from game id
   router.get('/lists/games/:gameId/tickets', routes.tickets.findByGame);
 
-  // Checks: game exists, seller exists
   // Create a new ticket
   router.post('/games/:gameId/tickets/create', routes.tickets.create);
 
-  // Check: ticket_id exists
+  // Get ticket from ticket id
+  router.get('/tickets/:ticketId', routes.tickets.find);
+
+  // Delete a ticket
+  router.delete('/tickets/:ticketId', routes.tickets.remove);
+
   // Toggle sold status for ticket from ticket id
   router.post('/tickets/:ticketId/sold', routes.tickets.setSold);
 }
