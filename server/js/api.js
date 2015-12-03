@@ -10,14 +10,13 @@ const routes = require('./routes');
 module.exports = function(app) {
   // Set up passport
   app.use(passport.initialize());
-  app.use(passport.session());
 
   // Route all calls to /api endpoints through router
   const router = express.Router();
   app.use('/api', router);
 
   // Login
-  app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), routes.users.login);
+  app.post('/login', passport.authenticate('local'), routes.users.login);
 
   // Create user
   app.post('/create', routes.users.create);
