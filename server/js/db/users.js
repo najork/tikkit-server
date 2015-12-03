@@ -7,7 +7,6 @@
 const sqlite3 = require('sqlite3').verbose();
 const crypto = require('crypto');
 const prefs = require('../prefs');
-const utils = require('../utils');
 
 const dbFile = prefs.dbFile;
 const saltBytes = prefs.passwordSaltLength;
@@ -79,6 +78,13 @@ exports.findByUsernameAndPassword = function(username, password, done) {
 
   db.close();
 };
+
+function hashPassword(password, salt) {
+  const hash = crypto.createHash('sha256');
+  hash.update(password);
+  hash.update(salt);
+  return hash.digest('hex');
+}
 
 /*
 exports.findSalt = function(userId, done) {

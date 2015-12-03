@@ -13,7 +13,6 @@ const moment = require('moment');
 
 const db = require('./db');
 const prefs = require('./prefs');
-const utils = require('./utils');
 
 const serverSecret = prefs.secret;
 const accessTokenTtl = moment.duration(prefs.tokenTtl, prefs.tokenTtlUnits);
