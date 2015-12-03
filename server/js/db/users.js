@@ -17,7 +17,7 @@ exports.create = function(username, password, done) {
 
   // https://crackstation.net/hashing-security.htm#salt
   const salt = crypto.randomBytes(saltBytes);
-  const hash = utils.hashPassword(password, salt);
+  const hash = hashPassword(password, salt);
 
   const query = 'INSERT INTO Users(username, password, salt) VALUES (?, ?, ?)';
   db.run(query, username, hash, salt, function(err) {
@@ -67,7 +67,7 @@ exports.findByUsernameAndPassword = function(username, password, done) {
   db.get(saltQuery, username, function(err, row) {
     if (err) return done (err);
     if (!row) return done(null, false);
-    const hash = utils.hashPassword(password, row.salt);
+    const hash = hashPassword(password, row.salt);
     const query = 'SELECT user_id, username FROM Users WHERE username = ? AND password = ?';
     db.get(query, username, hash, function(err, row) {
       if (err) return done(err);
@@ -105,7 +105,7 @@ exports.validPassword = function(username, password, salt, done) {
   const db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');
 
-  const hash = utils.hashPassword(password, salt);
+  const hash = hashPassword(password, salt);
 
   const query = 'SELECT user_id FROM Users WHERE username = ? AND password = ?';
   db.get(query, username, hash, function(err, row) {
