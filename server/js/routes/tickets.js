@@ -2,31 +2,49 @@
  * @author Max Najork
  */
 
-// TODO: Cleanup
-
 const util = require('util');
 
 const auth = require('../auth');
 const tickets = require('../db/tickets');
 
-// Default sold status of newly
-const soldDefault = 0;  // false
-
-// Get ticket from ticket id
+// Get ticket
 exports.find = function(req, res) {
   tickets.find(req.params.ticketId, function(err, row) {
+    // Database error
+    if (err) {
+      res.status(500).send(err);
+      return;
+    }
+
+    // School not found
+    if (!row) {
+      res.sendStatus(404);
+      return;
+    }
+
     res.json(row);
   });
-}
+};
 
-// Get all tickets for game from game id
+// Get all tickets for game
 exports.findByGame = function(req, res) {
   tickets.findByGame(req.params.gameId, function(err, rows) {
+    // Database error
+    if (err) {
+      res.status(500).send(err);
+      return;
+    }
+
+    // School not found
+    if (!rows) {
+      res.sendStatus(404);
+      return;
+    }
+
     res.json(rows);
   });
-}
+};
 
-// Checks: game exists, seller exists
 // Create a new ticket
 exports.create = function(req, res) {
   // Validate query parameters
@@ -39,76 +57,103 @@ exports.create = function(req, res) {
   if (errors) {
     res.status(400).send('Error: ' + util.inspect(errors));
     return;
-  }
+  };
 
-  // Get user id from token
   const userId = getUserId(req);
-
-  // Mark ticket as unsold
   const sold = 0;
 
-  // Checks: game exists, seller exists, identical ticket doesn't exist
   // Ticket price expected in cents
-  tickets.create(req.params.gameId, userId, req.query.section, req.query.row, req.query.seat, req.query.price, sold, function(err, ticketId) {
+  tickets.create(req.params.gameId, userId, req.query.section, req.query.row,
+      req.query.seat, req.query.price, sold, function(err, ticketId) {
+    // Database error
+    if (err) {
+      res.status(500).send(err);
+      return;
+    }
+
     res.json({ ticket_id: ticketId });
   });
-}
+};
 
-exports.remove = function(req, res) {
-  // Get user id from token
+// Destroy an existing ticket
+exports.destroy = function(req, res) {
   const userId = getUserId(req);
-
   tickets.remove(req.params.ticketId, userId, function(err, changes) {
+    // Database error
     if (err) {
-      res.status(400).send(err);
+      res.status(500).send(err);
       return;
     }
 
-    // Verify that a row was actually changed
     if (!changes) {
-      res.status(400).send({ msg: 'Ticket does not exist or is not for sale by this user' });
+      const msg = 'Ticket does not exist or is not for sale by this user';
+      res.status(400).send({ msg: msg });
       return;
     }
 
-    // 204 No Content
-    res.sendStatus(204);
+    res.sendStatus(204);  // No Content
   });
-}
+};
 
-// Check: ticket_id exists
-// Toggle sold status for ticket from ticket id
-exports.setSold = function(req, res) {
-  // Validate query parameters
-  req.checkQuery('sold', 'Sold status required').notEmpty();
-  req.checkQuery('sold', 'Sold status must be boolean').isBoolean();
+// Update ticket price and sold status
+exports.update = function(req, res) {
+  const price = req.query.price;
+  const sold = req.query.sold;
+  const params = [];
+
+  if(price !== undefined) {
+    req.checkQuery('price', 'Price cannot be negative').isInt({ min: 0 });
+  }
+
+  if(sold !== undefined) {
+    req.checkQuery('sold', 'Sold status must be boolean').isBoolean();
+  }
 
   const errors = req.validationErrors();
   if (errors) {
     res.status(400).send('Error: ' + util.inspect(errors));
     return;
+  };
+
+  const userId = getUserId(req);
+  const msg = 'Ticket does not exist or is not for sale by this user';
+
+  if (price !== undefined) {
+    tickets.setSold(req.params.ticketId, userId, price,
+        function(err, changes) {
+      // Database error
+      if (err) {
+        res.status(500).send(err);
+        return;
+      }
+
+      if (!changes) {
+        res.status(400).send({ msg: msg });
+        return;
+      }
+    });
   }
 
-  // Get user id from token
-  const userId = getUserId(req);
+  if (sold !== undefined) {
+    tickets.setSold(req.params.ticketId, userId, boolToInt(sold),
+        function(err, changes) {
+      // Database error
+      if (err) {
+        res.status(500).send(err);
+        return;
+      }
 
-  tickets.setSold(req.params.ticketId, userId, boolToInt(req.query.sold), function(err, changes) {
-    if (err) {
-      res.status(400).send(err);
-      return;
-    }
+      if (!changes) {
+        res.status(400).send({ msg: msg });
+        return;
+      }
+    });
+  }
 
-    // Verify that a row was actually changed
-    if (!changes) {
-      res.status(400).send({ msg: 'Ticket does not exist or is not for sale by this user' });
-      return;
-    }
+  res.sendStatus(204);  // No Content
+};
 
-    // 204 No Content
-    res.sendStatus(204);
-  });
-}
-
-// Get user id from authorization header in request
+// Get user id from bearer token
 function getUserId(req) {
   const accessToken = req.header('Authorization').split(' ')[1];
   return auth.decodeAccessToken(accessToken).iss;

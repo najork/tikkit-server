@@ -10,50 +10,45 @@ const routes = require('./routes');
 module.exports = function(app) {
   // Set up passport
   app.use(passport.initialize());
-  app.use(passport.session());
 
-  // Route all calls to /api endpoints through router
   const router = express.Router();
-  app.use('/api', router);
 
-  // Login
-  app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), routes.users.login);
-
-  // Create user
-  app.post('/create', routes.users.create);
-
-  // TODO: Create school endpoint
-  // TODO: Determine return value and response status for query with non-existant id
-
-  // Use bearer auth to protect all /api calls
+  // Use bearer token auth on /api endpoints
   router.use(passport.authenticate('bearer', { session: false }));
 
-  // Get school from school id
-  router.get('/schools/:schoolId', routes.schools.find);
+  // Send all /api endpoint calls through router
+  app.use('/api', router);
+
+  // Create new user
+  app.post('/create', routes.users.create);
+
+  // Log in
+  app.post('/login', passport.authenticate('local', { session: false }), routes.users.login);
 
   // List all schools
-  router.get('/lists/schools', routes.schools.all);
+  router.get('/schools', routes.schools.all);
 
-  // TODO: Create game endpoint
+  // Get school
+  router.get('/schools/:schoolId', routes.schools.find);
 
-  // Get game from game id
+  // Get all games for school
+  router.get('/schools/:schoolId/games', routes.games.findBySchool);
+
+  // Get game
   router.get('/games/:gameId', routes.games.find);
 
-  // Get all games for school from school id
-  router.get('/lists/schools/:schoolId/games', routes.games.findBySchool);
+  // Get all tickets for game
+  router.get('/games/:gameId/tickets', routes.tickets.findByGame);
 
-  // Get all tickets for game from game id
-  router.get('/lists/games/:gameId/tickets', routes.tickets.findByGame);
-
-  // Create a new ticket
+  // Create new ticket
   router.post('/games/:gameId/tickets/create', routes.tickets.create);
 
-  // Get ticket from ticket id
+  // Get ticket
   router.get('/tickets/:ticketId', routes.tickets.find);
 
-  // Delete a ticket
-  router.delete('/tickets/:ticketId', routes.tickets.remove);
+  // Update existing ticket
+  router.post('/tickets/:ticketId/update', routes.tickets.update);
 
-  // Toggle sold status for ticket from ticket id
-  router.post('/tickets/:ticketId/sold', routes.tickets.setSold);
-}
+  // Destroy existing ticket
+  router.post('/tickets/:ticketId/destroy', routes.tickets.destroy);
+};

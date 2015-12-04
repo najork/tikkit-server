@@ -19,7 +19,7 @@ exports.find = function(schoolId, done) {
   });
 
   db.close();
-}
+};
 
 exports.all = function(done) {
   const db = new sqlite3.Database(dbFile);
@@ -33,4 +33,4 @@ exports.all = function(done) {
   });
 
   db.close();
-}
+};

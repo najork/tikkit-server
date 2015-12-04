@@ -7,40 +7,73 @@ const users = require('../db/users');
 
 // Login
 exports.login = function(req, res) {
-  users.findByUsernameAndPassword(req.query.username, req.query.password, function(err, row) {
-    const accessToken = auth.createAccessToken(row.user_id);
-    res.json(accessToken);
-  });
-}
+  const username = req.body.username;
+  const password = req.body.password;
 
-// Create user
+  // Validate username and password
+  if (!username || !password) {
+    res.sendStatus(400);
+    return;
+  }
+
+  users.findByUsernameAndPassword(username, password, function(err, row) {
+    // Database error
+    if (err) {
+      res.status(500).send(err);
+      return;
+    }
+
+    // User not found
+    if (!row) {
+      // Should never reach
+      res.sendStatus(404);
+      return;
+    }
+
+    auth.createAccessToken(row.user_id, function(err, row) {
+      // Database error
+      if (err) {
+        res.status(500).send(err);
+        return;
+      }
+
+      res.json(row);
+    });
+  });
+};
+
+// Create new user
 exports.create = function(req, res) {
+  const username = req.body.username;
+  const password = req.body.password;
   const err = [];
 
-  // Validate username
-  const domain = req.query.username.split('@')[1];
+  // Validate @umich.edu email address
+  const domain = username.split('@')[1];
   if (domain != 'umich.edu') {
-    err.push({ param: 'username', msg: 'Username must be an @umich.edu email address' });
+    err.push({ param: 'username',
+               msg: 'Username must be an @umich.edu email address' });
   }
 
   // Validate password length
-  if (req.query.password.length < 8) {
-    err.push({ param: 'password', msg: 'Password must be at least 8 characters' });
+  if (password.length < 8) {
+    err.push({ param: 'password',
+               msg: 'Password must be at least 8 characters' });
   }
 
-  // Check if validation failed
+  // Validation failed
   if(err.length) {
     res.status(400).send(err);
     return;
   }
 
-  users.create(req.query.username, req.query.password, function(err, userId) {
+  users.create(username, password, function(err, userId) {
+    // Database error
     if (err) {
-      res.status(400).send(err);
+      res.status(500).send(err);
       return;
     }
 
-    // Send new user_id in response
     res.json({ user_id: userId });
   });
-}
+};
