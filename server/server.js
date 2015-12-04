@@ -36,8 +36,11 @@ app.use(function(req, res, next) {
   res.status(503).send({ message: 'Server is restarting'});
 });
 
+// Set up body-parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 // Set up query validation
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressValidator());
 
 // Ensure log directory exists

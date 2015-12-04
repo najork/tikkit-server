@@ -19,7 +19,7 @@ exports.find = function(token, done) {
   });
 
   db.close();
-}
+};
 
 exports.save = function(token, userId, done) {
   const db = new sqlite3.Database(dbFile);
@@ -32,4 +32,4 @@ exports.save = function(token, userId, done) {
   });
 
   db.close();
-}
+};

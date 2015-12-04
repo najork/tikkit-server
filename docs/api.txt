@@ -1,57 +1,58 @@
 API Endpoints
 =============
 
-Version 0.0.5
+Version 0.0.7
 
-// TODO: Document errors
-
-
-// Login
-POST /login
-    Query Parameters: username (string), password (string)
-    // TODO: Response Parameters
-
-// Create user
+// Create new user
 POST /create
     Query Parameters: username (string), password (string)
     Response Parameters: user_id (integer)
 
+// Login
+POST /login
+    Query Parameters: username (string), password (string)
+    Response Parameters: user_id (integer), token (string), expires (integer)
+
+// List all schools
+GET /api/schools
+    Response Parameters: schools (array of school objects)
+
 // Get school from school id
 GET /api/schools/:school_id
     Request Parameters: school_id (integer)
-    Response Parameters: school_id (integer), name (string)
+    Response Parameters: school object { school_id (integer), name (string) }
 
-// List all schools
-GET /api/lists/schools
-    Response Parameters: schools (array of school objects)
+// Get all games for school from school id
+GET /api/schools/:school_id/games
+    Request Parameters: school_id (integer)
+    Response Parameters: games (array of game objects)
 
 // Get game from game id
 GET /api/games/:game_id
     Request Parameters: game_id (integer)
-    Response Parameters: game_id (integer), home_team_id (integer), away_team_id (integer), date (string)
-
-// Get all games for school from school id
-GET /api/lists/schools/:school_id/games
-    Request Parameters: school_id (integer)
-    Response Parameters: games (array of game objects)
-
-// Get ticket from ticket id
-GET /api/tickets/:ticket_id
-    Request Parameters: ticket_id (integer)
-    Response Parameters: ticket_id (integer), game_id (integer), seller_id (integer), section (integer), row (integer), seat (integer), price (integer), sold (boolean)
+    Response Parameters: game object { game_id (integer), home_team_id (integer), away_team_id (integer), date (string) }
 
 // Get all tickets for game from game id
-GET /api/lists/games/:game_id/tickets
+GET /api/games/:game_id/tickets
     Request Parameters: game_id (integer)
     Response Parameters: tickets (array of ticket objects)
 
-// Create a new ticket (note: price in cents)
+// Create new ticket (note: price in cents)
 POST /api/games/:game_id/tickets/create
     Request Parameters: game_id (integer)
     Query Parameters: section (integer), row (integer), seat (integer), price (integer)
     Response Parameters: ticket_id (integer)
 
-// Toggle sold status for ticket from ticket id
-POST /api/tickets/:ticket_id/sold
+// Get ticket from ticket id
+GET /api/tickets/:ticket_id
     Request Parameters: ticket_id (integer)
-    Query Parameters: sold (boolean)
+    Response Parameters: ticket object { ticket_id (integer), game_id (integer), seller_id (integer), section (integer), row (integer), seat (integer), price (integer), sold (boolean) }
+
+// Update existing ticket
+POST /api/tickets/:ticket_id/update
+    Request Parameters: ticket_id (integer)
+    Query Parameters: price (integer, optional), sold (boolean, optional)
+
+// Destroy existing ticket with ticket id
+POST /api/tickets/:ticket_id/destroy
+    Request Parameters: ticket_id (integer)
