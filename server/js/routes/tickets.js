@@ -47,11 +47,11 @@ exports.findByGame = function(req, res) {
 
 // Create a new ticket
 exports.create = function(req, res) {
-  // Validate query parameters
-  req.checkQuery('section', 'Section number must be positive').isInt({ min: 1 });
-  req.checkQuery('row', 'Row number must be positive').isInt({ min: 1 });
-  req.checkQuery('seat', 'Seat number must be positive').isInt({ min: 1 });
-  req.checkQuery('price', 'Price cannot be negative').isInt({ min: 0 });
+  // Validate parameters
+  req.checkBody('section', 'Section number must be positive').isInt({ min: 1 });
+  req.checkBody('row', 'Row number must be positive').isInt({ min: 1 });
+  req.checkBody('seat', 'Seat number must be positive').isInt({ min: 1 });
+  req.checkBody('price', 'Price cannot be negative').isInt({ min: 0 });
 
   const errors = req.validationErrors();
   if (errors) {
@@ -63,22 +63,22 @@ exports.create = function(req, res) {
   const sold = 0;
 
   // Ticket price expected in cents
-  tickets.create(req.params.gameId, userId, req.query.section, req.query.row,
-      req.query.seat, req.query.price, sold, function(err, ticketId) {
+  tickets.create(req.params.gameId, userId, req.body.section, req.body.row,
+      req.body.seat, req.body.price, sold, function(err, ticketId) {
     // Database error
     if (err) {
       res.status(500).send(err);
       return;
     }
 
-    res.json({ ticket_id: ticketId });
+    res.status(201).json({ ticket_id: ticketId });  // Created
   });
 };
 
 // Destroy an existing ticket
 exports.destroy = function(req, res) {
   const userId = getUserId(req);
-  tickets.remove(req.params.ticketId, userId, function(err, changes) {
+  tickets.destroy(req.params.ticketId, userId, function(err, changes) {
     // Database error
     if (err) {
       res.status(500).send(err);
@@ -97,16 +97,16 @@ exports.destroy = function(req, res) {
 
 // Update ticket price and sold status
 exports.update = function(req, res) {
-  const price = req.query.price;
-  const sold = req.query.sold;
+  const price = req.body.price;
+  const sold = req.body.sold;
   const params = [];
 
   if(price !== undefined) {
-    req.checkQuery('price', 'Price cannot be negative').isInt({ min: 0 });
+    req.checkBody('price', 'Price cannot be negative').isInt({ min: 0 });
   }
 
   if(sold !== undefined) {
-    req.checkQuery('sold', 'Sold status must be boolean').isBoolean();
+    req.checkBody('sold', 'Sold status must be boolean').isBoolean();
   }
 
   const errors = req.validationErrors();

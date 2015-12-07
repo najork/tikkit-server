@@ -9,7 +9,6 @@
   },
   "auth": {
     "secret"                : "CHANGEME",
-    "tokenTtl"              : 31,
-    "tokenTtlUnits"         : "days"
+    "tokenTtl"              : 31
   }
 }

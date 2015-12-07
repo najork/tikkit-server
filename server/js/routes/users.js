@@ -74,6 +74,6 @@ exports.create = function(req, res) {
       return;
     }
 
-    res.json({ user_id: userId });
+    res.status(201).json({ user_id: userId });  // Created
   });
 };

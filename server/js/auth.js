@@ -13,7 +13,7 @@ const db = require('./db');
 const prefs = require('./prefs');
 
 const serverSecret = prefs.secret;
-const accessTokenTtl = moment.duration(prefs.tokenTtl, prefs.tokenTtlUnits);
+const accessTokenTtl = moment.duration(prefs.tokenTtl, 'days');
 
 // Set up passport local strategy
 passport.use(new LocalStrategy(
