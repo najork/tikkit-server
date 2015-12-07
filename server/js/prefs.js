@@ -18,4 +18,3 @@ exports.passwordSaltLength = config.db.passwordSaltLength;
 // Auth
 exports.secret = config.auth.secret;
 exports.tokenTtl = config.auth.tokenTtl;
-exports.tokenTtlUnits = config.auth.tokenTtlUnits;
