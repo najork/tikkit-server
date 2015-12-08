@@ -50,10 +50,16 @@
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Y0-qJ-Aga">
                         <rect key="frame" x="69" y="171" width="80" height="40"/>
                         <state key="normal" title="Post" backgroundImage="tableViewPost"/>
+                        <connections>
+                            <action selector="postTicket:" destination="Sc2-Z6-EB0" eventType="touchUpInside" id="YIG-dN-Vkx"/>
+                        </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lIp-SX-8eU">
                         <rect key="frame" x="208" y="171" width="80" height="40"/>
                         <state key="normal" title="Buy" backgroundImage="tableViewPost"/>
+                        <connections>
+                            <action selector="viewTickets:" destination="Sc2-Z6-EB0" eventType="touchUpInside" id="aqF-3A-BEE"/>
+                        </connections>
                     </button>
                 </subviews>
             </tableViewCellContentView>

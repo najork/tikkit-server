@@ -22,8 +22,13 @@
 @property (nonatomic, strong) IBOutlet UIButton *postTicket;
 @property (nonatomic, strong) IBOutlet UIButton *sellTicket; 
 
+//Need to keep track of a delegate for the table cell to pass information to
+@property (strong, nonatomic) id delegate;
 
+@end
 
+@protocol TicketTableCellProtocol <NSObject>
 
+-(void)buyOrSellSegue:(BOOL) buyOrSell;
 
 @end

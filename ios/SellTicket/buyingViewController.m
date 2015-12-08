@@ -30,7 +30,6 @@
 -(void) setup {
     [self setupTickets];
     [self setupGames];
-    
 }
 
 -(void) setupTickets {
@@ -209,11 +208,12 @@
     static NSString *simpleTableIdentifier = @"SimpleTableCell";
     
     TicketTableCell *cell = (TicketTableCell *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    
+
     if (cell == nil)
     {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"TicketTableCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
+        cell.delegate = self;
     }
     
     gameClass *game = [self.games objectAtIndex:[indexPath row]];
@@ -245,12 +245,28 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    self.selectedIndex = indexPath;
-    [self performSegueWithIdentifier:@"ticketSegue" sender:self];
+    [tableView beginUpdates]; // tell the table you're about to start making changes
+    
+    // If the index path of the currently expanded cell is the same as the index that
+    // has just been tapped set the expanded index to nil so that there aren't any
+    // expanded cells, otherwise, set the expanded index to the index that has just
+    // been selected.
+    if ([indexPath compare:self.selectedIndex] == NSOrderedSame) {
+        self.selectedIndex = nil;
+    } else {
+        self.selectedIndex = indexPath;
+    }
+    
+    [tableView endUpdates]; // tell the table you're done making your changes
 }
+
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([indexPath compare:self.selectedIndex] == NSOrderedSame) {
+        return 220; // Expanded height
+    }
     return 180;
 }
 
@@ -264,6 +280,15 @@
         vc.dateString = game.gameDate;
         vc.locationString = @"Michigan Stadium";
         vc.game_id = @1; 
+    }
+}
+
+-(void)buyOrSellSegue:(BOOL)buyOrSell{
+    NSLog(@"CALLED."); 
+    if(buyOrSell) {
+        [self performSegueWithIdentifier:@"ticketSegue" sender:self];
+    } else {
+        [self performSegueWithIdentifier:@"ticketSegue" sender:self];
     }
 }
 
