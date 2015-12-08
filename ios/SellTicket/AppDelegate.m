@@ -34,6 +34,10 @@
                              timeoutInterval: 10];
     
     [request setHTTPMethod: @"GET"];
+
+    // Set auth header
+    NSString * bearerHeaderStr = @"Bearer ";
+    [request setValue:[bearerHeaderStr stringByAppendingString:accessToken] forHTTPHeaderField:@"Authorization"];
     
     NSError *requestError = nil;
     NSURLResponse *urlResponse = nil;
@@ -65,6 +69,10 @@
                                           cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
                                       timeoutInterval:10];
         [request setHTTPMethod:@"GET"];
+
+        // Set auth header
+        [request setValue:[bearerHeaderStr stringByAppendingString:accessToken] forHTTPHeaderField:@"Authorization"];
+
         requestError = nil;
         urlResponse = nil;
         

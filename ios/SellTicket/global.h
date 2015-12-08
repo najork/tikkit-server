@@ -24,3 +24,6 @@ extern NSMutableDictionary * gameDictionary;
 //Value: school_name
 extern NSMutableDictionary * schoolDictionary;
 #endif /* global_h */
+
+// TODO: Get tokens properly
+extern NSString * accessToken;

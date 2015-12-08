@@ -91,16 +91,26 @@ NSMutableData *mutData;
     NSString *row = self.row.text;
     NSString *seat = self.seat.text;
     NSString *price = self.priceField.text;
-    
-    NSString *post = [NSString stringWithFormat:@"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com/api/games/%@/tickets/create?section=%@&row=%@&seat=%@&price=%@", @"1", section, row, seat, price];
-    NSURL *postURL = [NSURL URLWithString:post];
+
+    NSString *post = [NSString stringWithFormat:@"section=%@&row=%@&seat=%@&price=%@", section, row, seat, price];
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+
+    NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
+
+    NSString *url = [NSString stringWithFormat:@"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com/api/games/%@/tickets/create", @"1"];
     NSMutableURLRequest *request =
-    [NSMutableURLRequest requestWithURL:postURL
+    [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
                             cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
                         timeoutInterval:10];
-    
-    
-    [request setHTTPMethod: @"POST"];
+
+    [request setHTTPMethod:@"POST"];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:postData];
+
+    // Set auth header
+    NSString * bearerHeaderStr = @"Bearer ";
+    [request setValue:[bearerHeaderStr stringByAppendingString:accessToken] forHTTPHeaderField:@"Authorization"];
     
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     [connection start];
