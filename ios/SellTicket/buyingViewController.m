@@ -37,7 +37,7 @@
     //Now load in all the tickets that are currently in the server. Might not be the smart way
     //Default is setting the ticket access to 1 for Michigan
     NSString *ticketServerAddress
-        = @"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com:80/api/lists/games/1/tickets";
+        = @"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com:80/api/games/1/tickets";
     
     NSMutableURLRequest *request
         = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:ticketServerAddress]

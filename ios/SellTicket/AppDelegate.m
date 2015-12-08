@@ -27,7 +27,7 @@
     //Whenever the application loads, make a request to acquire a list of all the schools
     //Get the object as a JSON Dictionary
     NSString *serverAddress
-        = @"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com:80/api/lists/schools";
+        = @"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com:80/api/schools";
     NSMutableURLRequest *request
         =[NSMutableURLRequest requestWithURL:[NSURL URLWithString:serverAddress]
                                  cachePolicy: NSURLRequestReloadIgnoringLocalAndRemoteCacheData
@@ -62,7 +62,7 @@
         //For every school, we also want to load in a list of all the games
         //that correspond to school
         serverAddress
-            = [NSString stringWithFormat:@"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com/api/lists/schools/%@/games", school_id];
+            = [NSString stringWithFormat:@"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com/api/schools/%@/games", school_id];
         
         request = [NSMutableURLRequest requestWithURL:[NSURL
                                                        URLWithString:serverAddress]

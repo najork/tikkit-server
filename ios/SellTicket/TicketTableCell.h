@@ -19,6 +19,9 @@
 @property (nonatomic, strong) IBOutlet UIImageView *lowPrice;
 @property (nonatomic, strong) IBOutlet UIImageView *numTickets;
 
+@property (nonatomic, strong) IBOutlet UIButton *postTicket;
+@property (nonatomic, strong) IBOutlet UIButton *sellTicket; 
+
 
 
 
