@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "global.h"
 #import "ticketClass.h"
+#import "buyingViewController.h"
+#import "loginViewController.h"
 
 @interface AppDelegate ()
 
@@ -23,66 +25,27 @@
     ticketDictionary = [[NSMutableDictionary alloc]init];
     schoolDictionary = [[NSMutableDictionary alloc]init];
     gameDictionary = [[NSMutableDictionary alloc]init];
+    gameIDToSchool = [[NSMutableDictionary alloc]init]; 
     
-    //Whenever the application loads, make a request to acquire a list of all the schools
-    //Get the object as a JSON Dictionary
-    NSString *serverAddress
-        = @"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com:80/api/lists/schools";
-    NSMutableURLRequest *request
-        =[NSMutableURLRequest requestWithURL:[NSURL URLWithString:serverAddress]
-                                 cachePolicy: NSURLRequestReloadIgnoringLocalAndRemoteCacheData
-                             timeoutInterval: 10];
-    
-    [request setHTTPMethod: @"GET"];
-    
-    NSError *requestError = nil;
-    NSURLResponse *urlResponse = nil;
-    NSData *response1
-        = [NSURLConnection sendSynchronousRequest:request
-                                returningResponse:&urlResponse
-                                            error:&requestError];
-    
-    NSDictionary *schools
-        = [NSJSONSerialization JSONObjectWithData:response1
-                                          options:kNilOptions
-                                            error:&requestError];
-
-    
-    //Iterate through all of the school names and put them into
-    //the schoolDictionary global variable.
-    for(NSDictionary *school in schools) {
-        NSNumber * school_id = [school objectForKey:@"school_id"];
-        NSString * school_name = [school objectForKey:@"name"];
-        [schoolDictionary setObject:school_name forKey:school_id];
+    if([[NSUserDefaults standardUserDefaults] stringForKey:@"accessToken"]
+        && [[NSUserDefaults standardUserDefaults] stringForKey:@"user_id"]) {
         
-        //For every school, we also want to load in a list of all the games
-        //that correspond to school
-        serverAddress
-            = [NSString stringWithFormat:@"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com/api/lists/schools/%@/games", school_id];
-        
-        request = [NSMutableURLRequest requestWithURL:[NSURL
-                                                       URLWithString:serverAddress]
-                                          cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
-                                      timeoutInterval:10];
-        [request setHTTPMethod:@"GET"];
-        requestError = nil;
-        urlResponse = nil;
-        
-        response1
-            = [NSURLConnection sendSynchronousRequest:request
-                                    returningResponse:&urlResponse
-                                                error:&requestError];
-        
-        id jsonDictionary2 = [[NSMutableDictionary alloc]init];
-        jsonDictionary2
-            = [NSJSONSerialization JSONObjectWithData:response1
-                                              options:kNilOptions
-                                                error:&requestError];
-        
-        //Set a list of games for every school
-        [gameDictionary setObject:jsonDictionary2 forKey:school_id];
+           accessToken  = [[NSUserDefaults standardUserDefaults]
+                           stringForKey:@"accessToken"];
+           user_id = [[NSUserDefaults standardUserDefaults]
+                      stringForKey:@"user_id"];
+              // So, here user already login then set your root view controller, let's say `SecondViewController``
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+        UINavigationController *buyingVC = [storyBoard instantiateViewControllerWithIdentifier:@"ticketContent"];
+        // then set your root view controller
+        self.window.rootViewController = buyingVC;
+    }else {
+        // It means you need to your root view controller is your login view controller, so let's create it
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+        UINavigationController *loginVC = [storyBoard instantiateViewControllerWithIdentifier:@"loginContent"];
+        self.window.rootViewController = loginVC;
     }
-
+    
     return YES;
 }
 

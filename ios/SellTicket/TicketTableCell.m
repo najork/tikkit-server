@@ -20,4 +20,17 @@
     // Configure the view for the selected state
 }
 
+//Set the value of buy or sell segue to YES because
+//1 will represent posting a ticket
+-(IBAction)postTicket:(id)sender {
+    NSLog(@"%@", self.delegate);
+    [self.delegate buyOrSellSegue: YES];
+}
+
+
+//Set the value of buy or sell segue to NO
+//so 0 will represent viewing tickets
+-(IBAction)viewTickets:(id)sender {
+    [self.delegate buyOrSellSegue: NO];
+}
 @end

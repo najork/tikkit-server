@@ -14,6 +14,7 @@
 @property (nonatomic, strong) NSString *lowPrice;
 @property (nonatomic, strong) NSString *highPrice;
 @property (nonatomic, strong) NSString *numTickets;
-@property (nonatomic, strong) NSString *gameDate; 
+@property (nonatomic, strong) NSString *gameDate;
+@property (nonatomic, strong) NSNumber *game_id; 
 
 @end

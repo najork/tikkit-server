@@ -17,5 +17,6 @@
 //See if you want to use NSNumbers for price instead
 @property (nonatomic, strong) NSNumber *price;
 @property (nonatomic, strong) NSNumber *ticket_id; 
+@property (nonatomic, strong) NSNumber *seller_id; 
 
 @end

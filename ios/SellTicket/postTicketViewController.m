@@ -14,15 +14,13 @@
 NSMutableData *mutData;
 
 @implementation postTicketViewController {
-    UIPickerView *picker;
+    //UIPickerView *picker;
     NSMutableArray *games;
-    NSNumber *game_id;
     NSMutableArray *game_ids;
     UIActivityIndicatorView *spinner;
 }
 
 -(void) viewDidLoad{
-    game_id = [[NSNumber alloc]init];
     game_ids = [[NSMutableArray alloc]init];
     [self setup];
 }
@@ -44,14 +42,6 @@ NSMutableData *mutData;
     self.row.delegate = self;
     self.seat.delegate = self;
     
-    //Setup the UIPickerView (for the game selection)
-    picker = [[UIPickerView alloc]init];
-    [picker setDataSource:self];
-    [picker setDelegate:self];
-    picker.showsSelectionIndicator = YES;
-    self.gameField.inputView = picker;
-    [picker selectRow:0 inComponent:0 animated:NO];
-    
     //Add a tap gesture to close the keyboard
     //when we tap outside of the keyboard view
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
@@ -60,8 +50,18 @@ NSMutableData *mutData;
     
     [self.view addGestureRecognizer:tap];
     
+    self.gameImage.image = self.image;
+    self.gameTitle.text = self.gameString;
+    self.location.text = self.locationString;
+    self.dateTime.text = self.dateString;
+    self.highestPrice.text = self.highestPriceString;
+    self.lowestPrice.text = self.lowestPriceString;
+    self.numberOfTickets.text = self.numTicketsString;
+    
+    UIBarButtonItem *systemItem1 = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"back-0"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self.navigationController action:@selector(popViewControllerAnimated:)];
+    self.navigationItem.leftBarButtonItem = systemItem1;
+    
     [self populateGames];
-    [self setupPicker];
 }
 
 -(IBAction)postTicket:(id)sender {
@@ -91,16 +91,26 @@ NSMutableData *mutData;
     NSString *row = self.row.text;
     NSString *seat = self.seat.text;
     NSString *price = self.priceField.text;
-    
-    NSString *post = [NSString stringWithFormat:@"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com/api/games/%@/tickets/create?section=%@&row=%@&seat=%@&price=%@", @"1", section, row, seat, price];
-    NSURL *postURL = [NSURL URLWithString:post];
+
+    NSString *post = [NSString stringWithFormat:@"section=%@&row=%@&seat=%@&price=%@", section, row, seat, price];
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+
+    NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
+
+    NSString *url = [NSString stringWithFormat:@"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com/api/games/%@/tickets/create", self.game_id];
     NSMutableURLRequest *request =
-    [NSMutableURLRequest requestWithURL:postURL
+    [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
                             cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
                         timeoutInterval:10];
-    
-    
-    [request setHTTPMethod: @"POST"];
+
+    [request setHTTPMethod:@"POST"];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:postData];
+
+    // Set auth header
+    NSString * bearerHeaderStr = @"Bearer ";
+    [request setValue:[bearerHeaderStr stringByAppendingString:accessToken] forHTTPHeaderField:@"Authorization"];
     
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     [connection start];
@@ -108,7 +118,7 @@ NSMutableData *mutData;
     if(connection) {
         mutData = [NSMutableData data];
     }
-    
+    [self updateData]; 
 };
 
 
@@ -121,8 +131,6 @@ NSMutableData *mutData;
     self.seat.text = @"";
     self.priceField.text = @"";
     NSLog(@"Succeeded! Received %lu bytes of data",(unsigned long)[mutData length]);
-    NSString *str = [[NSString alloc] initWithData:mutData encoding:NSUTF8StringEncoding];
-    NSLog(@"%@", str);
 }
 
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
@@ -181,52 +189,12 @@ NSMutableData *mutData;
     return YES;
 }
 
-//Code for the UIPickerView delegate
--(void) setupPicker {
-    UIToolbar*  mypickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 56)];
-    mypickerToolbar.barStyle = UIBarStyleDefault;
-    [mypickerToolbar sizeToFit];
-    
-    NSMutableArray *barItems = [[NSMutableArray alloc] init];
-    UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
-    [barItems addObject:flexSpace];
-    
-    UIBarButtonItem *doneBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(pickerDoneClicked)];
-    [barItems addObject:doneBtn];
-    [mypickerToolbar setItems:barItems animated:YES];
-    self.gameField.inputAccessoryView = mypickerToolbar;
-}
-
--(void)pickerDoneClicked{
-    [self.gameField resignFirstResponder];
-}
-
-//This function returns the number of rows there are in the PickerView. This depends on the number
-//of games there are that can be selected.
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    return [games count];
-}
-
-//We will only return one component per pickerview.
--(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    return 1;
-}
-
-//Return the title of every object from the games array
-- (NSString *)pickerView:(UIPickerView *)thePickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    return [games objectAtIndex:row];
-}
-
--(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-    game_id = [game_ids objectAtIndex:row];
-    self.gameField.text = [games objectAtIndex:row];
-    [self updateData];
-}
-
 -(void)updateData {
-    if([ticketDictionary objectForKey:game_id]) {
-        NSMutableArray *tickets = [ticketDictionary objectForKey:game_id];
-        self.numberOfTickets.text = [NSString stringWithFormat: @"%lu",(unsigned long)[tickets count]];
+
+    if([ticketDictionary objectForKey:self.game_id]) {
+        NSMutableArray *tickets = [ticketDictionary objectForKey:self.game_id];
+        self.numberOfTickets.text = [[NSString stringWithFormat: @"%lu",(unsigned long)[tickets count]]
+                                     stringByAppendingString:@" listed"];
         
         int highestValue = -1;
         long int lowestValue = LONG_MAX;
@@ -241,12 +209,12 @@ NSMutableData *mutData;
             }
         }
         
-        self.lowestPrice.text = [NSString stringWithFormat: @"$%li", lowestValue];
-        self.highestPrice.text = [NSString stringWithFormat: @"$%i", highestValue];
+        self.lowestPrice.text = [NSString stringWithFormat: @"Lowest: $%li", lowestValue];
+        self.highestPrice.text = [NSString stringWithFormat: @"Highest: $%i", highestValue];
     } else {
-        self.numberOfTickets.text = @"0";
-        self.lowestPrice.text = @"N/A";
-        self.highestPrice.text = @"N/A";
+        self.numberOfTickets.text = @"0 listed";
+        self.lowestPrice.text = @"Lowest: N/A";
+        self.highestPrice.text = @"Highest: N/A";
     }
 }
 
