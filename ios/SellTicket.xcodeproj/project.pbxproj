@@ -12,8 +12,8 @@
 		0741C1621C17E85300329177 /* newAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0741C1611C17E85300329177 /* newAccountViewController.m */; };
 		0741C1661C17ECC100329177 /* ProfileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0741C1641C17ECC100329177 /* ProfileTableViewCell.m */; };
 		0741C1671C17ECC100329177 /* ProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0741C1651C17ECC100329177 /* ProfileTableViewCell.xib */; };
-		0741C1691C18213A00329177 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0741C1681C18213A00329177 /* Security.framework */; };
-		0741C16C1C1821C600329177 /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0741C16B1C1821C600329177 /* KeychainItemWrapper.m */; };
+		0741C1721C188BDE00329177 /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0741C1711C188BDE00329177 /* KeychainItemWrapper.m */; };
+		0741C1731C188BEB00329177 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0741C1681C18213A00329177 /* Security.framework */; };
 		0746E7911BC4562B00AE281B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0746E7901BC4562B00AE281B /* main.m */; };
 		0746E7941BC4562B00AE281B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0746E7931BC4562B00AE281B /* AppDelegate.m */; };
 		0746E7971BC4562B00AE281B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0746E7961BC4562B00AE281B /* ViewController.m */; };
@@ -55,8 +55,8 @@
 		0741C1641C17ECC100329177 /* ProfileTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileTableViewCell.m; sourceTree = "<group>"; };
 		0741C1651C17ECC100329177 /* ProfileTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileTableViewCell.xib; sourceTree = "<group>"; };
 		0741C1681C18213A00329177 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		0741C16A1C1821C600329177 /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeychainItemWrapper.h; path = ../../../../../../Downloads/GenericKeychain/Classes/KeychainItemWrapper.h; sourceTree = "<group>"; };
-		0741C16B1C1821C600329177 /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KeychainItemWrapper.m; path = ../../../../../../Downloads/GenericKeychain/Classes/KeychainItemWrapper.m; sourceTree = "<group>"; };
+		0741C1701C188BDE00329177 /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainItemWrapper.h; sourceTree = "<group>"; };
+		0741C1711C188BDE00329177 /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainItemWrapper.m; sourceTree = "<group>"; };
 		0746E78B1BC4562B00AE281B /* SellTicket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SellTicket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0746E78F1BC4562B00AE281B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0746E7901BC4562B00AE281B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -97,7 +97,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0741C1691C18213A00329177 /* Security.framework in Frameworks */,
+				0741C1731C188BEB00329177 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,8 +180,8 @@
 		07AEB7BC1BCA1B5D00B46122 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				0741C16A1C1821C600329177 /* KeychainItemWrapper.h */,
-				0741C16B1C1821C600329177 /* KeychainItemWrapper.m */,
+				0741C1701C188BDE00329177 /* KeychainItemWrapper.h */,
+				0741C1711C188BDE00329177 /* KeychainItemWrapper.m */,
 				07D3137B1BEA9E85007ADF56 /* ticketClass.h */,
 				07D3137C1BEA9E85007ADF56 /* ticketClass.m */,
 				07AEB7B91BCA1B5900B46122 /* gameClass.h */,
@@ -351,7 +351,7 @@
 				0741C1661C17ECC100329177 /* ProfileTableViewCell.m in Sources */,
 				07D3137D1BEA9E85007ADF56 /* ticketClass.m in Sources */,
 				07D3137A1BEA7809007ADF56 /* ticketListingsViewController.m in Sources */,
-				0741C16C1C1821C600329177 /* KeychainItemWrapper.m in Sources */,
+				0741C1721C188BDE00329177 /* KeychainItemWrapper.m in Sources */,
 				0746E7911BC4562B00AE281B /* main.m in Sources */,
 				07AEB7B81BCA197F00B46122 /* buyingViewController.m in Sources */,
 			);

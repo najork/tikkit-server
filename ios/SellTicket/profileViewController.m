@@ -127,10 +127,10 @@
     
     cell.price.text = [NSString stringWithFormat:@"$%@", [ticket objectForKey:@"price"]];
     cell.rowLabel.text = @"Row";
-    cell.rowNumber.text = [NSString stringWithFormat:@"$%@", [ticket objectForKey:@"row"]];
+    cell.rowNumber.text = [NSString stringWithFormat:@"%@", [ticket objectForKey:@"row"]];
     cell.seatLabel.text = @"Seat";
-    cell.seatNumber.text = [NSString stringWithFormat:@"$%@", [ticket objectForKey:@"seat"]];
-    cell.sectionNumber.text = [NSString stringWithFormat:@"$%@", [ticket objectForKey:@"section"]];
+    cell.seatNumber.text = [NSString stringWithFormat:@"%@", [ticket objectForKey:@"seat"]];
+    cell.sectionNumber.text = [NSString stringWithFormat:@"%@", [ticket objectForKey:@"section"]];
     cell.sectionLabel.text = @"Section";
     cell.ticketImage.image = [UIImage imageNamed:@"buyTicket"];
     
