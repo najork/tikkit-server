@@ -24,7 +24,8 @@
                         <rect key="frame" x="0.0" y="143" width="375" height="96.5"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Y0-qJ-Aga">
-                                <rect key="frame" x="83" y="51" width="80" height="32"/>
+                                <rect key="frame" x="85" y="48" width="80" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="Post" backgroundImage="tableViewPost">
                                     <color key="titleColor" red="0.2666666667" green="0.28235294119999998" blue="0.29411764709999999" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -32,18 +33,9 @@
                                     <action selector="postTicket:" destination="Sc2-Z6-EB0" eventType="touchUpInside" id="YIG-dN-Vkx"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lIp-SX-8eU">
-                                <rect key="frame" x="205" y="51" width="80" height="32"/>
-                                <state key="normal" title="Buy" backgroundImage="tableViewPost">
-                                    <color key="titleColor" red="0.2666666667" green="0.28235294119999998" blue="0.29411764709999999" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="viewTickets:" destination="Sc2-Z6-EB0" eventType="touchUpInside" id="aqF-3A-BEE"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Highest:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cLr-3v-czm">
                                 <rect key="frame" x="38" y="8" width="100" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="12"/>
                                 <color key="textColor" red="0.96470588239999999" green="0.95686274510000002" blue="0.1215686275" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -52,16 +44,26 @@
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Lowest:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vgp-vN-Zrj">
                                 <rect key="frame" x="153" y="8" width="100" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="12"/>
                                 <color key="textColor" red="0.41176470590000003" green="0.61176470589999998" blue="0.98431372549999996" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="# tickets" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WkP-4H-Xuf">
                                 <rect key="frame" x="294" y="8" width="76" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <fontDescription key="fontDescription" name="Arial-BoldMT" family="Arial" pointSize="12"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lIp-SX-8eU">
+                                <rect key="frame" x="205" y="48" width="80" height="40"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Buy" backgroundImage="tableViewPost">
+                                    <color key="titleColor" red="0.2666666667" green="0.28235294119999998" blue="0.29411764709999999" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="viewTickets:" destination="Sc2-Z6-EB0" eventType="touchUpInside" id="aqF-3A-BEE"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.2666666667" green="0.28235294119999998" blue="0.29411764709999999" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
