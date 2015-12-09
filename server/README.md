@@ -102,7 +102,7 @@ Status: *200 OK*
 ```
 
 ### List tickets for user
-List all of the tickets for sale by a given user.
+List all of the tickets for sale by a given user.  
 `GET /api/users/:user_id/tickets`
 #### Example
 ```
