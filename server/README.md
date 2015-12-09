@@ -101,6 +101,42 @@ Status: *200 OK*
 }
 ```
 
+### List tickets for user
+List all of the tickets for sale by a given user.
+`GET /api/users/:user_id/tickets`
+#### Example
+```
+GET /api/users/1/tickets HTTP/1.1
+Host: localhost:8080
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOjI5LCJleHAiOjE0NTIwMzM3NTI5MDF9.qqFP256KNORdX9T8qwQNscYroeIiDFA0zkshCaDHMPU
+```
+#### Response
+Status: *200 OK*
+```
+[
+  {
+    "ticket_id": 1,
+    "game_id": 1,
+    "seller_id": 1,
+    "section": 32,
+    "row": 1,
+    "seat": 1,
+    "price": 4500,
+    "sold": 0
+  },
+  {
+    "ticket_id": 2,
+    "game_id": 1,
+    "seller_id": 1,
+    "section": 32,
+    "row": 1,
+    "seat": 2,
+    "price": 5000,
+    "sold": 0
+  }
+]
+```
+
 ### List schools
 List all of the schools.  
 `GET /api/schools`

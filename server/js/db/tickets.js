@@ -35,6 +35,20 @@ exports.findByGame = function(gameId, done) {
   db.close();
 };
 
+exports.findBySeller = function(sellerId, done) {
+  const db = new sqlite3.Database(dbFile);
+  db.run('PRAGMA foreign_keys = ON');
+
+  const query = 'SELECT * FROM Tickets WHERE seller_id = ?';
+  db.all(query, sellerId, function(err, rows) {
+    if (err) return done(err);
+    if (!rows.length) return done(null, false);
+    return done(null, rows);
+  });
+
+  db.close();
+};
+
 exports.create = function(gameId, sellerId, section, row, seat, price, sold, done) {
   const db = new sqlite3.Database(dbFile);
   db.run('PRAGMA foreign_keys = ON');

@@ -28,6 +28,9 @@ module.exports = function(app) {
   // Get user
   router.get('/users/:userId', routes.users.find);
 
+  // Get all tickets for sale by user
+  router.get('/users/:userId/tickets', routes.tickets.findBySeller);
+
   // List all schools
   router.get('/schools', routes.schools.all);
 

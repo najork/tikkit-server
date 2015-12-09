@@ -45,6 +45,25 @@ exports.findByGame = function(req, res) {
   });
 };
 
+// Get all tickets for sale by user
+exports.findBySeller = function(req, res) {
+  tickets.findBySeller(req.params.userId, function(err, rows) {
+    // Database error
+    if (err) {
+      res.status(500).send(err);
+      return;
+    }
+
+    // Ticket not found
+    if (!rows) {
+      res.sendStatus(404);
+      return;
+    }
+
+    res.json(rows);
+  });
+};
+
 // Create a new ticket
 exports.create = function(req, res) {
   // Validate parameters
