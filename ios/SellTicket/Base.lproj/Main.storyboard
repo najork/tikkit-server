@@ -216,7 +216,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Ro-q6-GIe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1824.5" y="2967.5"/>
+            <point key="canvasLocation" x="1688.5" y="2965.5"/>
         </scene>
         <!--Profile-->
         <scene sceneID="jLy-JL-QxG">
@@ -267,7 +267,7 @@
                                 <rect key="frame" x="0.0" y="257" width="375" height="410"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="xcO-Nx-hxt">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="simpleCell" id="xcO-Nx-hxt" customClass="ProfileTableViewCell">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xcO-Nx-hxt" id="tQa-Gc-muP">
@@ -282,6 +282,12 @@
                     </view>
                     <navigationItem key="navigationItem" title="Wolverine Tickets" id="U3w-U2-gN4"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="email" destination="6Z1-7h-D3I" id="nVy-41-t9o"/>
+                        <outlet property="name" destination="fnl-yv-Ea7" id="k77-q6-qhW"/>
+                        <outlet property="phone" destination="dqM-nG-6Jj" id="frG-Df-Phj"/>
+                        <outlet property="ticketTable" destination="CG0-zC-c1r" id="rj3-Yu-wSf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IAK-h6-iKt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -544,7 +550,7 @@
         <!--Navigation Controller-->
         <scene sceneID="yk6-76-DuL">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="eaT-AU-hEQ" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="ticketContent" automaticallyAdjustsScrollViewInsets="NO" id="eaT-AU-hEQ" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Hbx-eg-KW2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -629,7 +635,7 @@
         <!--Navigation Controller-->
         <scene sceneID="kLd-EJ-ciQ">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="b9W-j4-WsR" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="loginContent" automaticallyAdjustsScrollViewInsets="NO" id="b9W-j4-WsR" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="RCf-6V-5Uc">

@@ -7,6 +7,9 @@
 //
 
 #import "newAccountViewController.h"
+#import "global.h"
+
+NSMutableData *mutData2;
 
 @implementation newAccountViewController
 
@@ -43,21 +46,66 @@
 }
 
 -(IBAction)createAccount:(id)sender {
-    NSString *serverAddress
-    = [NSString stringWithFormat:@"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com:80/api/create?username=%@&password=%@", self.username.text, self.password.text];
-    NSMutableURLRequest *request
-    =[NSMutableURLRequest requestWithURL:[NSURL URLWithString:serverAddress]
-                             cachePolicy: NSURLRequestReloadIgnoringLocalAndRemoteCacheData
-                         timeoutInterval: 10];
     
-    [request setHTTPMethod: @"POST"];
-    NSError *requestError = nil;
-    NSURLResponse *urlResponse = nil;
-    NSData *response1
-    = [NSURLConnection sendSynchronousRequest:request
-                            returningResponse:&urlResponse
-                                        error:&requestError];
+    NSString *post = [NSString stringWithFormat:@"username=%@&password=%@", self.username.text, self.password.text];
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    
+    NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
+    
+    NSString *url = [NSString stringWithFormat:@"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com/create"];
+    NSMutableURLRequest *request =
+    [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
+                            cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                        timeoutInterval:10];
+    
+    [request setHTTPMethod:@"POST"];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:postData];
+    
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    [connection start];
+    
 
-    NSLog(@"%@", response1);
+    if(connection) {
+        mutData2 = [NSMutableData data];
+    }
 }
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    NSLog(@"Succeeded! Received %lu bytes of data",(unsigned long)[mutData2 length]);
+    
+    NSError *error;
+    NSDictionary *userData
+    = [NSJSONSerialization JSONObjectWithData:mutData2
+                                      options:kNilOptions
+                                        error:&error];
+    
+//    NSString *string = [userData objectForKey:@"token"];
+//    accessToken = string;
+//    
+//    UINavigationController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"ticketContent"];
+//    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+//    [self presentViewController:vc animated:YES completion:nil];
+
+}
+
+-(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    NSLog(@"%@\n", error.description);
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    [mutData2 setLength:0];
+    NSLog(@"%@\n", response.description);
+    
+}
+
+-(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    [mutData2 appendData:data];
+}
+
 @end

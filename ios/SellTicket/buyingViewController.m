@@ -21,6 +21,7 @@
 }
 
 -(void)viewDidLoad {
+    [self setupEverything];
     //Maybe I don't have to do anything in here? Just do in ViewDidAppear?
     //   [self setup];
     spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -319,5 +320,75 @@
 
 -(void)profileSegue{
     [self performSegueWithIdentifier:@"profileSegue" sender:self]; 
+}
+
+-(void) setupEverything {
+    //Whenever the application loads, make a request to acquire a list of all the schools
+    //Get the object as a JSON Dictionary
+    NSString *serverAddress
+    = @"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com:80/api/schools";
+    NSMutableURLRequest *request
+    =[NSMutableURLRequest requestWithURL:[NSURL URLWithString:serverAddress]
+                             cachePolicy: NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                         timeoutInterval: 10];
+    
+    [request setHTTPMethod: @"GET"];
+    
+    // Set auth header
+    NSString * bearerHeaderStr = @"Bearer ";
+    [request setValue:[bearerHeaderStr stringByAppendingString:accessToken] forHTTPHeaderField:@"Authorization"];
+    
+    NSError *requestError = nil;
+    NSURLResponse *urlResponse = nil;
+    NSData *response1
+    = [NSURLConnection sendSynchronousRequest:request
+                            returningResponse:&urlResponse
+                                        error:&requestError];
+    
+    NSDictionary *schools
+    = [NSJSONSerialization JSONObjectWithData:response1
+                                      options:kNilOptions
+                                        error:&requestError];
+    
+    
+    //Iterate through all of the school names and put them into
+    //the schoolDictionary global variable.
+    for(NSDictionary *school in schools) {
+        NSNumber * school_id = [school objectForKey:@"school_id"];
+        NSString * school_name = [school objectForKey:@"name"];
+        [schoolDictionary setObject:school_name forKey:school_id];
+        
+        //For every school, we also want to load in a list of all the games
+        //that correspond to school
+        serverAddress
+        = [NSString stringWithFormat:@"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com/api/schools/%@/games", school_id];
+        
+        request = [NSMutableURLRequest requestWithURL:[NSURL
+                                                       URLWithString:serverAddress]
+                                          cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                                      timeoutInterval:10];
+        [request setHTTPMethod:@"GET"];
+        
+        // Set auth header
+        [request setValue:[bearerHeaderStr stringByAppendingString:accessToken] forHTTPHeaderField:@"Authorization"];
+        
+        requestError = nil;
+        urlResponse = nil;
+        
+        response1
+        = [NSURLConnection sendSynchronousRequest:request
+                                returningResponse:&urlResponse
+                                            error:&requestError];
+        
+        id jsonDictionary2 = [[NSMutableDictionary alloc]init];
+        jsonDictionary2
+        = [NSJSONSerialization JSONObjectWithData:response1
+                                          options:kNilOptions
+                                            error:&requestError];
+        
+        //Set a list of games for every school
+        [gameDictionary setObject:jsonDictionary2 forKey:school_id];
+    }
+
 }
 @end

@@ -27,3 +27,4 @@ extern NSMutableDictionary * schoolDictionary;
 
 // TODO: Get tokens properly
 extern NSString * accessToken;
+extern NSString * user_id; 

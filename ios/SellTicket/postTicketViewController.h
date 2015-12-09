@@ -11,7 +11,6 @@
 @interface postTicketViewController : UIViewController <UITextFieldDelegate>
 
 //List of all the text fields
-@property(nonatomic, strong) IBOutlet UITextField *gameField;
 @property (nonatomic, strong) IBOutlet UITextField *section;
 @property (nonatomic, strong) IBOutlet UITextField *row;
 @property (nonatomic, strong) IBOutlet UITextField *seat;

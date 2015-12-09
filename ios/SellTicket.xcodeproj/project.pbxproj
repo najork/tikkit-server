@@ -10,6 +10,8 @@
 		0741C1591C17BB5000329177 /* profileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0741C1581C17BB5000329177 /* profileViewController.m */; };
 		0741C15F1C17DEC900329177 /* loginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0741C15E1C17DEC900329177 /* loginViewController.m */; };
 		0741C1621C17E85300329177 /* newAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0741C1611C17E85300329177 /* newAccountViewController.m */; };
+		0741C1661C17ECC100329177 /* ProfileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0741C1641C17ECC100329177 /* ProfileTableViewCell.m */; };
+		0741C1671C17ECC100329177 /* ProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0741C1651C17ECC100329177 /* ProfileTableViewCell.xib */; };
 		0746E7911BC4562B00AE281B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0746E7901BC4562B00AE281B /* main.m */; };
 		0746E7941BC4562B00AE281B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0746E7931BC4562B00AE281B /* AppDelegate.m */; };
 		0746E7971BC4562B00AE281B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0746E7961BC4562B00AE281B /* ViewController.m */; };
@@ -48,6 +50,9 @@
 		0741C15E1C17DEC900329177 /* loginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = loginViewController.m; sourceTree = "<group>"; };
 		0741C1601C17E85300329177 /* newAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = newAccountViewController.h; sourceTree = "<group>"; };
 		0741C1611C17E85300329177 /* newAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = newAccountViewController.m; sourceTree = "<group>"; };
+		0741C1631C17ECC100329177 /* ProfileTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileTableViewCell.h; sourceTree = "<group>"; };
+		0741C1641C17ECC100329177 /* ProfileTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileTableViewCell.m; sourceTree = "<group>"; };
+		0741C1651C17ECC100329177 /* ProfileTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileTableViewCell.xib; sourceTree = "<group>"; };
 		0746E78B1BC4562B00AE281B /* SellTicket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SellTicket.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0746E78F1BC4562B00AE281B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0746E7901BC4562B00AE281B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -206,6 +211,9 @@
 				07D3137E1BEAA24A007ADF56 /* ListingsTableCell.xib */,
 				07D313801BEAA297007ADF56 /* ListingsTableCell.h */,
 				07D313811BEAA297007ADF56 /* ListingsTableCell.m */,
+				0741C1651C17ECC100329177 /* ProfileTableViewCell.xib */,
+				0741C1631C17ECC100329177 /* ProfileTableViewCell.h */,
+				0741C1641C17ECC100329177 /* ProfileTableViewCell.m */,
 				07D313731BEA621C007ADF56 /* TicketTableCell.xib */,
 				07D313751BEA63FC007ADF56 /* TicketTableCell.h */,
 				07D313761BEA63FC007ADF56 /* TicketTableCell.m */,
@@ -307,6 +315,7 @@
 				0746E79A1BC4562B00AE281B /* Main.storyboard in Resources */,
 				0746E79F1BC4562B00AE281B /* LaunchScreen.xib in Resources */,
 				0746E79C1BC4562B00AE281B /* Images.xcassets in Resources */,
+				0741C1671C17ECC100329177 /* ProfileTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,6 +345,7 @@
 				07D313861BEAFA90007ADF56 /* singleTicketViewController.m in Sources */,
 				0746E7941BC4562B00AE281B /* AppDelegate.m in Sources */,
 				0741C1621C17E85300329177 /* newAccountViewController.m in Sources */,
+				0741C1661C17ECC100329177 /* ProfileTableViewCell.m in Sources */,
 				07D3137D1BEA9E85007ADF56 /* ticketClass.m in Sources */,
 				07D3137A1BEA7809007ADF56 /* ticketListingsViewController.m in Sources */,
 				0746E7911BC4562B00AE281B /* main.m in Sources */,

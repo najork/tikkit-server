@@ -7,8 +7,11 @@
 //
 
 #import "loginViewController.h"
+#import "global.h"
 
 @implementation loginViewController
+
+NSMutableData *mutableData;
 
 -(void)viewDidLoad {
     [self setup];
@@ -33,31 +36,75 @@
 }
 
 -(IBAction)login:(id)sender {
-    NSString *serverAddress
-    = @"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com:80/api/login?username=max&password=test";
-    NSMutableURLRequest *request
-    =[NSMutableURLRequest requestWithURL:[NSURL URLWithString:serverAddress]
-                             cachePolicy: NSURLRequestReloadIgnoringLocalAndRemoteCacheData
-                         timeoutInterval: 10];
+    NSLog(@"%@ is user and %@ is pass", self.username.text, self.password.text);
+    NSString *post = [NSString stringWithFormat:@"username=%@&password=%@", self.username.text, self.password.text];
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
-    [request setHTTPMethod: @"POST"];
+    NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
+    
+    NSString *url = [NSString stringWithFormat:@"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com/login"];
+    NSMutableURLRequest *request =
+    [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
+                            cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                        timeoutInterval:10];
+    
+    [request setHTTPMethod:@"POST"];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:postData];
+
     
     // Set auth header
 //    NSString * bearerHeaderStr = @"Bearer ";
 //    [request setValue:[bearerHeaderStr stringByAppendingString:accessToken] forHTTPHeaderField:@"Authorization"];
     
-    NSError *requestError = nil;
-    NSURLResponse *urlResponse = nil;
-    NSData *response1
-    = [NSURLConnection sendSynchronousRequest:request
-                            returningResponse:&urlResponse
-                                        error:&requestError];
-    NSDictionary *schools
-    = [NSJSONSerialization JSONObjectWithData:response1
-                                      options:kNilOptions
-                                        error:&requestError];
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    [connection start];
     
-    NSLog(@"%@ is data", schools); 
-
+    if(connection) {
+        mutableData = [NSMutableData data];
+    }
 }
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    NSError *error;
+    
+    NSDictionary *userData
+    = [NSJSONSerialization JSONObjectWithData:mutableData
+                                      options:kNilOptions
+                                        error:&error];
+    if(userData == NULL) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Login Error" message:@"Your login parameters were incorrect, try again" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+        [alert show];
+        return; 
+    }
+    NSString *token = [userData objectForKey:@"token"];
+    NSString *userID = [userData objectForKey:@"user_id"];
+    NSLog(@"%@", userData); 
+    accessToken = token;
+    user_id = userID;
+    
+    UINavigationController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"ticketContent"];
+    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+-(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    NSLog(@"%@\n", error.description);
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    [mutableData setLength:0];
+    NSLog(@"%@\n", response.description);
+}
+
+-(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    [mutableData appendData:data];
+    
+}
+
 @end

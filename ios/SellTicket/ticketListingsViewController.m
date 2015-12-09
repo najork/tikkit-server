@@ -91,7 +91,7 @@
     cell.rowLabel.text = @"Row";
     cell.sectionLabel.text = @"Section";
     cell.seatLabel.text = @"Seat";
-    cell.ticketImage.image = [UIImage imageNamed:@"buy-tickets"];
+    cell.ticketImage.image = [UIImage imageNamed:@"buyTicket"];
  
     return cell;
 }
