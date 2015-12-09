@@ -128,65 +128,26 @@
                 }
                 NSLog(@"%@, %i, %li", ticket.price, highestValue, lowestValue);
             }
-            newGame.lowPrice = [NSString stringWithFormat: @"$%li", lowestValue];
-            newGame.highPrice = [NSString stringWithFormat:@"$%i", highestValue];
-            newGame.numTickets = [NSString stringWithFormat:@"%lu listed", (unsigned long)[tickets count]];
+            NSString *lowPriceString = [NSString stringWithFormat: @" $%li", lowestValue];
+            NSString *highPriceString = [NSString stringWithFormat:@" $%i", highestValue];
+            
+            newGame.lowPrice = [@"Lowest: " stringByAppendingString:lowPriceString];
+            newGame.highPrice = [@"Highest: " stringByAppendingString:highPriceString];
+            newGame.numTickets = [NSString stringWithFormat:@" %lu listed", (unsigned long)[tickets count]];
         } else {
-            newGame.lowPrice = @"$0";
-            newGame.highPrice = @"$0";
+            newGame.lowPrice = @"Lowest: $0";
+            newGame.highPrice = @"Highest: $0";
             newGame.numTickets = @"0 listed";
         }
         
-        newGame.gameTitle
-        = [NSString stringWithFormat:@"Michigan vs. %@", [schoolDictionary objectForKey:away_id]];
-        newGame.gameDate
-        = [NSString stringWithFormat:@"%@", [game objectForKey:@"date"]];
+        
+        newGame.gameTitle = [schoolDictionary objectForKey:away_id];
+        newGame.gameDate = [game objectForKey:@"date"];
         
         [self.games addObject:newGame];
     }
 }
-//    for(id game in gameDictionary) {
-//        //Get opponenets name
-//        id game_object = [gameDictionary objectForKey:game];
-//
-//        //Work on conversion later
-//        NSNumber *homeGameID = [game_object objectForKey:@"home_team_id"];
-//
-//        //This check is just so we're doing for Michigan Games right now
-//        if([homeGameID isEqual: @1]) {
-//            gameClass *newGame = [[gameClass alloc]init];
-//            NSString *away_id = [game_object objectForKey:@"away_team_id"];
-//            newGame.gameTitle = [NSString stringWithFormat:@"Michigan vs. %@", [schoolDictionary objectForKey: away_id]];
-//            newGame.gameDate = [NSString stringWithFormat:@"%@", [game_object objectForKey:@"date"]];
-//            
-//            
-//            if([ticketDictionary objectForKey:homeGameID]) {
-//                NSMutableArray *tickets = [ticketDictionary objectForKey:homeGameID];
-//                int highestValue = -1;
-//                long int lowestValue = LONG_MAX;
-//                for(ticketClass *ticket in tickets) {
-//                    if((NSNumber *)[NSNull null] != ticket.price) {
-//                        if([ticket.price intValue] > highestValue) {
-//                            highestValue = [ticket.price intValue];
-//                        }
-//                        if([ticket.price intValue] < lowestValue) {
-//                            lowestValue = [ticket.price intValue];
-//                        }
-//                    }
-//                    NSLog(@"%@, %i, %li", ticket.price, highestValue, lowestValue);
-//                }
-//                newGame.lowPrice = [NSString stringWithFormat: @"$%li", lowestValue];
-//                newGame.highPrice = [NSString stringWithFormat:@"$%i", highestValue];
-//                newGame.numTickets = [NSString stringWithFormat:@"%lu listed", (unsigned long)[tickets count]];
-//                newGame.game_id = [game_object objectForKey:@"game_id"]; 
-//            } else {
-//                newGame.lowPrice = @"$0";
-//                newGame.highPrice = @"$0";
-//                newGame.numTickets = @"0 listed";
-//            }
-//            [self.games addObject:newGame];
-//        }
-//    }
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -199,7 +160,6 @@
     //count number of row from counting array hear cataGorry is An Array
     return [_games count];
 }
-
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -217,26 +177,26 @@
     }
     
     gameClass *game = [self.games objectAtIndex:[indexPath row]];
-    cell.highPrice.image = [UIImage imageNamed:@"max-price"];
-    cell.lowPrice.image = [UIImage imageNamed:@"low-price"];
-    cell.numTickets.image = [UIImage imageNamed:@"buy-tickets"];
+    
+    cell.locationLabel.text = @"Michigan Stadium";
+    cell.timeLabel.text = game.gameDate;
     cell.gameTitle.text = game.gameTitle;
     cell.highPriceLabel.text = game.highPrice;
     cell.lowPriceLabel.text = game.lowPrice;
     cell.numTicketsLabel.text = game.numTickets;
-    
-    
-    if([indexPath row] % 3 == 0) {
-        cell.backgroundColor = [UIColor colorWithRed:0.97 green:0.95 blue:0.15 alpha:1.0];
-    } else if ([indexPath row] % 3 == 1) {
-        cell.backgroundColor = [UIColor colorWithRed:0.26 green:0.28 blue:0.29 alpha:1.0];
-        cell.gameTitle.textColor = [UIColor whiteColor];
-        cell.highPriceLabel.textColor = [UIColor whiteColor];
-        cell.lowPriceLabel.textColor = [UIColor whiteColor];
-        cell.numTicketsLabel.textColor = [UIColor whiteColor];
+    [self setupGameImage: game.gameTitle forCell: cell];
 
-    } else {
-        cell.backgroundColor = [UIColor whiteColor]; 
+    if([indexPath row] % 2 == 0) {
+        
+        cell.backgroundColor = [UIColor colorWithRed:243.0f/255.0f
+                                               green:248.0f/255.0f
+                                                blue:38.0f/255.0f
+                                               alpha:1.0];
+    } else if ([indexPath row] % 2 == 1) {
+        cell.backgroundColor = [UIColor colorWithRed:239.0f/255.0f
+                                               green:241.0f/255.0f
+                                                blue:244.0f/255.0f
+                                               alpha:1.0];
     }
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -265,7 +225,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([indexPath compare:self.selectedIndex] == NSOrderedSame) {
-        return 220; // Expanded height
+        return 240; // Expanded height
     }
     return 180;
 }
@@ -284,7 +244,6 @@
 }
 
 -(void)buyOrSellSegue:(BOOL)buyOrSell{
-    NSLog(@"CALLED."); 
     if(buyOrSell) {
         [self performSegueWithIdentifier:@"ticketSegue" sender:self];
     } else {
@@ -292,5 +251,35 @@
     }
 }
 
+-(void)setupGameImage: (NSString *)gameString forCell: (TicketTableCell *)cell{
+    if([gameString isEqualToString:@"Michigan State"]) {
+        [cell.gameImage setImage:[UIImage imageNamed:@"msuLogo"]]; 
+    } else if([gameString isEqualToString:@"Northwestern"]) {
+        [cell.gameImage setImage:[UIImage imageNamed:@"nwLogo"]];
+    } else if([gameString isEqualToString:@"Ohio State"]) {
+        [cell.gameImage setImage:[UIImage imageNamed:@"osuLogo"]]; 
+    } else if([gameString isEqualToString:@"Utah"]) {
+        [cell.gameImage setImage:[UIImage imageNamed:@"utahLogo"]]; 
+    } else if([gameString isEqualToString:@"UNLV"]) {
+        [cell.gameImage setImage:[UIImage imageNamed:@"unlvLogo"]]; 
+    } else if([gameString isEqualToString:@"BYU"]) {
+        [cell.gameImage setImage:[UIImage imageNamed:@"byuLogo"]];
+    } else if([gameString isEqualToString:@"Maryland"]) {
+        [cell.gameImage setImage:[UIImage imageNamed:@"marylandLogo"]];
+    } else if([gameString isEqualToString:@"Minnesota"]) {
+        [cell.gameImage setImage:[UIImage imageNamed:@"minnesotaLogo"]];
+    } else if([gameString isEqualToString:@"Rutgers"]) {
+        [cell.gameImage setImage:[UIImage imageNamed:@"rutgersLogo"]];
+    } else if([gameString isEqualToString:@"Indiana"]) {
+        [cell.gameImage setImage:[UIImage imageNamed:@"indianaLogo"]];
+    } else if([gameString isEqualToString:@"Florida"]) {
+        [cell.gameImage setImage:[UIImage imageNamed:@"floridaLogo"]];
+    } else if([gameString isEqualToString:@"Penn State"]) {
+        [cell.gameImage setImage:[UIImage imageNamed:@"psuLogo"]];
+    } else if([gameString isEqualToString:@"Oregon State"]) {
+        [cell.gameImage setImage:[UIImage imageNamed:@"oregonstateLogo"]];
+    }
+    return; 
+}
 
 @end

@@ -14,10 +14,11 @@
 @property (nonatomic, strong) IBOutlet UILabel *highPriceLabel;
 @property (nonatomic, strong) IBOutlet UILabel *lowPriceLabel;
 @property (nonatomic, strong) IBOutlet UILabel *numTicketsLabel;
+@property (nonatomic, strong) IBOutlet UILabel *timeLabel;
+@property (nonatomic, strong) IBOutlet UILabel *locationLabel; 
 
-@property (nonatomic, strong) IBOutlet UIImageView *highPrice;
-@property (nonatomic, strong) IBOutlet UIImageView *lowPrice;
 @property (nonatomic, strong) IBOutlet UIImageView *numTickets;
+@property (nonatomic, strong) IBOutlet UIImageView *gameImage;
 
 @property (nonatomic, strong) IBOutlet UIButton *postTicket;
 @property (nonatomic, strong) IBOutlet UIButton *sellTicket; 
