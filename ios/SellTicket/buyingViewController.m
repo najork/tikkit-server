@@ -11,10 +11,12 @@
 #import "gameClass.h"
 #import "ticketClass.h"
 #import "ticketListingsViewController.h"
+#import "postTicketViewController.h"
 #import "global.h"
 
 
 @implementation buyingViewController {
+    NSMutableDictionary *rowToGameID;
 }
 
 -(void)viewDidLoad {
@@ -26,7 +28,10 @@
                                                                            green:241.0f/255.0f
                                                                             blue:244.0f/255.0f
                                                                            alpha:1.0f];
-    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.translucent = YES;
+    UIBarButtonItem *systemItem1 = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"profile"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(profileSegue)];
+    self.navigationItem.rightBarButtonItem = systemItem1;
+    rowToGameID = [[NSMutableDictionary alloc]init];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -35,15 +40,14 @@
 }
 
 -(void) setup {
-    [self setupTickets];
     [self setupGames];
 }
 
--(void) setupTickets {
+-(void) setupTickets: (NSNumber *)game_id {
     //Now load in all the tickets that are currently in the server. Might not be the smart way
     //Default is setting the ticket access to 1 for Michigan
     NSString *ticketServerAddress
-        = @"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com:80/api/games/1/tickets";
+        = [NSString stringWithFormat: @"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com:80/api/games/%@/tickets", game_id];
     
     NSMutableURLRequest *request
         = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:ticketServerAddress]
@@ -110,7 +114,6 @@
     
     NSNumber *homeTeam = @1;
     NSMutableArray *gameOfArrays = [gameDictionary objectForKey:homeTeam];
-    NSLog(@"%@ is the array", gameOfArrays);
     
     for(id game in gameOfArrays) {
         gameClass *newGame = [[gameClass alloc]init];
@@ -118,6 +121,7 @@
         NSNumber *game_id = [game objectForKey:@"game_id"];
         NSString *away_id = [game objectForKey:@"away_team_id"];
         
+        [self setupTickets: game_id];
         //Find the highest priced/lowest priced tickets.
         //Split this into a different function later on.
         if([ticketDictionary objectForKey:game_id]) {
@@ -133,7 +137,6 @@
                         lowestValue = [ticket.price intValue];
                     }
                 }
-                NSLog(@"%@, %i, %li", ticket.price, highestValue, lowestValue);
             }
             NSString *lowPriceString = [NSString stringWithFormat: @" $%li", lowestValue];
             NSString *highPriceString = [NSString stringWithFormat:@" $%i", highestValue];
@@ -147,7 +150,7 @@
             newGame.numTickets = @"0 listed";
         }
         
-        
+        newGame.game_id = game_id;
         newGame.gameTitle = [schoolDictionary objectForKey:away_id];
         newGame.gameDate = [game objectForKey:@"date"];
         
@@ -191,7 +194,9 @@
     cell.highPriceLabel.text = game.highPrice;
     cell.lowPriceLabel.text = game.lowPrice;
     cell.numTicketsLabel.text = game.numTickets;
-    [self setupGameImage: game.gameTitle forCell: cell];
+    cell.gameImage.image = [self setupGameImage:game.gameTitle];
+    
+    [rowToGameID setObject:game.game_id forKey:indexPath];
 
     if([indexPath row] % 2 == 0) {
     
@@ -239,54 +244,73 @@
 
 //Segue from vc to vc, triggered by selecting a cell
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if([[segue identifier] isEqualToString:@"ticketSegue"]){
+    if([[segue identifier] isEqualToString:@"buySegue"]){
         ticketListingsViewController *vc = [segue destinationViewController];
         NSInteger selectedRow = self.selectedIndex.row;
         gameClass *game = [self.games objectAtIndex:selectedRow];
         vc.gameString = game.gameTitle;
         vc.dateString = game.gameDate;
         vc.locationString = @"Michigan Stadium";
-        vc.game_id = @1; 
+        vc.image = [self setupGameImage:vc.gameString];
+        vc.game_id = [rowToGameID objectForKey:self.selectedIndex];
+        vc.highestPriceString = game.highPrice;
+        vc.lowestPriceString = game.lowPrice;
+        vc.numTicketsString = game.numTickets;
+    } else if([[segue identifier] isEqualToString:@"sellSegue"]) {
+        postTicketViewController *vc = [segue destinationViewController];
+        NSInteger selectedRow = self.selectedIndex.row;
+        gameClass *game = [self.games objectAtIndex:selectedRow];
+        vc.gameString = game.gameTitle;
+        vc.dateString = game.gameDate;
+        vc.locationString = @"Michigan Stadium";
+        vc.image = [self setupGameImage:vc.gameString];
+        vc.game_id = [rowToGameID objectForKey:self.selectedIndex];
+        vc.highestPriceString = game.highPrice;
+        vc.lowestPriceString = game.lowPrice;
+        vc.numTicketsString = game.numTickets;
     }
 }
 
 -(void)buyOrSellSegue:(BOOL)buyOrSell{
     if(buyOrSell) {
-        [self performSegueWithIdentifier:@"ticketSegue" sender:self];
+        [self performSegueWithIdentifier:@"sellSegue" sender:self];
     } else {
-        [self performSegueWithIdentifier:@"ticketSegue" sender:self];
+        [self performSegueWithIdentifier:@"buySegue" sender:self];
     }
 }
 
--(void)setupGameImage: (NSString *)gameString forCell: (TicketTableCell *)cell{
+-(UIImage *)setupGameImage: (NSString *)gameString{
     if([gameString isEqualToString:@"Michigan State"]) {
-        [cell.gameImage setImage:[UIImage imageNamed:@"msuLogo"]]; 
+        return [UIImage imageNamed:@"msuLogo"];
     } else if([gameString isEqualToString:@"Northwestern"]) {
-        [cell.gameImage setImage:[UIImage imageNamed:@"nwLogo"]];
+        return [UIImage imageNamed:@"nwLogo"];
     } else if([gameString isEqualToString:@"Ohio State"]) {
-        [cell.gameImage setImage:[UIImage imageNamed:@"osuLogo"]]; 
+        return [UIImage imageNamed:@"osuLogo"];
     } else if([gameString isEqualToString:@"Utah"]) {
-        [cell.gameImage setImage:[UIImage imageNamed:@"utahLogo"]]; 
+        return [UIImage imageNamed:@"utahLogo"];
     } else if([gameString isEqualToString:@"UNLV"]) {
-        [cell.gameImage setImage:[UIImage imageNamed:@"unlvLogo"]]; 
+        return [UIImage imageNamed:@"unlvLogo"];
     } else if([gameString isEqualToString:@"BYU"]) {
-        [cell.gameImage setImage:[UIImage imageNamed:@"byuLogo"]];
+        return [UIImage imageNamed:@"byuLogo"];
     } else if([gameString isEqualToString:@"Maryland"]) {
-        [cell.gameImage setImage:[UIImage imageNamed:@"marylandLogo"]];
+        return [UIImage imageNamed:@"marylandLogo"];
     } else if([gameString isEqualToString:@"Minnesota"]) {
-        [cell.gameImage setImage:[UIImage imageNamed:@"minnesotaLogo"]];
+        return [UIImage imageNamed:@"minnesotaLogo"];
     } else if([gameString isEqualToString:@"Rutgers"]) {
-        [cell.gameImage setImage:[UIImage imageNamed:@"rutgersLogo"]];
+        return [UIImage imageNamed:@"rutgersLogo"];
     } else if([gameString isEqualToString:@"Indiana"]) {
-        [cell.gameImage setImage:[UIImage imageNamed:@"indianaLogo"]];
+        return [UIImage imageNamed:@"indianaLogo"];
     } else if([gameString isEqualToString:@"Florida"]) {
-        [cell.gameImage setImage:[UIImage imageNamed:@"floridaLogo"]];
+        return [UIImage imageNamed:@"floridaLogo"];
     } else if([gameString isEqualToString:@"Penn State"]) {
-        [cell.gameImage setImage:[UIImage imageNamed:@"psuLogo"]];
+        return [UIImage imageNamed:@"psuLogo"];
     } else if([gameString isEqualToString:@"Oregon State"]) {
-        [cell.gameImage setImage:[UIImage imageNamed:@"oregonstateLogo"]];
+        return [UIImage imageNamed:@"oregonstateLogo"];
     }
-    return; 
+    return [UIImage imageNamed:@"Michigan State"];
 }
 
+-(void)profileSegue{
+    [self performSegueWithIdentifier:@"profileSegue" sender:self]; 
+}
 @end

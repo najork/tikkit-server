@@ -38,11 +38,14 @@
     _ticketTable.dataSource = self;
     self.gameTitle.text = self.gameString;
     self.location.text = self.locationString;
-    self.dateTime.text = self.dateString; 
+    self.dateTime.text = self.dateString;
+    self.gameImage.image = self.image;
+    self.highestPrice.text = self.highestPriceString;
+    self.lowestPrice.text = self.lowestPriceString;
+    self.numberOfTickets.text = self.numTicketsString; 
 }
 
 -(void)setupTickets {
-    //
     self.tickets = [ticketDictionary objectForKey:self.game_id];
 }
 

@@ -2,8 +2,8 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "buy-tickets.png"
+      "filename" : "ticket-icon-0.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
