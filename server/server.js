@@ -51,7 +51,8 @@ fs.existsSync(logDir) || fs.mkdirSync(logDir);
 const accessLogStream = fileStreamRotator.getStream({
   filename: path.join(logDir, 'server-access-%DATE%.log'),
   frequency: 'daily',
-  verbose: false
+  verbose: false,
+  date_format: 'YYYYMMDD'
 });
 
 // Set up morgan
