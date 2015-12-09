@@ -20,6 +20,13 @@
 -(void)viewDidLoad {
     //Maybe I don't have to do anything in here? Just do in ViewDidAppear?
     //   [self setup];
+    UIImage *image = [UIImage imageNamed:@"namebarLogo"];
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:image];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:239.0f/255.0f
+                                                                           green:241.0f/255.0f
+                                                                            blue:244.0f/255.0f
+                                                                           alpha:1.0f];
+    self.navigationController.navigationBar.translucent = NO;
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -187,7 +194,7 @@
     [self setupGameImage: game.gameTitle forCell: cell];
 
     if([indexPath row] % 2 == 0) {
-        
+    
         cell.backgroundColor = [UIColor colorWithRed:243.0f/255.0f
                                                green:248.0f/255.0f
                                                 blue:38.0f/255.0f
