@@ -16,7 +16,7 @@ exports.find = function(req, res) {
       return;
     }
 
-    // School not found
+    // Ticket not found
     if (!row) {
       res.sendStatus(404);
       return;
@@ -35,7 +35,7 @@ exports.findByGame = function(req, res) {
       return;
     }
 
-    // School not found
+    // Ticket not found
     if (!rows) {
       res.sendStatus(404);
       return;
