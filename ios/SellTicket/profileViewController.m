@@ -97,6 +97,7 @@
     
     _ticketTable.dataSource = self;
     _ticketTable.delegate = self;
+    [_ticketTable setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
 }
 
@@ -112,7 +113,7 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *simpleTableIdentifier = @"simpleCell";
+    static NSString *simpleTableIdentifier = @"ProfileTableViewCell";
     
     ProfileTableViewCell *cell = (ProfileTableViewCell *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
     
@@ -120,15 +121,26 @@
     {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"ProfileTableViewCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
-        cell.delegate = self;
     }
+    NSDictionary *ticket = [self.tickets objectAtIndex:[indexPath row]];
+
     
-    cell.gameLabel.text = @"Michigan Stadium";
-    cell.sectionNumber.text = @"1";
-    cell.rowNumber.text = @"1";
-    cell.seatNumber.text = @"1";
-    cell.price.text = @"1";
+    cell.price.text = [NSString stringWithFormat:@"$%@", [ticket objectForKey:@"price"]];
+    cell.rowLabel.text = @"Row";
+    cell.rowNumber.text = [NSString stringWithFormat:@"$%@", [ticket objectForKey:@"row"]];
+    cell.seatLabel.text = @"Seat";
+    cell.seatNumber.text = [NSString stringWithFormat:@"$%@", [ticket objectForKey:@"seat"]];
+    cell.sectionNumber.text = [NSString stringWithFormat:@"$%@", [ticket objectForKey:@"section"]];
+    cell.sectionLabel.text = @"Section";
+    cell.ticketImage.image = [UIImage imageNamed:@"buyTicket"];
     
+
+    NSString *awayTeam = [gameIDToSchool objectForKey:[ticket objectForKey:@"game_id"]];
+    cell.gameLabel.text = [NSString stringWithFormat:@"Michigan vs. %@", awayTeam];
+
+    cell.clipsToBounds = YES;
+    NSLog(@"GOT CALLED");
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
@@ -153,9 +165,9 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([indexPath compare:self.selectedIndex] == NSOrderedSame) {
-        return 160; // Expanded height
+        return 154; // Expanded height
     }
-    return 120;
+    return 106;
 }
 
 

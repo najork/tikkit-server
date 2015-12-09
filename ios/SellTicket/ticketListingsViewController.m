@@ -33,6 +33,9 @@
     _tickets = [[NSMutableArray alloc]init];
     self.view.backgroundColor = [UIColor yellowColor];
     [self setupTickets];
+    
+    UIBarButtonItem *systemItem1 = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"back-0"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self.navigationController action:@selector(popViewControllerAnimated:)];
+    self.navigationItem.leftBarButtonItem = systemItem1;
   
     _ticketTable.delegate = self;
     _ticketTable.dataSource = self;

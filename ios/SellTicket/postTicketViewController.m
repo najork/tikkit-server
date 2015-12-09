@@ -56,10 +56,12 @@ NSMutableData *mutData;
     self.dateTime.text = self.dateString;
     self.highestPrice.text = self.highestPriceString;
     self.lowestPrice.text = self.lowestPriceString;
-    self.numberOfTickets.text = self.numTicketsString; 
+    self.numberOfTickets.text = self.numTicketsString;
+    
+    UIBarButtonItem *systemItem1 = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"back-0"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self.navigationController action:@selector(popViewControllerAnimated:)];
+    self.navigationItem.leftBarButtonItem = systemItem1;
     
     [self populateGames];
-    //[self setupPicker];
 }
 
 -(IBAction)postTicket:(id)sender {

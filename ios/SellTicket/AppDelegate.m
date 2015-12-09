@@ -23,8 +23,8 @@
     ticketDictionary = [[NSMutableDictionary alloc]init];
     schoolDictionary = [[NSMutableDictionary alloc]init];
     gameDictionary = [[NSMutableDictionary alloc]init];
+    gameIDToSchool = [[NSMutableDictionary alloc]init]; 
     
-   
     return YES;
 }
 

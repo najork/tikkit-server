@@ -19,7 +19,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *price;
 @property (nonatomic, strong) IBOutlet UILabel *gameLabel; 
 @property (nonatomic, strong) IBOutlet UIImageView *ticketImage;
-
+@property (nonatomic, strong) IBOutlet UIButton *deleteTicket;
 @property (strong, nonatomic) id delegate;
 
 @end

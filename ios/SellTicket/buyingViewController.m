@@ -160,6 +160,9 @@
         newGame.gameTitle = [schoolDictionary objectForKey:away_id];
         newGame.gameDate = [game objectForKey:@"date"];
         
+        //Add the opponent of the gameID also
+        [gameIDToSchool setObject:newGame.gameTitle forKey:game_id];
+        
         [self.games addObject:newGame];
     }
     [spinner stopAnimating];

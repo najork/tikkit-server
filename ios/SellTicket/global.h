@@ -23,6 +23,8 @@ extern NSMutableDictionary * gameDictionary;
 //Key: school_id
 //Value: school_name
 extern NSMutableDictionary * schoolDictionary;
+
+extern NSMutableDictionary *gameIDToSchool; 
 #endif /* global_h */
 
 // TODO: Get tokens properly
