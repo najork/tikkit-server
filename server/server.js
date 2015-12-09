@@ -10,6 +10,7 @@ const expressValidator = require('express-validator');
 const fileStreamRotator = require('file-stream-rotator');
 const fs = require('fs');
 const morgan = require('morgan');
+const path = require('path');
 
 const prefs = require('./js/prefs');
 const api = require('./js/api');
@@ -48,13 +49,13 @@ fs.existsSync(logDir) || fs.mkdirSync(logDir);
 
 // Create rotating log stream
 const accessLogStream = fileStreamRotator.getStream({
-  filename: logDir + '/access-%DATE%.log',
+  filename: path.join(logDir, 'server-access-%DATE%.log'),
   frequency: 'daily',
   verbose: false
 });
 
 // Set up morgan
-app.use(morgan('combined', {stream: accessLogStream}));
+app.use(morgan('short', {stream: accessLogStream}));
 
 // Route API calls
 api(app);
