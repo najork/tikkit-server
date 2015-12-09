@@ -17,11 +17,16 @@
 
 @implementation buyingViewController {
     NSMutableDictionary *rowToGameID;
+    UIActivityIndicatorView *spinner;
 }
 
 -(void)viewDidLoad {
     //Maybe I don't have to do anything in here? Just do in ViewDidAppear?
     //   [self setup];
+    spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner.center=CGPointMake(self.view.frame.size.width/2.0, self.view.frame.size.height/2.5);
+    [spinner startAnimating];
+    [self.view addSubview:spinner];
     UIImage *image = [UIImage imageNamed:@"namebarLogo"];
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:image];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:239.0f/255.0f
@@ -156,6 +161,8 @@
         
         [self.games addObject:newGame];
     }
+    [spinner stopAnimating];
+    [self.tableView setHidden:NO];
 }
 
 
