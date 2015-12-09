@@ -25,6 +25,9 @@ module.exports = function(app) {
   // Log in
   app.post('/login', passport.authenticate('local', { session: false }), routes.users.login);
 
+  // Get user
+  router.get('/users/:userId', routes.users.find);
+
   // List all schools
   router.get('/schools', routes.schools.all);
 

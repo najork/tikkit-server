@@ -5,6 +5,25 @@
 const auth = require('../auth');
 const users = require('../db/users');
 
+// Get user
+exports.find = function(req, res) {
+  users.find(req.params.userId, function(err, row) {
+    // Database error
+    if (err) {
+      res.status(500).send(err);
+      return;
+    }
+
+    // User not found
+    if (!row) {
+      res.sendStatus(404);
+      return;
+    }
+
+    res.json(row);
+  });
+};
+
 // Login
 exports.login = function(req, res) {
   const username = req.body.username;
