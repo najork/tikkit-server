@@ -124,7 +124,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([indexPath compare:self.selectedIndex] == NSOrderedSame) {
-        return 140; // Expanded height
+        return 360; // Expanded height
     }
     return 92;
 }

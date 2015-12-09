@@ -15,16 +15,6 @@
 NSMutableData *mutableData;
 
 -(void)viewDidLoad {
-    if([keychainItem objectForKey:(__bridge id)kSecValueData]
-       && [keychainItem objectForKey:(__bridge id)kSecAttrAccount]) {
-        accessToken  = [[NSUserDefaults standardUserDefaults]
-                                        stringForKey:@"accessToken"];
-        user_id = [[NSUserDefaults standardUserDefaults]
-                                                  stringForKey:@"user_id"];
-        UINavigationController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"ticketContent"];
-        vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        [self presentViewController:vc animated:YES completion:nil];
-    }
     [self setup];
 }
 
@@ -42,7 +32,8 @@ NSMutableData *mutableData;
     self.password.clipsToBounds = YES;
     NSAttributedString *str2 = [[NSAttributedString alloc] initWithString:@"Password" attributes:@{ NSForegroundColorAttributeName : [UIColor whiteColor] }];
     self.password.attributedPlaceholder = str2;
-    
+    self.username.delegate = self;
+    self.password.delegate = self; 
     self.navigationController.navigationBarHidden = YES; 
 }
 
@@ -123,6 +114,18 @@ NSMutableData *mutableData;
 {
     [mutableData appendData:data];
     
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    return YES;
+}
+
+// It is important for you to hide the keyboard
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
 }
 
 @end

@@ -18,9 +18,23 @@
 @implementation buyingViewController {
     NSMutableDictionary *rowToGameID;
     UIActivityIndicatorView *spinner;
+    int count;
 }
 
 -(void)viewDidLoad {
+    //Start with setup 0
+    count = 0;
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    self.refreshControl.backgroundColor = [UIColor colorWithRed:68.0f/255.0f
+                                                          green:72.0f/255.0f
+                                                           blue:75.0f/255.0f
+                                                          alpha:1.0f];
+
+    self.refreshControl.tintColor = [UIColor whiteColor];
+    [self.refreshControl addTarget:self
+                            action:@selector(setup)
+                  forControlEvents:UIControlEventValueChanged];
+    
     [self setupEverything];
     //Maybe I don't have to do anything in here? Just do in ViewDidAppear?
     //   [self setup];
@@ -37,16 +51,27 @@
     self.navigationController.navigationBar.translucent = YES;
     UIBarButtonItem *systemItem1 = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"profile"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(profileSegue)];
     self.navigationItem.rightBarButtonItem = systemItem1;
+    
+    
+    UIBarButtonItem *logout = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(logoutSegue)];
+    logout.tintColor = [UIColor colorWithRed:68.0f/255.0f
+                                       green:72.0f/255.0f
+                                        blue:75.0f/255.0f
+                                       alpha:1.0f];
+
+    self.navigationItem.leftBarButtonItem = logout;
     rowToGameID = [[NSMutableDictionary alloc]init];
+    [self setup];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
-    [self setup];
-    [self.tableView reloadData];
+    
 }
+
 
 -(void) setup {
     [self setupGames];
+    [self reloadData]; 
 }
 
 -(void) setupTickets: (NSNumber *)game_id {
@@ -68,51 +93,100 @@
     
     NSError *requestError = nil;
     NSURLResponse *urlResponse = nil;
-    NSData *ticketResponse
+    
+    if(count == 0) {
+        //Currently need to reload every ticket every time
+        NSData *response1
         = [NSURLConnection sendSynchronousRequest:request
                                 returningResponse:&urlResponse
                                             error:&requestError];
-    
-    NSDictionary *tickets
-        = [NSJSONSerialization JSONObjectWithData:ticketResponse
+        
+        NSDictionary *tickets
+        = [NSJSONSerialization JSONObjectWithData:response1
                                           options:kNilOptions
                                             error:&requestError];
-    
-    //Currently need to reload every ticket every time
-    for(id ticket in tickets) {
-        ticketClass *newTicket = [[ticketClass alloc] init];
-        newTicket.section = [ticket objectForKey:@"section"];
-        newTicket.row = [ticket objectForKey:@"row"];
-        newTicket.price = [ticket objectForKey:@"price"];
-        newTicket.seat = [ticket objectForKey:@"seat"];
-        newTicket.ticket_id = [ticket objectForKey:@"ticket_id"];
-        newTicket.seller_id = [ticket objectForKey:@"seller_id"]; 
-        NSNumber *game_id = [ticket objectForKey:@"game_id"];
 
         
-        if([ticketDictionary objectForKey:game_id]) {
-            NSMutableArray *array = [ticketDictionary objectForKey:game_id];
+        for(id ticket in tickets) {
+            ticketClass *newTicket = [[ticketClass alloc] init];
+            newTicket.section = [ticket objectForKey:@"section"];
+            newTicket.row = [ticket objectForKey:@"row"];
+            newTicket.price = [ticket objectForKey:@"price"];
+            newTicket.seat = [ticket objectForKey:@"seat"];
+            newTicket.ticket_id = [ticket objectForKey:@"ticket_id"];
+            newTicket.seller_id = [ticket objectForKey:@"seller_id"];
+            NSNumber *game_id = [ticket objectForKey:@"game_id"];
             
-            //If ticket already exists, we continue. If not, we add to the
-            //array
-            BOOL exists = NO;
-            for(ticketClass *ticket in array) {
-                if([ticket.ticket_id intValue] == [newTicket.ticket_id intValue]) {
-                    exists = YES;
-                    break;
+            
+            if([ticketDictionary objectForKey:game_id]) {
+                NSMutableArray *array = [ticketDictionary objectForKey:game_id];
+                
+                //If ticket already exists, we continue. If not, we add to the
+                //array
+                BOOL exists = NO;
+                for(ticketClass *ticket in array) {
+                    if([ticket.ticket_id intValue] == [newTicket.ticket_id intValue]) {
+                        exists = YES;
+                        break;
+                    }
+                }
+                if(exists) {
+                    continue;
+                }
+                
+                [array addObject:newTicket];
+            } else {
+                NSMutableArray *newArray = [[NSMutableArray alloc]init];
+                [newArray addObject:newTicket];
+                [ticketDictionary setObject:newArray forKey:game_id];
+            }
+        }
+        
+    } else {
+        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue currentQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
+            NSError *requestError;
+            NSDictionary *tickets = [NSJSONSerialization JSONObjectWithData:data
+                                              options:kNilOptions
+                                                error:&requestError];
+            
+            //Currently need to reload every ticket every time
+            for(id ticket in tickets) {
+                ticketClass *newTicket = [[ticketClass alloc] init];
+                newTicket.section = [ticket objectForKey:@"section"];
+                newTicket.row = [ticket objectForKey:@"row"];
+                newTicket.price = [ticket objectForKey:@"price"];
+                newTicket.seat = [ticket objectForKey:@"seat"];
+                newTicket.ticket_id = [ticket objectForKey:@"ticket_id"];
+                newTicket.seller_id = [ticket objectForKey:@"seller_id"];
+                NSNumber *game_id = [ticket objectForKey:@"game_id"];
+                
+                
+                if([ticketDictionary objectForKey:game_id]) {
+                    NSMutableArray *array = [ticketDictionary objectForKey:game_id];
+                    
+                    //If ticket already exists, we continue. If not, we add to the
+                    //array
+                    BOOL exists = NO;
+                    for(ticketClass *ticket in array) {
+                        if([ticket.ticket_id intValue] == [newTicket.ticket_id intValue]) {
+                            exists = YES;
+                            break;
+                        }
+                    }
+                    if(exists) {
+                        continue;
+                    }
+                    
+                    [array addObject:newTicket];
+                } else {
+                    NSMutableArray *newArray = [[NSMutableArray alloc]init];
+                    [newArray addObject:newTicket];
+                    [ticketDictionary setObject:newArray forKey:game_id];
                 }
             }
-            if(exists) {
-                continue;
-            }
-            
-            [array addObject:newTicket];
-        } else {
-            NSMutableArray *newArray = [[NSMutableArray alloc]init];
-            [newArray addObject:newTicket];
-            [ticketDictionary setObject:newArray forKey:game_id];
-        }
+        }];
     }
+    
 
 }
 
@@ -167,6 +241,7 @@
         [self.games addObject:newGame];
     }
     [spinner stopAnimating];
+    count = 1;
     [self.tableView setHidden:NO];
 }
 
@@ -326,6 +401,14 @@
     [self performSegueWithIdentifier:@"profileSegue" sender:self]; 
 }
 
+-(void)logoutSegue {
+    NSString *domainName = [[NSBundle mainBundle] bundleIdentifier];
+    [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:domainName];
+    UINavigationController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"loginContent"];
+    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
 -(void) setupEverything {
     //Whenever the application loads, make a request to acquire a list of all the schools
     //Get the object as a JSON Dictionary
@@ -394,5 +477,25 @@
         [gameDictionary setObject:jsonDictionary2 forKey:school_id];
     }
 
+}
+
+- (void)reloadData
+{
+    // Reload table data
+    [self.tableView reloadData];
+    
+    // End the refreshing
+    if (self.refreshControl) {
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"MMM d, h:mm a"];
+        NSString *title = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
+        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
+                                                                    forKey:NSForegroundColorAttributeName];
+        NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attrsDictionary];
+        self.refreshControl.attributedTitle = attributedTitle;
+        
+        [self.refreshControl endRefreshing];
+    }
 }
 @end
