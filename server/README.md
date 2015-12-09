@@ -84,6 +84,23 @@ Status: *200 OK*
 ### **Protected**
 The following API endpoints require a bearer token passed via the "Authorization" header.
 
+### Get user
+`GET /api/users/:user_id`
+#### Example
+```
+GET /api/users/1 HTTP/1.1
+Host: localhost:8080
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOjI5LCJleHAiOjE0NTIwMzM3NTI5MDF9.qqFP256KNORdX9T8qwQNscYroeIiDFA0zkshCaDHMPU
+```
+#### Response
+Status: *200 OK*
+```
+{
+  "user_id": 1,
+  "username": "testuser@umich.edu"
+}
+```
+
 ### List schools
 List all of the schools.  
 `GET /api/schools`
