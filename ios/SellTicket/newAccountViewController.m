@@ -24,6 +24,7 @@ NSMutableData *mutData2;
     self.username.clipsToBounds = YES;
     NSAttributedString *str = [[NSAttributedString alloc] initWithString:@"Login ID" attributes:@{ NSForegroundColorAttributeName : [UIColor whiteColor] }];
     self.username.attributedPlaceholder = str;
+    self.username.delegate = self;
     
     self.password.layer.borderColor = [[UIColor whiteColor]CGColor];
     self.password.layer.borderWidth = 1.2f;
@@ -31,6 +32,7 @@ NSMutableData *mutData2;
     self.password.clipsToBounds = YES;
     NSAttributedString *str2 = [[NSAttributedString alloc] initWithString:@"Password" attributes:@{ NSForegroundColorAttributeName : [UIColor whiteColor] }];
     self.password.attributedPlaceholder = str2;
+    self.password.delegate = self;
 
     self.confirmPassword.layer.borderColor = [[UIColor whiteColor]CGColor];
     self.confirmPassword.layer.borderWidth = 1.2f;
@@ -38,6 +40,7 @@ NSMutableData *mutData2;
     self.confirmPassword.clipsToBounds = YES;
     NSAttributedString *str3 = [[NSAttributedString alloc] initWithString:@"Confirm Password" attributes:@{ NSForegroundColorAttributeName : [UIColor whiteColor] }];
     self.confirmPassword.attributedPlaceholder = str3;
+    self.confirmPassword.delegate = self; 
 
 }
 
