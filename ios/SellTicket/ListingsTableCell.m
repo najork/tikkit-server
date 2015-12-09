@@ -20,4 +20,7 @@
     // Configure the view for the selected state
 }
 
+-(IBAction)email:(id)sender {
+    [self.delegate sendEmail];
+}
 @end

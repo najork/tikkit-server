@@ -8,12 +8,23 @@
 
 #import "loginViewController.h"
 #import "global.h"
+#import "KeychainItemWrapper.h"
 
 @implementation loginViewController
 
 NSMutableData *mutableData;
 
 -(void)viewDidLoad {
+    if([keychainItem objectForKey:(__bridge id)kSecValueData]
+       && [keychainItem objectForKey:(__bridge id)kSecAttrAccount]) {
+        accessToken  = [[NSUserDefaults standardUserDefaults]
+                                        stringForKey:@"accessToken"];
+        user_id = [[NSUserDefaults standardUserDefaults]
+                                                  stringForKey:@"user_id"];
+        UINavigationController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"ticketContent"];
+        vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        [self presentViewController:vc animated:YES completion:nil];
+    }
     [self setup];
 }
 
@@ -81,7 +92,14 @@ NSMutableData *mutableData;
     }
     NSString *token = [userData objectForKey:@"token"];
     NSString *userID = [userData objectForKey:@"user_id"];
-    NSLog(@"%@", userData); 
+    
+    [[NSUserDefaults standardUserDefaults] setObject:token forKey:@"accessToken"];
+    [[NSUserDefaults standardUserDefaults] setObject:userID forKey:@"user_id"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"loginToApp" accessGroup:nil];
+    [keychainItem setObject:self.username.text forKey:(__bridge id)kSecValueData];
+    [keychainItem setObject:self.password.text forKey:(__bridge id)kSecAttrAccount];
     accessToken = token;
     user_id = userID;
     

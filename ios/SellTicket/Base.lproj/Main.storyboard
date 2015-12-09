@@ -420,132 +420,11 @@
                         <outlet property="lowestPrice" destination="5om-nw-dlO" id="3N1-ct-mO0"/>
                         <outlet property="numberOfTickets" destination="xiL-7b-UGR" id="n9f-m2-ri6"/>
                         <outlet property="ticketTable" destination="tGJ-MA-Acq" id="ZHx-Gb-rha"/>
-                        <segue destination="aiG-rK-cNX" kind="show" identifier="singleTicketSegue" id="Vjg-gq-E9O"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wcz-1E-C0g" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2419.5" y="1670.5"/>
-        </scene>
-        <!--Single Ticket View Controller-->
-        <scene sceneID="eQk-6i-wyL">
-            <objects>
-                <viewController id="aiG-rK-cNX" customClass="singleTicketViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="wzn-Yp-oRZ"/>
-                        <viewControllerLayoutGuide type="bottom" id="p4C-HT-DP9"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="oVc-d7-edq">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BkU-LS-enO">
-                                <rect key="frame" x="20" y="80" width="335" height="24"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q9S-ck-yag">
-                                <rect key="frame" x="20" y="112" width="335" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="roP-Dt-vnA">
-                                <rect key="frame" x="20" y="141" width="335" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RlD-Rd-ZWg">
-                                <rect key="frame" x="0.0" y="189" width="375" height="478"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QhP-3a-bWJ">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="72"/>
-                                        <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ufb-Vu-XQh">
-                                                <rect key="frame" x="20" y="16" width="40" height="40"/>
-                                            </imageView>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Section" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RlL-8g-UNx">
-                                        <rect key="frame" x="88" y="10" width="58" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Row" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lCp-D8-JGo">
-                                        <rect key="frame" x="168" y="10" width="42" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Seat" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jn7-0k-njs">
-                                        <rect key="frame" x="233" y="10" width="42" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bIA-aw-SaW">
-                                        <rect key="frame" x="88" y="39" width="58" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tzQ-fT-Xaa">
-                                        <rect key="frame" x="168" y="39" width="42" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hNQ-Ec-Gjg">
-                                        <rect key="frame" x="233" y="39" width="42" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Price" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PiC-nQ-RH2">
-                                        <rect key="frame" x="313" y="27" width="39" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lrb-TX-anq">
-                                        <rect key="frame" x="142" y="248" width="90" height="90"/>
-                                        <state key="normal" backgroundImage="phone"/>
-                                        <connections>
-                                            <action selector="callBuyer:" destination="aiG-rK-cNX" eventType="touchUpInside" id="kqN-y6-Daa"/>
-                                        </connections>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="defaultemail@umich.edu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mM6-yd-jrD">
-                                        <rect key="frame" x="93" y="169" width="189" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" red="0.20000000000000001" green="0.2196078431372549" blue="0.22745098039215686" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" red="0.98458763599999999" green="1" blue="0.1363529564" alpha="1" colorSpace="calibratedRGB"/>
-                    </view>
-                    <connections>
-                        <outlet property="dateLabel" destination="Q9S-ck-yag" id="Rwm-jO-cR4"/>
-                        <outlet property="gameLabel" destination="BkU-LS-enO" id="hFs-Lt-Kgk"/>
-                        <outlet property="locationLabel" destination="roP-Dt-vnA" id="t0z-GI-xdz"/>
-                        <outlet property="price" destination="PiC-nQ-RH2" id="h5u-yy-dS5"/>
-                        <outlet property="rowLabel" destination="lCp-D8-JGo" id="BMd-Gq-oSS"/>
-                        <outlet property="rowNumber" destination="tzQ-fT-Xaa" id="JRH-Kn-niw"/>
-                        <outlet property="seatLabel" destination="jn7-0k-njs" id="Hey-Or-K1s"/>
-                        <outlet property="seatNumber" destination="hNQ-Ec-Gjg" id="sR6-bA-toQ"/>
-                        <outlet property="sectionLabel" destination="RlL-8g-UNx" id="ABc-L1-HvA"/>
-                        <outlet property="sectionNumber" destination="bIA-aw-SaW" id="Nm8-qE-z9w"/>
-                        <outlet property="ticketImage" destination="ufb-Vu-XQh" id="69a-24-3QV"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9Py-Qv-hdl" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3037.5" y="1636.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="yk6-76-DuL">
@@ -654,12 +533,11 @@
     </scenes>
     <resources>
         <image name="Log-in-Overlay-0" width="750" height="1334"/>
-        <image name="back-0" width="33" height="43"/>
+        <image name="back-0" width="20" height="26"/>
         <image name="clock" width="30" height="30"/>
         <image name="location" width="30" height="30"/>
         <image name="loginBackground" width="750" height="1334"/>
         <image name="loginButton" width="337" height="86"/>
-        <image name="phone" width="360" height="360"/>
         <image name="postButton" width="178" height="73"/>
         <image name="profile2" width="87" height="78"/>
         <image name="ticket_listed_horizontal-0" width="55" height="30"/>

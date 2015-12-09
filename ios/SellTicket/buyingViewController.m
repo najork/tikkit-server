@@ -86,6 +86,7 @@
         newTicket.price = [ticket objectForKey:@"price"];
         newTicket.seat = [ticket objectForKey:@"seat"];
         newTicket.ticket_id = [ticket objectForKey:@"ticket_id"];
+        newTicket.seller_id = [ticket objectForKey:@"seller_id"]; 
         NSNumber *game_id = [ticket objectForKey:@"game_id"];
 
         

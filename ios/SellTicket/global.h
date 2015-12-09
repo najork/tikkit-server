@@ -8,6 +8,7 @@
 
 #ifndef global_h
 #define global_h
+@class KeychainItemWrapper;
 
 //Ticket Dictionary
 //Key: game_id
@@ -24,9 +25,11 @@ extern NSMutableDictionary * gameDictionary;
 //Value: school_name
 extern NSMutableDictionary * schoolDictionary;
 
-extern NSMutableDictionary *gameIDToSchool; 
+extern NSMutableDictionary *gameIDToSchool;
 #endif /* global_h */
 
 // TODO: Get tokens properly
 extern NSString * accessToken;
-extern NSString * user_id; 
+extern NSString * user_id;
+
+extern KeychainItemWrapper *keychainItem;

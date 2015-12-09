@@ -20,5 +20,12 @@
 
 @property (nonatomic, strong) IBOutlet UIImageView *ticketImage;
 
+@property (strong, nonatomic) id delegate;
+
+@end
+
+@protocol TicketTableCellProtocol <NSObject>
+
+-(void)sendEmail;
 
 @end
