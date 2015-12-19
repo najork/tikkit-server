@@ -1,0 +1,14 @@
+{
+  "server": {
+    "port"                  : 8080,
+    "logDir"                : "./log"
+  },
+  "db": {
+    "dbFile"                : "./db/app-data.db",
+    "passwordSaltLength"    : 16
+  },
+  "auth": {
+    "secret"                : "CHANGEME",
+    "tokenTtl"              : 31
+  }
+}

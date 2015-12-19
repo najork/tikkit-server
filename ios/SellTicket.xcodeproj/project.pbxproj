@@ -1,0 +1,569 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0741C1591C17BB5000329177 /* profileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0741C1581C17BB5000329177 /* profileViewController.m */; };
+		0741C15F1C17DEC900329177 /* loginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0741C15E1C17DEC900329177 /* loginViewController.m */; };
+		0741C1621C17E85300329177 /* newAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0741C1611C17E85300329177 /* newAccountViewController.m */; };
+		0741C1661C17ECC100329177 /* ProfileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0741C1641C17ECC100329177 /* ProfileTableViewCell.m */; };
+		0741C1671C17ECC100329177 /* ProfileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0741C1651C17ECC100329177 /* ProfileTableViewCell.xib */; };
+		0741C1721C188BDE00329177 /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0741C1711C188BDE00329177 /* KeychainItemWrapper.m */; };
+		0741C1731C188BEB00329177 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0741C1681C18213A00329177 /* Security.framework */; };
+		0746E7911BC4562B00AE281B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0746E7901BC4562B00AE281B /* main.m */; };
+		0746E7941BC4562B00AE281B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0746E7931BC4562B00AE281B /* AppDelegate.m */; };
+		0746E7971BC4562B00AE281B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0746E7961BC4562B00AE281B /* ViewController.m */; };
+		0746E79A1BC4562B00AE281B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0746E7981BC4562B00AE281B /* Main.storyboard */; };
+		0746E79C1BC4562B00AE281B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0746E79B1BC4562B00AE281B /* Images.xcassets */; };
+		0746E79F1BC4562B00AE281B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0746E79D1BC4562B00AE281B /* LaunchScreen.xib */; };
+		0746E7AB1BC4562C00AE281B /* SellTicketTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0746E7AA1BC4562C00AE281B /* SellTicketTests.m */; };
+		07AEB7B81BCA197F00B46122 /* buyingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07AEB7B71BCA197F00B46122 /* buyingViewController.m */; };
+		07AEB7BB1BCA1B5900B46122 /* gameClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 07AEB7BA1BCA1B5900B46122 /* gameClass.m */; };
+		07D313741BEA621C007ADF56 /* TicketTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07D313731BEA621C007ADF56 /* TicketTableCell.xib */; };
+		07D313771BEA63FC007ADF56 /* TicketTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D313761BEA63FC007ADF56 /* TicketTableCell.m */; };
+		07D3137A1BEA7809007ADF56 /* ticketListingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D313791BEA7809007ADF56 /* ticketListingsViewController.m */; };
+		07D3137D1BEA9E85007ADF56 /* ticketClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D3137C1BEA9E85007ADF56 /* ticketClass.m */; };
+		07D3137F1BEAA24A007ADF56 /* ListingsTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 07D3137E1BEAA24A007ADF56 /* ListingsTableCell.xib */; };
+		07D313821BEAA297007ADF56 /* ListingsTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D313811BEAA297007ADF56 /* ListingsTableCell.m */; };
+		07E3F2111BE53D7C001320D4 /* postTicketViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E3F2101BE53D7C001320D4 /* postTicketViewController.m */; };
+		07E3F2141BE5421E001320D4 /* textFieldKeyboardShift.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E3F2131BE5421E001320D4 /* textFieldKeyboardShift.m */; };
+		07F9005E1BF3BBB90068C92E /* global.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F9005D1BF3BBB90068C92E /* global.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0746E7A51BC4562C00AE281B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0746E7831BC4562B00AE281B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0746E78A1BC4562B00AE281B;
+			remoteInfo = SellTicket;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0741C1571C17BB5000329177 /* profileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = profileViewController.h; sourceTree = "<group>"; };
+		0741C1581C17BB5000329177 /* profileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = profileViewController.m; sourceTree = "<group>"; };
+		0741C15D1C17DEC900329177 /* loginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = loginViewController.h; sourceTree = "<group>"; };
+		0741C15E1C17DEC900329177 /* loginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = loginViewController.m; sourceTree = "<group>"; };
+		0741C1601C17E85300329177 /* newAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = newAccountViewController.h; sourceTree = "<group>"; };
+		0741C1611C17E85300329177 /* newAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = newAccountViewController.m; sourceTree = "<group>"; };
+		0741C1631C17ECC100329177 /* ProfileTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileTableViewCell.h; sourceTree = "<group>"; };
+		0741C1641C17ECC100329177 /* ProfileTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileTableViewCell.m; sourceTree = "<group>"; };
+		0741C1651C17ECC100329177 /* ProfileTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfileTableViewCell.xib; sourceTree = "<group>"; };
+		0741C1681C18213A00329177 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		0741C1701C188BDE00329177 /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainItemWrapper.h; sourceTree = "<group>"; };
+		0741C1711C188BDE00329177 /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainItemWrapper.m; sourceTree = "<group>"; };
+		0746E78B1BC4562B00AE281B /* SellTicket.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SellTicket.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0746E78F1BC4562B00AE281B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0746E7901BC4562B00AE281B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0746E7921BC4562B00AE281B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		0746E7931BC4562B00AE281B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		0746E7951BC4562B00AE281B /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		0746E7961BC4562B00AE281B /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		0746E7991BC4562B00AE281B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		0746E79B1BC4562B00AE281B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		0746E79E1BC4562B00AE281B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		0746E7A41BC4562C00AE281B /* SellTicketTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SellTicketTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0746E7A91BC4562C00AE281B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0746E7AA1BC4562C00AE281B /* SellTicketTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SellTicketTests.m; sourceTree = "<group>"; };
+		07AEB7B61BCA197F00B46122 /* buyingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = buyingViewController.h; sourceTree = "<group>"; };
+		07AEB7B71BCA197F00B46122 /* buyingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = buyingViewController.m; sourceTree = "<group>"; };
+		07AEB7B91BCA1B5900B46122 /* gameClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gameClass.h; sourceTree = "<group>"; };
+		07AEB7BA1BCA1B5900B46122 /* gameClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = gameClass.m; sourceTree = "<group>"; };
+		07D313731BEA621C007ADF56 /* TicketTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TicketTableCell.xib; sourceTree = "<group>"; };
+		07D313751BEA63FC007ADF56 /* TicketTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TicketTableCell.h; sourceTree = "<group>"; };
+		07D313761BEA63FC007ADF56 /* TicketTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TicketTableCell.m; sourceTree = "<group>"; };
+		07D313781BEA7809007ADF56 /* ticketListingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ticketListingsViewController.h; sourceTree = "<group>"; };
+		07D313791BEA7809007ADF56 /* ticketListingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ticketListingsViewController.m; sourceTree = "<group>"; };
+		07D3137B1BEA9E85007ADF56 /* ticketClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ticketClass.h; sourceTree = "<group>"; };
+		07D3137C1BEA9E85007ADF56 /* ticketClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ticketClass.m; sourceTree = "<group>"; };
+		07D3137E1BEAA24A007ADF56 /* ListingsTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ListingsTableCell.xib; sourceTree = "<group>"; };
+		07D313801BEAA297007ADF56 /* ListingsTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListingsTableCell.h; sourceTree = "<group>"; };
+		07D313811BEAA297007ADF56 /* ListingsTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingsTableCell.m; sourceTree = "<group>"; };
+		07E3F20F1BE53D7C001320D4 /* postTicketViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = postTicketViewController.h; sourceTree = "<group>"; };
+		07E3F2101BE53D7C001320D4 /* postTicketViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = postTicketViewController.m; sourceTree = "<group>"; };
+		07E3F2121BE5421E001320D4 /* textFieldKeyboardShift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = textFieldKeyboardShift.h; sourceTree = "<group>"; };
+		07E3F2131BE5421E001320D4 /* textFieldKeyboardShift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = textFieldKeyboardShift.m; sourceTree = "<group>"; };
+		07F9005C1BF3B0920068C92E /* global.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = global.h; sourceTree = "<group>"; };
+		07F9005D1BF3BBB90068C92E /* global.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = global.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0746E7881BC4562B00AE281B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0741C1731C188BEB00329177 /* Security.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0746E7A11BC4562C00AE281B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0746E7821BC4562B00AE281B = {
+			isa = PBXGroup;
+			children = (
+				0741C1681C18213A00329177 /* Security.framework */,
+				0746E78D1BC4562B00AE281B /* SellTicket */,
+				0746E7A71BC4562C00AE281B /* SellTicketTests */,
+				0746E78C1BC4562B00AE281B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0746E78C1BC4562B00AE281B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0746E78B1BC4562B00AE281B /* SellTicket.app */,
+				0746E7A41BC4562C00AE281B /* SellTicketTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0746E78D1BC4562B00AE281B /* SellTicket */ = {
+			isa = PBXGroup;
+			children = (
+				07F9005C1BF3B0920068C92E /* global.h */,
+				07F9005D1BF3BBB90068C92E /* global.m */,
+				0746E7921BC4562B00AE281B /* AppDelegate.h */,
+				0746E7931BC4562B00AE281B /* AppDelegate.m */,
+				0746E7951BC4562B00AE281B /* ViewController.h */,
+				0746E7961BC4562B00AE281B /* ViewController.m */,
+				0746E7981BC4562B00AE281B /* Main.storyboard */,
+				07E3F2151BE54E84001320D4 /* Additional Methods */,
+				07D313831BEAA2A2007ADF56 /* Custom Table View Cells */,
+				07AEB7BD1BCA1B6800B46122 /* Controllers */,
+				07AEB7BC1BCA1B5D00B46122 /* Model */,
+				0746E79B1BC4562B00AE281B /* Images.xcassets */,
+				0746E79D1BC4562B00AE281B /* LaunchScreen.xib */,
+				0746E78E1BC4562B00AE281B /* Supporting Files */,
+			);
+			path = SellTicket;
+			sourceTree = "<group>";
+		};
+		0746E78E1BC4562B00AE281B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0746E78F1BC4562B00AE281B /* Info.plist */,
+				0746E7901BC4562B00AE281B /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0746E7A71BC4562C00AE281B /* SellTicketTests */ = {
+			isa = PBXGroup;
+			children = (
+				0746E7AA1BC4562C00AE281B /* SellTicketTests.m */,
+				0746E7A81BC4562C00AE281B /* Supporting Files */,
+			);
+			path = SellTicketTests;
+			sourceTree = "<group>";
+		};
+		0746E7A81BC4562C00AE281B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0746E7A91BC4562C00AE281B /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		07AEB7BC1BCA1B5D00B46122 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0741C1701C188BDE00329177 /* KeychainItemWrapper.h */,
+				0741C1711C188BDE00329177 /* KeychainItemWrapper.m */,
+				07D3137B1BEA9E85007ADF56 /* ticketClass.h */,
+				07D3137C1BEA9E85007ADF56 /* ticketClass.m */,
+				07AEB7B91BCA1B5900B46122 /* gameClass.h */,
+				07AEB7BA1BCA1B5900B46122 /* gameClass.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		07AEB7BD1BCA1B6800B46122 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				07AEB7B61BCA197F00B46122 /* buyingViewController.h */,
+				07AEB7B71BCA197F00B46122 /* buyingViewController.m */,
+				0741C15D1C17DEC900329177 /* loginViewController.h */,
+				0741C15E1C17DEC900329177 /* loginViewController.m */,
+				0741C1601C17E85300329177 /* newAccountViewController.h */,
+				0741C1611C17E85300329177 /* newAccountViewController.m */,
+				07D313781BEA7809007ADF56 /* ticketListingsViewController.h */,
+				07D313791BEA7809007ADF56 /* ticketListingsViewController.m */,
+				07E3F20F1BE53D7C001320D4 /* postTicketViewController.h */,
+				07E3F2101BE53D7C001320D4 /* postTicketViewController.m */,
+				0741C1571C17BB5000329177 /* profileViewController.h */,
+				0741C1581C17BB5000329177 /* profileViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		07D313831BEAA2A2007ADF56 /* Custom Table View Cells */ = {
+			isa = PBXGroup;
+			children = (
+				07D3137E1BEAA24A007ADF56 /* ListingsTableCell.xib */,
+				07D313801BEAA297007ADF56 /* ListingsTableCell.h */,
+				07D313811BEAA297007ADF56 /* ListingsTableCell.m */,
+				0741C1651C17ECC100329177 /* ProfileTableViewCell.xib */,
+				0741C1631C17ECC100329177 /* ProfileTableViewCell.h */,
+				0741C1641C17ECC100329177 /* ProfileTableViewCell.m */,
+				07D313731BEA621C007ADF56 /* TicketTableCell.xib */,
+				07D313751BEA63FC007ADF56 /* TicketTableCell.h */,
+				07D313761BEA63FC007ADF56 /* TicketTableCell.m */,
+			);
+			name = "Custom Table View Cells";
+			sourceTree = "<group>";
+		};
+		07E3F2151BE54E84001320D4 /* Additional Methods */ = {
+			isa = PBXGroup;
+			children = (
+				07E3F2121BE5421E001320D4 /* textFieldKeyboardShift.h */,
+				07E3F2131BE5421E001320D4 /* textFieldKeyboardShift.m */,
+			);
+			name = "Additional Methods";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0746E78A1BC4562B00AE281B /* SellTicket */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0746E7AE1BC4562C00AE281B /* Build configuration list for PBXNativeTarget "SellTicket" */;
+			buildPhases = (
+				0746E7871BC4562B00AE281B /* Sources */,
+				0746E7881BC4562B00AE281B /* Frameworks */,
+				0746E7891BC4562B00AE281B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SellTicket;
+			productName = SellTicket;
+			productReference = 0746E78B1BC4562B00AE281B /* SellTicket.app */;
+			productType = "com.apple.product-type.application";
+		};
+		0746E7A31BC4562C00AE281B /* SellTicketTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0746E7B11BC4562C00AE281B /* Build configuration list for PBXNativeTarget "SellTicketTests" */;
+			buildPhases = (
+				0746E7A01BC4562C00AE281B /* Sources */,
+				0746E7A11BC4562C00AE281B /* Frameworks */,
+				0746E7A21BC4562C00AE281B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0746E7A61BC4562C00AE281B /* PBXTargetDependency */,
+			);
+			name = SellTicketTests;
+			productName = SellTicketTests;
+			productReference = 0746E7A41BC4562C00AE281B /* SellTicketTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0746E7831BC4562B00AE281B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0640;
+				ORGANIZATIONNAME = myne;
+				TargetAttributes = {
+					0746E78A1BC4562B00AE281B = {
+						CreatedOnToolsVersion = 6.4;
+					};
+					0746E7A31BC4562C00AE281B = {
+						CreatedOnToolsVersion = 6.4;
+						TestTargetID = 0746E78A1BC4562B00AE281B;
+					};
+				};
+			};
+			buildConfigurationList = 0746E7861BC4562B00AE281B /* Build configuration list for PBXProject "SellTicket" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0746E7821BC4562B00AE281B;
+			productRefGroup = 0746E78C1BC4562B00AE281B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0746E78A1BC4562B00AE281B /* SellTicket */,
+				0746E7A31BC4562C00AE281B /* SellTicketTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0746E7891BC4562B00AE281B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				07D3137F1BEAA24A007ADF56 /* ListingsTableCell.xib in Resources */,
+				07D313741BEA621C007ADF56 /* TicketTableCell.xib in Resources */,
+				0746E79A1BC4562B00AE281B /* Main.storyboard in Resources */,
+				0746E79F1BC4562B00AE281B /* LaunchScreen.xib in Resources */,
+				0746E79C1BC4562B00AE281B /* Images.xcassets in Resources */,
+				0741C1671C17ECC100329177 /* ProfileTableViewCell.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0746E7A21BC4562C00AE281B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0746E7871BC4562B00AE281B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0741C1591C17BB5000329177 /* profileViewController.m in Sources */,
+				0741C15F1C17DEC900329177 /* loginViewController.m in Sources */,
+				07D313771BEA63FC007ADF56 /* TicketTableCell.m in Sources */,
+				0746E7971BC4562B00AE281B /* ViewController.m in Sources */,
+				07D313821BEAA297007ADF56 /* ListingsTableCell.m in Sources */,
+				07AEB7BB1BCA1B5900B46122 /* gameClass.m in Sources */,
+				07E3F2141BE5421E001320D4 /* textFieldKeyboardShift.m in Sources */,
+				07F9005E1BF3BBB90068C92E /* global.m in Sources */,
+				07E3F2111BE53D7C001320D4 /* postTicketViewController.m in Sources */,
+				0746E7941BC4562B00AE281B /* AppDelegate.m in Sources */,
+				0741C1621C17E85300329177 /* newAccountViewController.m in Sources */,
+				0741C1661C17ECC100329177 /* ProfileTableViewCell.m in Sources */,
+				07D3137D1BEA9E85007ADF56 /* ticketClass.m in Sources */,
+				07D3137A1BEA7809007ADF56 /* ticketListingsViewController.m in Sources */,
+				0741C1721C188BDE00329177 /* KeychainItemWrapper.m in Sources */,
+				0746E7911BC4562B00AE281B /* main.m in Sources */,
+				07AEB7B81BCA197F00B46122 /* buyingViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0746E7A01BC4562C00AE281B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0746E7AB1BC4562C00AE281B /* SellTicketTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0746E7A61BC4562C00AE281B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0746E78A1BC4562B00AE281B /* SellTicket */;
+			targetProxy = 0746E7A51BC4562C00AE281B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		0746E7981BC4562B00AE281B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0746E7991BC4562B00AE281B /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		0746E79D1BC4562B00AE281B /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0746E79E1BC4562B00AE281B /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0746E7AC1BC4562C00AE281B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0746E7AD1BC4562C00AE281B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		0746E7AF1BC4562C00AE281B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = SellTicket/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		0746E7B01BC4562C00AE281B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = SellTicket/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		0746E7B21BC4562C00AE281B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SellTicketTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SellTicket.app/SellTicket";
+			};
+			name = Debug;
+		};
+		0746E7B31BC4562C00AE281B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SellTicketTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SellTicket.app/SellTicket";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0746E7861BC4562B00AE281B /* Build configuration list for PBXProject "SellTicket" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0746E7AC1BC4562C00AE281B /* Debug */,
+				0746E7AD1BC4562C00AE281B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0746E7AE1BC4562C00AE281B /* Build configuration list for PBXNativeTarget "SellTicket" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0746E7AF1BC4562C00AE281B /* Debug */,
+				0746E7B01BC4562C00AE281B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0746E7B11BC4562C00AE281B /* Build configuration list for PBXNativeTarget "SellTicketTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0746E7B21BC4562C00AE281B /* Debug */,
+				0746E7B31BC4562C00AE281B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0746E7831BC4562B00AE281B /* Project object */;
+}
