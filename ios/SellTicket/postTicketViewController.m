@@ -97,7 +97,7 @@ NSMutableData *mutData;
 
     NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
 
-    NSString *url = [NSString stringWithFormat:@"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com/api/games/%@/tickets/create", self.game_id];
+    NSString *url = [NSString stringWithFormat:@"http://%@/api/games/%@/tickets/create", serverAddress, self.game_id];
     NSMutableURLRequest *request =
     [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
                             cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
@@ -190,32 +190,26 @@ NSMutableData *mutData;
 }
 
 -(void)updateData {
+    
+    NSString *lowPriceString = @"$0";
+    NSString *highPriceString = @"$0";
+    NSString *ticketCount = @"0";
 
     if([ticketDictionary objectForKey:self.game_id]) {
         NSMutableArray *tickets = [ticketDictionary objectForKey:self.game_id];
-        self.numberOfTickets.text = [[NSString stringWithFormat: @"%lu",(unsigned long)[tickets count]]
-                                     stringByAppendingString:@" listed"];
-        
         int highestValue = -1;
-        long int lowestValue = LONG_MAX;
-        for(ticketClass *ticket in tickets) {
-            if((NSNumber *)[NSNull null] != ticket.price) {
-                if([ticket.price intValue] > highestValue) {
-                    highestValue = [ticket.price intValue];
-                }
-                if([ticket.price intValue] < lowestValue) {
-                    lowestValue = [ticket.price intValue];
-                }
-            }
-        }
+        int lowestValue = INT_MAX;
         
-        self.lowestPrice.text = [NSString stringWithFormat: @"Lowest: $%li", lowestValue];
-        self.highestPrice.text = [NSString stringWithFormat: @"Highest: $%i", highestValue];
-    } else {
-        self.numberOfTickets.text = @"0 listed";
-        self.lowestPrice.text = @"Lowest: N/A";
-        self.highestPrice.text = @"Highest: N/A";
+        [ticketClass calculateHighest:&highestValue andLowest:&lowestValue inTickets:tickets];
+        
+        lowPriceString = [NSString stringWithFormat: @" $%i", lowestValue];
+        highPriceString = [NSString stringWithFormat:@" $%i", highestValue];
+        ticketCount = [NSString stringWithFormat:@" %lu",(unsigned long)[tickets count]];
     }
+    
+    self.lowestPrice.text = [@"Lowest: " stringByAppendingString:lowPriceString];
+    self.highestPrice.text = [@"Highest: " stringByAppendingString:highPriceString];
+    self.numberOfTickets.text = [NSString stringWithFormat:@" %@ listed", ticketCount];
 }
 
 

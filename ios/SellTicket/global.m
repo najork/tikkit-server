@@ -14,7 +14,9 @@ NSMutableDictionary * schoolDictionary;
 NSMutableDictionary * gameDictionary;
 NSMutableDictionary *gameIDToSchool;
 
-NSString * accessToken = @"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOjIsImV4cCI6MTQ1MjIwNzIxOTQzNH0.tqvmPmlsP90nNooDHftG2KObhsnkA3Y-yklnjg9erp0";
-
+NSString * accessToken;
 NSString * user_id;
-KeychainItemWrapper *keychainItem;
+NSString * serverAddress = @"ec2-52-35-223-115.us-west-2.compute.amazonaws.com";
+
+int GET = 1;
+int POST = 0; 

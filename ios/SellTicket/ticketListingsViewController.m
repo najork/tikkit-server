@@ -10,6 +10,7 @@
 #import "ticketClass.h"
 #import "ListingsTableCell.h"
 #import "global.h"
+#import "serverFunctions.h"
 
 @interface ticketListingsViewController ()
 
@@ -36,9 +37,41 @@
     self.view.backgroundColor = [UIColor yellowColor];
     [self setupTickets];
     [self setupEmails];
+    [self setupUI];
+}
+
+-(void)setupEmails {
+    for(ticketClass *ticket in self.tickets) {
+        if([idToEmail objectForKey:ticket.seller_id]){
+            continue;
+        } else {
+            NSString *userServerAddress
+            = [NSString stringWithFormat: @"%@:80/api/users/%@", serverAddress, ticket.seller_id];
+            
+            NSMutableDictionary *userData = [serverFunctions serverAddress:userServerAddress withRequestType:GET];
+            NSString *emailAddress = [userData objectForKey:@"username"];
+            [idToEmail setObject:emailAddress forKey:ticket.seller_id];
+        }
+    }
+    
+}
+
+-(void)sendEmail {
+    ticketClass *selectedTicket = [self.tickets objectAtIndex:self.selectedIndex.row];
+    NSString *emailAddress = [idToEmail objectForKey:selectedTicket.seller_id];
+    NSString *url = [NSString stringWithFormat:@"mailto:%@", emailAddress];
+    [[UIApplication sharedApplication]  openURL: [NSURL URLWithString: url]];
+}
+
+
+-(void)setupTickets {
+    self.tickets = [ticketDictionary objectForKey:self.game_id];
+}
+
+-(void)setupUI {
     UIBarButtonItem *systemItem1 = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"back-0"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self.navigationController action:@selector(popViewControllerAnimated:)];
     self.navigationItem.leftBarButtonItem = systemItem1;
-  
+    
     _ticketTable.delegate = self;
     _ticketTable.dataSource = self;
     [_ticketTable setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -49,11 +82,7 @@
     self.highestPrice.text = self.highestPriceString;
     self.lowestPrice.text = self.lowestPriceString;
     self.numberOfTickets.text = self.numTicketsString;
-    
-}
 
--(void)setupTickets {
-    self.tickets = [ticketDictionary objectForKey:self.game_id];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -129,51 +158,6 @@
     return 92;
 }
 
--(void)setupEmails {
-    
-    for(ticketClass *ticket in self.tickets) {
-        if([idToEmail objectForKey:ticket.seller_id]){
-            continue;
-        } else {
-            NSString *userServerAddress
-            = [NSString stringWithFormat: @"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com:80/api/users/%@", ticket.seller_id];
-            
-            NSMutableURLRequest *request
-            = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:userServerAddress]
-                                      cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
-                                  timeoutInterval:10];
-            
-            [request setHTTPMethod: @"GET"];
-            
-            // Set auth header
-            NSString * bearerHeaderStr = @"Bearer ";
-            [request setValue:[bearerHeaderStr stringByAppendingString:accessToken] forHTTPHeaderField:@"Authorization"];
-            
-            NSError *requestError = nil;
-            NSURLResponse *urlResponse = nil;
-            NSData *ticketResponse
-            = [NSURLConnection sendSynchronousRequest:request
-                                    returningResponse:&urlResponse
-                                                error:&requestError];
-            
-            NSDictionary *userData
-            = [NSJSONSerialization JSONObjectWithData:ticketResponse
-                                              options:kNilOptions
-                                                error:&requestError];
-            
-            NSString *emailAddress = [userData objectForKey:@"username"];
-            [idToEmail setObject:emailAddress forKey:ticket.seller_id];
-        }
-    }
-    
-}
-    
--(void)sendEmail {
-    ticketClass *selectedTicket = [self.tickets objectAtIndex:self.selectedIndex.row];
-    NSString *emailAddress = [idToEmail objectForKey:selectedTicket.seller_id];
-    NSString *url = [NSString stringWithFormat:@"mailto:%@", emailAddress];
-    [[UIApplication sharedApplication]  openURL: [NSURL URLWithString: url]];
-}
 
 /*
 #pragma mark - Navigation
