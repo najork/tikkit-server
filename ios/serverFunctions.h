@@ -11,4 +11,5 @@
 @interface serverFunctions : NSObject
 
 +(NSMutableDictionary *)serverAddress:(NSString *)server withRequestType:(BOOL)getOrPost;
++(NSURLConnection *)serverAddress:(NSString *)server withPostString:(NSString *)postString andGameID:(NSNumber *)game_id;
 @end

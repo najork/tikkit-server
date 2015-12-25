@@ -46,7 +46,7 @@
             continue;
         } else {
             NSString *userServerAddress
-            = [NSString stringWithFormat: @"%@:80/api/users/%@", serverAddress, ticket.seller_id];
+            = [NSString stringWithFormat: @"http://%@/api/users/%@", serverAddress, ticket.seller_id];
             
             NSMutableDictionary *userData = [serverFunctions serverAddress:userServerAddress withRequestType:GET];
             NSString *emailAddress = [userData objectForKey:@"username"];
