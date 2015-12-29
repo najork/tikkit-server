@@ -72,10 +72,9 @@ NSMutableData *mutData2;
     } else if(![umichString  isEqualToString: @"umich.edu"]) {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Username Invalid" message:@"Make sure your username ends in @umich.edu" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [alert show];
-
         return;
-        
     }
+    
     NSString *post = [NSString stringWithFormat:@"username=%@&password=%@", self.username.text, self.password.text];
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
