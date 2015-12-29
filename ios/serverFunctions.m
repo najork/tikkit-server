@@ -40,27 +40,4 @@
 
     return responseDictionary;
 }
-
-+(NSURLConnection *)serverAddress:(NSString *)server withPostString:(NSString *)postString andGameID:(NSNumber *)game_id {
-    NSData *postData = [postString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-    NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
-    
-    NSMutableURLRequest *request =
-    [NSMutableURLRequest requestWithURL:[NSURL URLWithString:server]
-                            cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
-                        timeoutInterval:10];
-    
-    [request setHTTPMethod:@"POST"];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:postData];
-    
-    // Set auth header
-    NSString * bearerHeaderStr = @"Bearer ";
-    [request setValue:[bearerHeaderStr stringByAppendingString:accessToken] forHTTPHeaderField:@"Authorization"];
-    
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    return connection;
-}
-
 @end
