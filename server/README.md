@@ -1,11 +1,17 @@
 # Tikkit App Server
 
+Tikkit is a student-to-student ticket selling platform built for EECS 441 (Mobile App Development for Entrepreneurs) at the University of Michigan. This repository includes the code for the application server.  
+
+The code for the iOS client can be found here: https://github.com/echenyu/tikkit-iosapp  
+
+#### Warning: do not use in a production environment - TLS support not implemented
+
 ## Setup
 
 1. Configure port-forwarding    
     `$ sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to $APP_SERVER_PORT`
 2. Navigate to the server directory  
-    `$ cd $TIKKIT_DIR/server`
+    `$ cd $TIKKIT_SERVER_DIR`
 3. Install required modules  
     `$ npm install`
 4. Create database tables  
@@ -14,7 +20,7 @@
     `$ node server.js`
 
 ## Configuration
-The server config file can be found at `$TIKKIT_DIR/server/config.json`.  
+The server config file can be found at `$TIKKIT_SERVER_DIR/config.json`.  
 
 **Name** | **Type** | **Description**
 --- | --- | ---
