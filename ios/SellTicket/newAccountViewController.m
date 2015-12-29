@@ -11,7 +11,10 @@
 
 NSMutableData *mutData2;
 
-@implementation newAccountViewController
+@implementation newAccountViewController {
+    int successfulCreation;
+    UIActivityIndicatorView *spinner;
+}
 
 -(void)viewDidLoad {
     [self setup];
@@ -49,13 +52,95 @@ NSMutableData *mutData2;
 }
 
 -(IBAction)createAccount:(id)sender {
+    NSString *umichString = [[NSString alloc]init];
+    if(self.username.text.length < 9) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Username Invalid" message:@"Make sure your username ends in @umich.edu" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    } else {
+       umichString = [self.username.text substringFromIndex:[self.username.text length] - 9];
+    }
+    
+    if(self.password.text.length < 8) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Invalid password" message:@"Make sure your password is at least 8 characters long" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    } else if(![self.password.text isEqualToString: self.confirmPassword.text]) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Passwords don't match" message:@"Make sure your passwords are the same" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    } else if(![umichString  isEqualToString: @"umich.edu"]) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Username Invalid" message:@"Make sure your username ends in @umich.edu" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
     
     NSString *post = [NSString stringWithFormat:@"username=%@&password=%@", self.username.text, self.password.text];
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
     NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
     
-    NSString *url = [NSString stringWithFormat:@"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com/create"];
+    NSString *url = [NSString stringWithFormat:@"http://%@/create", serverAddress];
+    NSMutableURLRequest *request =
+    [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
+                            cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                        timeoutInterval:10];
+    
+    [request setHTTPMethod:@"POST"];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:postData];
+    
+    NSURLResponse *response;
+    NSError *error;
+    
+    spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    spinner.center=CGPointMake(self.view.frame.size.width/2.0, self.view.frame.size.height/1.75);
+    [spinner startAnimating];
+    [self.view addSubview:spinner];
+    [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    
+    NSLog(@"%@", response);
+    NSLog(@"Created");
+    [self login];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    NSError *error;
+    
+    NSDictionary *userData
+    = [NSJSONSerialization JSONObjectWithData:mutData2
+                                      options:kNilOptions
+                                        error:&error];
+    if(userData == NULL) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Account Creation Error" message:@"Could not create a count, try again later." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+        [alert show];
+        [spinner stopAnimating];
+        return;
+    }
+    NSString *token = [userData objectForKey:@"token"];
+    NSString *userID = [userData objectForKey:@"user_id"];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:token forKey:@"accessToken"];
+    [[NSUserDefaults standardUserDefaults] setObject:userID forKey:@"user_id"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    accessToken = token;
+    user_id = userID;
+    
+    UINavigationController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"ticketContent"];
+    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+-(void)login{
+    NSString *post = [NSString stringWithFormat:@"username=%@&password=%@", self.username.text, self.password.text];
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    
+    NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
+    
+    NSString *url = [NSString stringWithFormat:@"http://%@/login", serverAddress];
     NSMutableURLRequest *request =
     [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
                             cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
@@ -69,28 +154,9 @@ NSMutableData *mutData2;
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     [connection start];
     
-
     if(connection) {
         mutData2 = [NSMutableData data];
     }
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    NSLog(@"Succeeded! Received %lu bytes of data",(unsigned long)[mutData2 length]);
-    
-    NSError *error;
-    NSDictionary *userData
-    = [NSJSONSerialization JSONObjectWithData:mutData2
-                                      options:kNilOptions
-                                        error:&error];
-    
-//    NSString *string = [userData objectForKey:@"token"];
-//    accessToken = string;
-//    
-//    UINavigationController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"ticketContent"];
-//    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-//    [self presentViewController:vc animated:YES completion:nil];
 
 }
 

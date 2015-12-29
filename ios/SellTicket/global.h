@@ -31,5 +31,10 @@ extern NSMutableDictionary *gameIDToSchool;
 // TODO: Get tokens properly
 extern NSString * accessToken;
 extern NSString * user_id;
+extern NSString * serverAddress;
 
-extern KeychainItemWrapper *keychainItem;
+//Variables that represent get and post requests (1 and 0, but make it
+//easier to read)
+extern int GET;
+extern int POST; 
+
