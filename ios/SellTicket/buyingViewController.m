@@ -24,7 +24,6 @@
 
 -(void)viewDidLoad {
     //Start with setup 0
-    count = 0;
     [self setup];
 }
 
@@ -43,21 +42,23 @@
     
     NSMutableDictionary *responseData = [serverFunctions serverAddress:schoolServer withRequestType:GET];
     
-    //Iterate through all of the school names and put them into
-    //the schoolDictionary global variable.
-    for(NSDictionary *school in responseData) {
-        NSNumber * school_id = [school objectForKey:@"school_id"];
-        NSString * school_name = [school objectForKey:@"name"];
-        [schoolDictionary setObject:school_name forKey:school_id];
+    if(responseData) {
+        //Iterate through all of the school names and put them into
+        //the schoolDictionary global variable.
+        for(NSDictionary *school in responseData) {
+            NSNumber * school_id = [school objectForKey:@"school_id"];
+            NSString * school_name = [school objectForKey:@"name"];
+            [schoolDictionary setObject:school_name forKey:school_id];
         
-        //For every school, we also want to load in a list of all the games
-        //that correspond to school
-        NSString *gameServer = [NSString stringWithFormat:@"http://%@/api/schools/%@/games", serverAddress, school_id];
+            //For every school, we also want to load in a list of all the games
+            //that correspond to school
+            NSString *gameServer = [NSString stringWithFormat:@"http://%@/api/schools/%@/games", serverAddress, school_id];
         
-        NSMutableDictionary *gameData = [serverFunctions serverAddress:gameServer withRequestType:GET];
+            NSMutableDictionary *gameData = [serverFunctions serverAddress:gameServer withRequestType:GET];
         
-        //Set a list of games for every school
-        [gameDictionary setObject:gameData forKey:school_id];
+            //Set a list of games for every school
+            [gameDictionary setObject:gameData forKey:school_id];
+        }
     }
 }
 
@@ -68,7 +69,9 @@
         = [NSString stringWithFormat: @"http://%@/api/games/%@/tickets", serverAddress, game_id];
     
     NSMutableDictionary *tickets = [serverFunctions serverAddress:ticketServerAddress withRequestType:GET];
-    [ticketClass addTickets:tickets toGameID:game_id];
+    if(tickets) {
+        [ticketClass addTickets:tickets toGameID:game_id];
+    }
 }
 
 -(void)setupGames {

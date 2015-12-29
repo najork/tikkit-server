@@ -46,7 +46,6 @@
 
         self.window.rootViewController = loginVC;
     }
-    
     return YES;
 }
 

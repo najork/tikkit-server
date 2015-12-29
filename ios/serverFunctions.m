@@ -34,6 +34,8 @@
         responseDictionary = [NSJSONSerialization JSONObjectWithData:response1
                                                              options:kNilOptions
                                                                error:&requestError];
+    } else {
+        responseDictionary = nil; 
     }
 
     return responseDictionary;
