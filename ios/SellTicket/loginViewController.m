@@ -15,10 +15,10 @@
 NSMutableData *mutableData;
 
 -(void)viewDidLoad {
-    [self setup];
+    [self setupUI];
 }
 
--(void) setup {
+-(void) setupUI {
     self.username.layer.borderColor = [[UIColor whiteColor]CGColor];
     self.username.layer.borderWidth = 1.2f;
     self.username.layer.cornerRadius = 8;
@@ -38,13 +38,12 @@ NSMutableData *mutableData;
 }
 
 -(IBAction)login:(id)sender {
-    NSLog(@"%@ is user and %@ is pass", self.username.text, self.password.text);
     NSString *post = [NSString stringWithFormat:@"username=%@&password=%@", self.username.text, self.password.text];
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     
     NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
     
-    NSString *url = [NSString stringWithFormat:@"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com/login"];
+    NSString *url = [NSString stringWithFormat:@"http://%@/login", serverAddress];
     NSMutableURLRequest *request =
     [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]
                             cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
@@ -55,11 +54,6 @@ NSMutableData *mutableData;
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [request setHTTPBody:postData];
 
-    
-    // Set auth header
-//    NSString * bearerHeaderStr = @"Bearer ";
-//    [request setValue:[bearerHeaderStr stringByAppendingString:accessToken] forHTTPHeaderField:@"Authorization"];
-    
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     [connection start];
     
@@ -88,9 +82,6 @@ NSMutableData *mutableData;
     [[NSUserDefaults standardUserDefaults] setObject:userID forKey:@"user_id"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:@"loginToApp" accessGroup:nil];
-    [keychainItem setObject:self.username.text forKey:(__bridge id)kSecValueData];
-    [keychainItem setObject:self.password.text forKey:(__bridge id)kSecAttrAccount];
     accessToken = token;
     user_id = userID;
     

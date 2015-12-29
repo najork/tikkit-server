@@ -43,9 +43,9 @@
         // It means you need to your root view controller is your login view controller, so let's create it
         UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
         UINavigationController *loginVC = [storyBoard instantiateViewControllerWithIdentifier:@"loginContent"];
+
         self.window.rootViewController = loginVC;
     }
-    
     return YES;
 }
 

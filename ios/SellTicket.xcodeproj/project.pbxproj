@@ -31,6 +31,7 @@
 		07D313821BEAA297007ADF56 /* ListingsTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 07D313811BEAA297007ADF56 /* ListingsTableCell.m */; };
 		07E3F2111BE53D7C001320D4 /* postTicketViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E3F2101BE53D7C001320D4 /* postTicketViewController.m */; };
 		07E3F2141BE5421E001320D4 /* textFieldKeyboardShift.m in Sources */ = {isa = PBXBuildFile; fileRef = 07E3F2131BE5421E001320D4 /* textFieldKeyboardShift.m */; };
+		07EE8F4D1C2DC0B8008934C1 /* serverFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 07EE8F4C1C2DC0B8008934C1 /* serverFunctions.m */; };
 		07F9005E1BF3BBB90068C92E /* global.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F9005D1BF3BBB90068C92E /* global.m */; };
 /* End PBXBuildFile section */
 
@@ -88,6 +89,8 @@
 		07E3F2101BE53D7C001320D4 /* postTicketViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = postTicketViewController.m; sourceTree = "<group>"; };
 		07E3F2121BE5421E001320D4 /* textFieldKeyboardShift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = textFieldKeyboardShift.h; sourceTree = "<group>"; };
 		07E3F2131BE5421E001320D4 /* textFieldKeyboardShift.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = textFieldKeyboardShift.m; sourceTree = "<group>"; };
+		07EE8F4B1C2DC0B8008934C1 /* serverFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = serverFunctions.h; path = ../serverFunctions.h; sourceTree = "<group>"; };
+		07EE8F4C1C2DC0B8008934C1 /* serverFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = serverFunctions.m; path = ../serverFunctions.m; sourceTree = "<group>"; };
 		07F9005C1BF3B0920068C92E /* global.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = global.h; sourceTree = "<group>"; };
 		07F9005D1BF3BBB90068C92E /* global.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = global.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -186,6 +189,8 @@
 				07D3137C1BEA9E85007ADF56 /* ticketClass.m */,
 				07AEB7B91BCA1B5900B46122 /* gameClass.h */,
 				07AEB7BA1BCA1B5900B46122 /* gameClass.m */,
+				07EE8F4B1C2DC0B8008934C1 /* serverFunctions.h */,
+				07EE8F4C1C2DC0B8008934C1 /* serverFunctions.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -347,6 +352,7 @@
 				07F9005E1BF3BBB90068C92E /* global.m in Sources */,
 				07E3F2111BE53D7C001320D4 /* postTicketViewController.m in Sources */,
 				0746E7941BC4562B00AE281B /* AppDelegate.m in Sources */,
+				07EE8F4D1C2DC0B8008934C1 /* serverFunctions.m in Sources */,
 				0741C1621C17E85300329177 /* newAccountViewController.m in Sources */,
 				0741C1661C17ECC100329177 /* ProfileTableViewCell.m in Sources */,
 				07D3137D1BEA9E85007ADF56 /* ticketClass.m in Sources */,

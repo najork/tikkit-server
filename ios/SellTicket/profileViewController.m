@@ -28,7 +28,7 @@
 -(void)setupProfile {
     
     NSString *userServerAddress
-    = [NSString stringWithFormat: @"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com:80/api/users/%@", user_id];
+    = [NSString stringWithFormat: @"http://%@/api/users/%@", serverAddress, user_id];
     
     NSMutableURLRequest *request
     = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:userServerAddress]
@@ -63,7 +63,7 @@
 -(void)setupTickets {
     self.tickets = [[NSMutableArray alloc]init];
     NSString *ticketServerAddress
-    = [NSString stringWithFormat: @"http://ec2-52-24-188-41.us-west-2.compute.amazonaws.com:80/api/users/%@/tickets", user_id];
+    = [NSString stringWithFormat: @"http://%@/api/users/%@/tickets", serverAddress, user_id];
     
     NSMutableURLRequest *request
     = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:ticketServerAddress]

@@ -17,6 +17,8 @@
 //See if you want to use NSNumbers for price instead
 @property (nonatomic, strong) NSNumber *price;
 @property (nonatomic, strong) NSNumber *ticket_id; 
-@property (nonatomic, strong) NSNumber *seller_id; 
+@property (nonatomic, strong) NSNumber *seller_id;
 
++(void)addTickets:(NSMutableDictionary *)tickets toGameID:(NSNumber *)game_id;
++(void)calculateHighest:(int *)highest andLowest:(int *)lowest inTickets:(NSMutableArray *)tickets;
 @end
